@@ -1,6 +1,6 @@
 const database = require("../config/database");
 
-class Breed {
+class Permissao {
     constructor() {
         this.model = database.db.define("permissao", {
             idPermissao: {
@@ -17,4 +17,4 @@ class Breed {
     }
 }
 
-module.exports = new Breed().model;
+module.exports = new Permissao().model;

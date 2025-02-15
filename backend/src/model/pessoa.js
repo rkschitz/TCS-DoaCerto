@@ -1,6 +1,6 @@
 const database = require("../config/database");
 
-class User {
+class Pessoa {
   constructor() {
     this.model = database.db.define("pessoa", {
       idPessoa: {
@@ -10,6 +10,10 @@ class User {
       },
       CPF: {
         type: database.db.Sequelize.STRING,
+      },
+      nome: {
+        type: database.db.Sequelize.STRING,
+        allowNull: false,
       },
       email: {
         type: database.db.Sequelize.STRING,
@@ -38,4 +42,4 @@ class User {
   }
 }
 
-module.exports = new User().model;
+module.exports = new Pessoa().model;
