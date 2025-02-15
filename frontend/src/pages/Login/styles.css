@@ -1,0 +1,47 @@
+.container-login {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--var-bg-secondary);
+
+    form {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 20px;
+        border: solid 1px black;
+        padding: 0px 20px 20px 20px;
+        border-radius: 10px;
+        background-color: var(--var-bg-primary);
+        width: 400px;
+    }
+
+    .div-input {
+        width: 300px;
+    }
+
+    .title h1 {
+        border-bottom: solid 1px black;
+        padding: 30px;
+    }
+
+    span a {
+        text-decoration: none;
+        color: green;
+    }
+
+    span a:hover {
+        transition: 0.3s all;
+        color: blue;
+    }
+
+    button {
+        border-radius: 10px;
+        background-color: rgb(198, 199, 199);
+        padding: 10px 20px;
+        border-radius: 20px;
+        border: none;
+    }
+
+}

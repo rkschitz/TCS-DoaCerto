@@ -1,0 +1,123 @@
+/* styles.css */
+
+.profile {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: auto;
+
+
+    .profile h1 {
+        font-size: 2rem;
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .profile h2 {
+        font-size: 1.5rem;
+        color: #555;
+        margin-bottom: 15px;
+        text-align: left;
+    }
+
+    button {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .botao-excluir {
+        background-color: #dc3545;
+        align-items: center;
+        justify-content: center;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    li {
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #fff;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    li:hover {
+        transform: scale(1.02);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    li span {
+        font-size: 1rem;
+        color: #333;
+        margin-right: 15px;
+    }
+
+    .profile button+button {
+        margin-left: 10px;
+    }
+
+    .profile div {
+        margin-top: 20px;
+    }
+
+    button.add-user {
+        display: inline-block;
+        margin-bottom: 20px;
+        background-color: #28a745;
+    }
+
+    button.add-user:hover {
+        background-color: #218838;
+    }
+
+    @media (max-width: 600px) {
+        .profile {
+            padding: 10px;
+            font-size: 0.9rem;
+        }
+
+        li {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        button {
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        button.add-user {
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+}
