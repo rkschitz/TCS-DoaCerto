@@ -4,11 +4,16 @@ class Alimento {
     constructor() {
         this.model = database.db.define("alimento", {
             idAlimento: {
-                type: database.db.Sequelize.STRING,
-                primaryKey: true
+                type: database.db.Sequelize.INTEGER,
+                primaryKey: true,
+                autoIncrement: true,
             },
             alimento: {
                 type: database.db.Sequelize.STRING,
+            },
+            situacao:{
+                type: database.db.Sequelize.BOOLEAN,
+                defaultValue: true
             },
             idUnidadeMedida:{
                 type: database.db.Sequelize.INTEGER,
@@ -17,6 +22,8 @@ class Alimento {
                     key: 'idUnidadeMedida'
                 }
             }
+        },{
+            freezeTableName: true
         });
     }
 }

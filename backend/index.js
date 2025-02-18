@@ -1,12 +1,17 @@
 const express = require("express");
 const cors = require("cors");
 const database = require("./src/config/database");
+const bcrypt = require("bcrypt");
+
 const UserApi = require("./src/api/user");
 const UserRouter = require("./src/routes/user");
 const BreedRouter = require("./src/routes/breed");
 const User = require("./src/model/user");
 const UserBreedRouter = require("./src/routes/userBreed");
-const bcrypt = require("bcrypt");
+const AlimentoRouter = require("./src/routes/alimento");
+const Permissao = require("./src/model/permissao");
+const Pessoa = require("./src/model/pessoa");
+const PermissaoUsuario = require("./src/model/permissao_usuario");
 require("./src/model/association");
 
 const app = express();
@@ -23,6 +28,7 @@ app.post("/api/v1/user", UserApi.createUser);
 app.use("/api/v1/user", UserRouter);
 app.use("/api/v1/breed", BreedRouter);
 app.use("/api/v1/userBreed", UserBreedRouter);
+app.use("/api/v1/alimento", AlimentoRouter);
 
 
 const createTables = async () => {
@@ -39,8 +45,17 @@ const createTables = async () => {
       role: 'admin'
     };
 
+    const permissoes = ['A', 'O', 'D', 'R'];
 
-    await User.create(adminData);
+    for (let i = 0; i < permissoes.length; i++) {
+      await Permissao.create({ permissao: permissoes[i] });
+    }
+
+    const response = await Pessoa.create(adminData);
+    const responsePermissao = await Permissao.findOne({ where: { permissao: 'A' } });
+    await PermissaoUsuario.create({ idPermissao: responsePermissao.dataValues.idPermissao, idPessoa: response.dataValues.idPessoa });
+
+    console.log(response)
     console.log("Todas as tabelas foram criadas com sucesso!");
   } catch (error) {
     console.error(`Erro ao inicializar o banco de dados: ${error}`);

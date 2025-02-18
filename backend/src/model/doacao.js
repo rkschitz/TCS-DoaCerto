@@ -4,8 +4,9 @@ class Doacao {
     constructor() {
         this.model = database.db.define("doacao", {
             idDoacao: {
-                type: database.db.Sequelize.STRING,
-                primaryKey: true
+                type: database.db.Sequelize.INTEGER,
+                primaryKey: true,
+                autoIncrement: true,
             },
             idDoador: {
                 type: database.db.Sequelize.INTEGER,
@@ -21,6 +22,11 @@ class Doacao {
                     key: 'idCampanha'
                 }
             },
+            dtDoacao: {
+                type: database.db.Sequelize.DATE,
+            },
+        },{
+            freezeTableName: true
         });
     }
 }

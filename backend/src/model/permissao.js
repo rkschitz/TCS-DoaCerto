@@ -5,7 +5,8 @@ class Permissao {
         this.model = database.db.define("permissao", {
             idPermissao: {
                 type: database.db.Sequelize.INTEGER,
-                primaryKey: true
+                primaryKey: true,
+                autoIncrement: true
             },
             permissao:{
                 type: database.db.Sequelize.STRING,
@@ -16,5 +17,11 @@ class Permissao {
           });
     }
 }
+
+// Permissoes
+// Admin A
+// Organização O
+// Doador D
+// Donatario R de receptor
 
 module.exports = new Permissao().model;

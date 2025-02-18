@@ -4,8 +4,9 @@ class Meta {
     constructor() {
         this.model = database.db.define("meta", {
             idMeta: {
-                type: database.db.Sequelize.STRING,
-                primaryKey: true
+                type: database.db.Sequelize.INTEGER,
+                primaryKey: true,
+                autoIncrement: true,
             },
             meta: {
                 type: database.db.Sequelize.STRING,
@@ -24,6 +25,8 @@ class Meta {
                     key: 'idCampanha'
                 }
             }
+        },{
+            freezeTableName: true
         });
     }
 }

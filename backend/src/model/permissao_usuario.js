@@ -5,7 +5,8 @@ class PermissaoUsuario {
         this.model = database.db.define("permissao_usuario", {
             idPermissaoUsuario: {
                 type: database.db.Sequelize.INTEGER,
-                primaryKey: true
+                primaryKey: true,
+                autoIncrement: true
             },
             idPermissao: {
                 type: database.db.Sequelize.INTEGER,

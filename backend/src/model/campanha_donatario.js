@@ -4,8 +4,9 @@ class CampanhaDonatario {
     constructor() {
         this.model = database.db.define("campanha_donatario", {
             idCampanhaDonatario: {
-                type: database.db.Sequelize.STRING,
-                primaryKey: true
+                type: database.db.Sequelize.INTEGER,
+                primaryKey: true,
+                autoIncrement: true,
             },
             idDonatario: {
                 type: database.db.Sequelize.INTEGER,
@@ -21,6 +22,8 @@ class CampanhaDonatario {
                     key: 'idCampanha'
                 }
             },
+        },{
+            freezeTableName: true
         });
     }
 }

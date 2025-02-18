@@ -4,8 +4,9 @@ class Campanha {
     constructor() {
         this.model = database.db.define("campanha", {
             idCampanha: {
-                type: database.db.Sequelize.STRING,
-                primaryKey: true
+                type: database.db.Sequelize.INTEGER,
+                primaryKey: true,
+                autoIncrement: true
             },
             nome: {
                 type: database.db.Sequelize.STRING,
@@ -16,9 +17,11 @@ class Campanha {
             dt_fim: {
                 type: database.db.Sequelize.DATE,
             },
-            ieSituacao: {
-                type: database.db.Sequelize.STRING,
+            situacao: {
+                type: database.db.Sequelize.BOOLEAN,
             },
+        },{
+            freezeTableName: true
         });
     }
 }

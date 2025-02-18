@@ -5,7 +5,8 @@ class Donatario {
         this.model = database.db.define("donatario", {
             idDonatario: {
                 type: database.db.Sequelize.INTEGER,
-                primaryKey: true
+                primaryKey: true,
+                autoIncrement: true,
             },
             idPessoa: {
                 type: database.db.Sequelize.INTEGER,
@@ -19,6 +20,8 @@ class Donatario {
                 allowNull: false
             }
             
+        },{
+            freezeTableName: true
         });
     }
 }
