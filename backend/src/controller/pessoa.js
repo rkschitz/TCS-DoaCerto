@@ -26,19 +26,19 @@ class PessoaController{
             } catch(e){
                 return { mensagem: e.message };
             }
-    
             return pessoaValue;
         }catch(e){
-            console.log(e)
             return { mensagem: e.message };
         }
     }
+
 
     async login(email,senha){
 
         if(!email || !senha){
             return { mensagem: "Email e senha são obrigatórios" };
         }
+
 
         const pessoaValue = await pessoaModel.findOne({
             where: { email }
@@ -48,8 +48,11 @@ class PessoaController{
         if(!pessoaValue){
             return { mensagem: "Usuário não encontrado" };
         }
-
+        console.log("Senha",senha)
         const senhaCorreta = await bcrypt.compare(senha, pessoaValue.senha);
+        console.log('Senha correta',pessoaValue.senha)
+
+        console.log('Senha correta',senhaCorreta)
 
         if(!senhaCorreta){
             return { mensagem: "Senha incorreta" };
