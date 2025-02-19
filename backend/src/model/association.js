@@ -9,7 +9,7 @@ const Endereco = require("./endereco")
 const Logradouro = require("./logradouro")
 const Meta = require("./meta")
 const Organizacao = require("./organizacao")
-const PermissaoUsuario = require("./permissao_usuario")
+const PermissaoUsuario = require("./permissao_pessoa")
 const Permissao = require("./permissao")
 const Pessoa = require("./pessoa")
 const UnidadeMedida = require("./unidade_medida")
@@ -50,5 +50,10 @@ Pessoa.hasMany(Doador, {foreignKey: 'idPessoa', as: 'doador'});
 Doador.belongsTo(Pessoa, {foreignKey: 'idPessoa', as: 'pessoa'});
 Pessoa.hasMany(Donatario, {foreignKey: 'idPessoa', as: 'donatario'});
 Donatario.belongsTo(Pessoa, {foreignKey: 'idPessoa', as: 'pessoa'});
+
+Pessoa.hasMany(PermissaoUsuario, {foreignKey: 'idPessoa', as: 'permissao_pessoa'});
+PermissaoUsuario.belongsTo(Pessoa, {foreignKey: 'idPessoa', as: 'pessoa'});
+PermissaoUsuario.belongsTo(Permissao, {foreignKey: 'idPermissao', as: 'permissao'});
+Permissao.hasMany(PermissaoUsuario, {foreignKey: 'idPermissao', as: 'permissao_pessoa'});
 
 

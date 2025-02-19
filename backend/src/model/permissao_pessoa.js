@@ -2,7 +2,7 @@ const database = require("../config/database");
 
 class PermissaoUsuario {
     constructor() {
-        this.model = database.db.define("permissao_usuario", {
+        this.model = database.db.define("permissao_pessoa", {
             idPermissaoUsuario: {
                 type: database.db.Sequelize.INTEGER,
                 primaryKey: true,
