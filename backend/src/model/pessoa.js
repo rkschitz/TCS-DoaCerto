@@ -18,6 +18,7 @@ class Pessoa {
       email: {
         type: database.db.Sequelize.STRING,
         unique: true,
+        allowNull: false,
       },
       senha: {
         type: database.db.Sequelize.STRING,

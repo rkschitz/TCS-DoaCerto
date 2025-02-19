@@ -1,6 +1,4 @@
 const PessoaController = require('../controller/pessoa')
-const PermissaoPessoa = require('../model/permissao_pessoa')
-const Permissao = require('../model/permissao')
 
 class PessoaApi {
 
@@ -9,7 +7,11 @@ class PessoaApi {
 
         try {
             const response = await PessoaController.criarPessoa(CPF, nome, email, senha, telefone, dt_nascimento)
-            return res.status(200).send(response)
+            if(response.dataValues){
+                const responseLogin = await PessoaController.login(email,senha);
+                console.log(responseLogin)
+                return res.status(200).send(responseLogin)
+            }
         } catch (e) {
             return res.status(400).send({ error: e.message })
         }
