@@ -1,8 +1,10 @@
 const jwt = require("jsonwebtoken");
-const user = require('../controller/user')
+const Pessoa = require('../model/pessoa');
+const PessoaPermissao = require('../model/permissao_pessoa');
+const Permissao = require('../model/permissao');
 
-function authMiddleware(roles = []) {
-  return (req, res, next) => {
+function authMiddleware(requiredPermissions = []) {
+  return async (req, res, next) => {
     const token = req.headers["authorization"];
     
     if (!token) {
@@ -15,21 +17,44 @@ function authMiddleware(roles = []) {
           return res.status(401).json({ mensagem: "Token inválido" });
         }
 
-        const userLogged = await user.findUser(decoded.id)
+        // Buscar a pessoa com suas permissões
+        const pessoa = await Pessoa.findOne({
+          where: { idPessoa: decoded.id },
+          include: [{
+            model: PessoaPermissao,
+            include: [{
+              model: Permissao,
+              attributes: ['permissao']
+            }]
+          }]
+        });
 
-        if(!userLogged) {
-          return res.status(404).json({ mensagem: "Usuário não encontrado" });
-        }
-        
-        if(roles.length && !roles.includes(userLogged.dataValues.role)){
-          return res.status(403).json({ mensagem: "Sem permissão" });
+        if (!pessoa) {
+          return res.status(404).json({ mensagem: "Pessoa não encontrada" });
         }
 
+        // Extrair os tipos de permissão da pessoa
+        const userPermissionTypes = pessoa.PessoaPermissaos.map(p => p.Permissao.tipo);
+
+        // Verificar se a pessoa tem pelo menos uma das permissões requeridas
+        if (requiredPermissions.length > 0 && 
+            !requiredPermissions.some(perm => userPermissionTypes.includes(perm))) {
+          return res.status(403).json({ 
+            mensagem: "Sem permissão para acessar este recurso" 
+          });
+        }
+
+        // Adicionar informações úteis ao objeto da requisição
         req.session = decoded;
+        req.pessoa = pessoa; // Objeto pessoa completo
+        req.userPermissions = userPermissionTypes; // Array com as permissões
 
         next();
-      } catch (e) {
-        return res.status(404).json({ mensagem: "Usuário não encontrado" });
+      } catch (error) {
+        console.error('Erro no middleware de autenticação:', error);
+        return res.status(500).json({ 
+          mensagem: "Erro interno ao verificar permissões" 
+        });
       }
     });
   }

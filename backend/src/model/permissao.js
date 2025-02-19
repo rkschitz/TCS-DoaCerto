@@ -21,7 +21,6 @@ class Permissao {
 // Permissoes
 // Admin A
 // Organização O
-// Doador D
-// Donatario R de receptor
+// Usuário U
 
 module.exports = new Permissao().model;
