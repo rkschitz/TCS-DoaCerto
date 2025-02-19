@@ -35,9 +35,15 @@ class PessoaController{
     }
 
     async login(email,senha){
+
+        if(!email || !senha){
+            return { mensagem: "Email e senha são obrigatórios" };
+        }
+
         const pessoaValue = await pessoaModel.findOne({
             where: { email }
         });
+
 
         if(!pessoaValue){
             return { mensagem: "Usuário não encontrado" };
