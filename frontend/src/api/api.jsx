@@ -1,43 +1,22 @@
-import api from './api';
+import axios from 'axios';
 
-export const getUsers = async () => {
-  const response = await api.get('/api/v1/users');
-  return response.data;
-};
+// 2 - Adicionar Axios e criar uma instância do Axios
+const api = axios.create({
+  baseURL: 'localhost:3000/',
+  timeout: 10000,
+});
 
-export const getAllUsers = async () => {
-  const response = await api.get('/api/v1/user');
-  return response;
-}
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
-export const getContext = async () => {
-  const response = await api.get(`/api/v1/user/context`);
-  return response.data;
-};
-
-export const createUser = async (user) => {
-  const response = await api.post('/api/v1/user', user);
-  return response.data;
-};
-
-export const updateUser = async (id, user) => {
-  const response = await api.put(`/api/v1/user/${id}`, user);
-  return response.data;
-};
-
-export const deleteUser = async (id) => {
-  return api.delete(`/api/v1/user/${id}`);
-};
-
-export const loginUser = async (email, senha) => {
-  const body = { email, senha };
-  const response = await api.post('/api/v1/login', body, {
-      headers: { 'Content-Type': 'application/json' },
-  });
-  return response;
-};
-
-export const getUserBreeds = async (id) => {
-  const response = await api.get(`/api/v1/user/${id}/breeds`);
-  return response;
-}
+export default api;

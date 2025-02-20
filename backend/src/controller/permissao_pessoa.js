@@ -26,6 +26,18 @@ class PermissaoPessoaController {
             throw new Error('Erro ao criar permissão para a pessoa');
         }
     }
+
+    async deletarPermissaoPessoa(idPermissaoPessoa) {
+        try {
+            await PermissaoPessoa.destroy({
+                where: {
+                    idPermissaoPessoa
+                }
+            });
+        } catch (error) {
+            throw new Error('Erro ao deletar permissão da pessoa');
+        }
+    }
 }
 
 module.exports = new PermissaoPessoaController()

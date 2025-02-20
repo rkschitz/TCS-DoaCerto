@@ -1,9 +1,9 @@
 const database = require("../config/database");
 
-class PermissaoUsuario {
+class PermissaoPessoa {
     constructor() {
         this.model = database.db.define("permissao_pessoa", {
-            idPermissaoUsuario: {
+            idPermissaoPessoa: {
                 type: database.db.Sequelize.INTEGER,
                 primaryKey: true,
                 autoIncrement: true
@@ -28,4 +28,4 @@ class PermissaoUsuario {
     }
 }
 
-module.exports = new PermissaoUsuario().model;
+module.exports = new PermissaoPessoa().model;
