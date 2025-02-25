@@ -1,6 +1,6 @@
-const AlimentoController = require('../controller/alimento');
+const AlimentController = require('../controller/aliment');
 
-class AlimentoApi {
+class AlimentApi {
     async criarAlimento(req, res) {
         const {alimento, idUnidadeMedida} = req.body;
         try {
@@ -13,7 +13,7 @@ class AlimentoApi {
 
     async listarAlimentos(req, res){
         try {
-            const response = await AlimentoController.listarAlimentos();
+            const response = await AlimentController.listarAlimentos();
             return res.status(200).send(response);
         } catch (error) {
             return res.status(400).send({ error: `Erro ao listar alimentos ${error.message}` });
@@ -21,4 +21,4 @@ class AlimentoApi {
     }
 }
 
-module.exports = new AlimentoApi();
+module.exports = new AlimentApi();

@@ -1,25 +1,28 @@
 const database = require("../config/database");
 
-class Alimento {
+class Goal {
     constructor() {
-        this.model = database.db.define("alimento", {
-            idAlimento: {
+        this.model = database.db.define("goal", {
+            idGoal: {
                 type: database.db.Sequelize.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
             },
-            alimento: {
+            goal: {
                 type: database.db.Sequelize.STRING,
             },
-            situacao:{
-                type: database.db.Sequelize.BOOLEAN,
-                defaultValue: true
-            },
-            idUnidadeMedida:{
+            idAliment:{
                 type: database.db.Sequelize.INTEGER,
                 references: {
-                    model: 'unidade_medida',
-                    key: 'idUnidadeMedida'
+                    model: 'aliment',
+                    key: 'idAliment'
+                }
+            },
+            idCampaign:{
+                type: database.db.Sequelize.INTEGER,
+                references: {
+                    model: 'Campaign',
+                    key: 'idCampaign'
                 }
             }
         },{
@@ -28,4 +31,4 @@ class Alimento {
     }
 }
 
-module.exports = new Alimento().model;
+module.exports = new Goal().model;

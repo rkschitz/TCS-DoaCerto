@@ -1,34 +1,35 @@
 const database = require("../config/database");
 
-class Meta {
+class Organization {
     constructor() {
-        this.model = database.db.define("meta", {
-            idMeta: {
+        this.model = database.db.define("organization", {
+            idOrganization: {
                 type: database.db.Sequelize.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
             },
-            meta: {
+            organization: {
                 type: database.db.Sequelize.STRING,
+                allowNull: false,
             },
-            idAlimento:{
+            idPerson: {
                 type: database.db.Sequelize.INTEGER,
                 references: {
-                    model: 'alimento',
-                    key: 'idAlimento'
+                    model: 'person',
+                    key: 'idPerson'
                 }
             },
-            idCampanha:{
+            idAdress: {
                 type: database.db.Sequelize.INTEGER,
                 references: {
-                    model: 'campanha',
-                    key: 'idCampanha'
-                }
+                    model: 'adress',
+                    key: 'idAdress'
+                },
             }
-        },{
+        }, {
             freezeTableName: true
         });
     }
 }
 
-module.exports = new Meta().model;
+module.exports = new Organization().model;

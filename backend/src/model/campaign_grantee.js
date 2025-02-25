@@ -1,29 +1,26 @@
 const database = require("../config/database");
 
-class Doacao {
+class CampaingGrantee {
     constructor() {
-        this.model = database.db.define("doacao", {
-            idDoacao: {
+        this.model = database.db.define("campaign_grantee", {
+            idCampaignGrantee: {
                 type: database.db.Sequelize.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
             },
-            idDoador: {
+            idGrantee: {
                 type: database.db.Sequelize.INTEGER,
                 references:{
-                    model: 'doador',
-                    key: 'idDoador'
+                    model: 'grantee',
+                    key: 'idGrantee'
                 }
             },
-            idCampanha: {
+            idCampaign: {
                 type: database.db.Sequelize.INTEGER,
                 references:{
-                    model: 'campanha',
-                    key: 'idCampanha'
+                    model: 'campaign',
+                    key: 'idCampaign'
                 }
-            },
-            dtDoacao: {
-                type: database.db.Sequelize.DATE,
             },
         },{
             freezeTableName: true
@@ -31,4 +28,4 @@ class Doacao {
     }
 }
 
-module.exports = new Doacao().model;
+module.exports = new CampaingGrantee().model;

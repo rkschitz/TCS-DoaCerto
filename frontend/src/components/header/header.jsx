@@ -44,7 +44,7 @@ const Header = () => {
             </button>
             <button
               className={styles.btnAuth}
-              onClick={() => navigate("/registerOrganizacao")}
+              onClick={() => navigate("/registerPerson")}
             >
               Organização
             </button>

@@ -1,8 +1,9 @@
 import React, { useState, useContext } from "react";
 import styles from "./login.module.css";
 import { AuthContext } from "../../auth/Context.jsx";
-import { loginPessoa } from "../../api/pessoa.jsx";
+import { personLogin } from "../../api/person.jsx";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify'
 
 export default function Login() {
 
@@ -10,32 +11,31 @@ export default function Login() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
+  const [password, setPassword] = useState('');
 
   const submitLogin = async (e) => {
     e.preventDefault();
 
-    if (!email || !senha) {
+    if (!email || !password) {
       return alert('Informe o e-mail e a senha para continuar!');
     }
 
     try {
-      const response = await loginPessoa(email, senha);
-      console.log(response);
+      const response = await personLogin(email, password);
+      if (response.data.token) {
+         login(response.data.token);
+         return navigate('/');
+       } 
+       return toast.error(response.data.mensagem);
 
-      // if (response.data.token) {
-      //   login(response.data.token);
-      //   return navigate('/');
-      // }
     } catch (error) {
-      console.log(error);
-      // if (error.response.status === 403) {
-      //   return alert("Sem permissão.");
-      // }
-      // if (error.response.status === 401 || error.response.status === 404) {
-      //   return alert('Email ou senha inválido, tente novamente!');
-      // }
-      // return alert('Erro inesperado, tente novamente mais tarde!');
+      if (error.response.status === 403) {
+        return alert("Sem permissão.");
+      }
+      if (error.response.status === 401 || error.response.status === 404) {
+        return alert('Email ou password inválido, tente novamente!');
+      }
+      return alert('Erro inesperado, tente novamente mais tarde!');
     }
   }
 
@@ -58,7 +58,7 @@ export default function Login() {
                 </div>
                 <div className={styles.formGroup}>
                   <label>Senha</label>
-                  <input type="password" placeholder="Senha" value={senha} onChange={(e) => setSenha(e.target.value)}></input>
+                  <input type="password" placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)}></input>
                 </div>
               </div>
               <div className={styles.submitContainer}>

@@ -1,21 +1,21 @@
 const database = require("../config/database");
 
-class Donatario {
+class Grantee {
     constructor() {
-        this.model = database.db.define("donatario", {
-            idDonatario: {
+        this.model = database.db.define("grantee", {
+            idGrantee: {
                 type: database.db.Sequelize.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
             },
-            idPessoa: {
+            idPerson: {
                 type: database.db.Sequelize.INTEGER,
                 references:{
-                    model: 'pessoa',
-                    key: 'idPessoa'
+                    model: 'person',
+                    key: 'idPerson'
                 }
             },
-            ieAceitaTermo:{
+            ieAcceptTerm:{
                 type: database.db.Sequelize.BOOLEAN,
                 allowNull: false
             }
@@ -26,4 +26,4 @@ class Donatario {
     }
 }
 
-module.exports = new Donatario().model;
+module.exports = new Grantee().model;

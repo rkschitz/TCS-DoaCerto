@@ -1,23 +1,23 @@
 const database = require("../config/database");
 
-class Campanha {
+class Campaing {
     constructor() {
-        this.model = database.db.define("campanha", {
-            idCampanha: {
+        this.model = database.db.define("campaign", {
+            idCampaign: {
                 type: database.db.Sequelize.INTEGER,
                 primaryKey: true,
                 autoIncrement: true
             },
-            nome: {
+            name: {
                 type: database.db.Sequelize.STRING,
             },
-            dt_inicio: {
+            startDate: {
                 type: database.db.Sequelize.DATE,
             },
-            dt_fim: {
+            finalDate: {
                 type: database.db.Sequelize.DATE,
             },
-            situacao: {
+            situation: {
                 type: database.db.Sequelize.BOOLEAN,
             },
         },{
@@ -26,4 +26,4 @@ class Campanha {
     }
 }
 
-module.exports = new Campanha().model;
+module.exports = new Campaing().model;

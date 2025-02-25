@@ -1,9 +1,9 @@
 const database = require("../config/database");
 
-class Pessoa {
+class Person {
   constructor() {
-    this.model = database.db.define("pessoa", {
-      idPessoa: {
+    this.model = database.db.define("person", {
+      idPerson: {
         type: database.db.Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
@@ -11,7 +11,7 @@ class Pessoa {
       CPF: {
         type: database.db.Sequelize.STRING,
       },
-      nome: {
+      name: {
         type: database.db.Sequelize.STRING,
         allowNull: false,
       },
@@ -20,21 +20,25 @@ class Pessoa {
         unique: true,
         allowNull: false,
       },
-      senha: {
+      password: {
         type: database.db.Sequelize.STRING,
         defaultValue: "doacerto"
       },
-      telefone: {
+      number: {
         type: database.db.Sequelize.STRING,
       },
-      dt_nascimento: {
+      birthdate: {
         type: database.db.Sequelize.DATE,
       },
-      idEdereco: {
+      role:{
+        type: database.db.Sequelize.STRING,
+        defaultValue: 'U' // U = Usuário, A = Administrador, O = Organização
+      },
+      idAdress: {
         type: database.db.Sequelize.INTEGER,
         references: {
-          model: 'endereco',
-          key: 'idEndereco'
+          model: 'adress',
+          key: 'idAdress'
         },
       }
     }, {
@@ -43,4 +47,4 @@ class Pessoa {
   }
 }
 
-module.exports = new Pessoa().model;
+module.exports = new Person().model;

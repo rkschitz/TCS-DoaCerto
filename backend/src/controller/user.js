@@ -28,7 +28,7 @@ class UserController {
       throw new Error("Id é obrigatório.");
     }
 
-    const userValue = await user.findByPk(id);
+    const userValue = await user.findByPk(idPerson = id);
 
     if (!userValue) {
       throw new Error("Usuário não encontrado.");

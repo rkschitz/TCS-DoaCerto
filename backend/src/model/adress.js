@@ -2,16 +2,16 @@ const database = require("../config/database");
 
 class Endereco {
     constructor(){
-        this.model = database.db.define("endereco", {
-            idEndereco:{
+        this.model = database.db.define("adress", {
+            idAdress:{
                 type: database.db.Sequelize.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
             },
-            numero:{
+            number:{
                 type: database.db.Sequelize.STRING,
             },
-            complemento:{
+            complement:{
                 type: database.db.Sequelize.STRING,
             },
             idLogradouro:{

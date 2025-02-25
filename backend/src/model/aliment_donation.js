@@ -1,32 +1,32 @@
 const database = require("../config/database");
 
-class AlimentoDoacao {
+class AlimentDonation {
     constructor() {
-        this.model = database.db.define("alimento_doacao", {
-            idAlimentoDoacao: {
+        this.model = database.db.define("aliment_donation", {
+            idAlimentDonation: {
                 type: database.db.Sequelize.INTEGER,
                 primaryKey: true,
                 autoIncrement: true
             },
-            idDoacao: {
+            idDonation: {
                 type: database.db.Sequelize.INTEGER,
                 references:{
-                    model: 'doacao',
-                    key: 'idDoacao'
+                    model: 'donation',
+                    key: 'idDonation'
                 }
             },
-            idAlimento: {
+            idAliment: {
                 type: database.db.Sequelize.INTEGER,
                 references: {
-                    model: 'alimento',
-                    key: 'idAlimento'
+                    model: 'aliment',
+                    key: 'idAliment'
                 }
             },
-            idUnidadeMedida:{
+            idUnitMeasure:{
                 type: database.db.Sequelize.INTEGER,
                 references: {
-                    model: 'unidade_medida',
-                    key: 'idUnidadeMedida'
+                    model: 'unit_measure',
+                    key: 'idUnitMeasure'
                 }
             },
             quantidade: {
@@ -41,4 +41,4 @@ class AlimentoDoacao {
     }
 }
 
-module.exports = new AlimentoDoacao().model;
+module.exports = new AlimentDonation().model;

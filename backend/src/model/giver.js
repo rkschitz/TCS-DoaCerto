@@ -1,18 +1,18 @@
 const database = require("../config/database");
 
-class Doador {
+class Giver {
     constructor() {
-        this.model = database.db.define("doador", {
-            idDoador: {
+        this.model = database.db.define("giver", {
+            idGiver: {
                 type: database.db.Sequelize.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
             },
-            idPessoa: {
+            idPerson: {
                 type: database.db.Sequelize.INTEGER,
                 references:{
-                    model: 'pessoa',
-                    key: 'idPessoa'
+                    model: 'person',
+                    key: 'idPerson'
                 }
             }
         },{
@@ -21,4 +21,4 @@ class Doador {
     }
 }
 
-module.exports = new Doador().model;
+module.exports = new Giver().model;

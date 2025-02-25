@@ -1,18 +1,16 @@
-const AlimentoDoacao = require("./alimento_doacao");
-const Alimento = require("./alimento");
-const CampanhaDonatario = require("./campanha_donatario");
-const Campanha = require("./campanha");
-const Doacao = require("./doacao");
-const Doador = require("./doador");
-const Donatario = require("./donatario");
-const Endereco = require("./endereco")
+const AlimentDonation = require("./aliment_donation");
+const Aliment = require("./aliment");
+const CampaignGrantee = require("./campaign_grantee");
+const Campaign = require("./campaign");
+const Donation = require("./donation");
+const Giver = require("./giver");
+const Grantee = require("./grantee");
+const Adress = require("./adress")
 const Logradouro = require("./logradouro")
-const Meta = require("./meta")
-const Organizacao = require("./organizacao")
-const PermissaoPessoa = require("./permissao_pessoa")
-const Permissao = require("./permissao")
-const Pessoa = require("./pessoa")
-const UnidadeMedida = require("./unidade_medida")
+const Goal = require("./goal")
+const Organizacao = require("./organization")
+const Person = require("./person")
+const UnitMeasure = require("./unit_measure")
 
 
 
@@ -21,39 +19,35 @@ const UnidadeMedida = require("./unidade_medida")
 // UserBreed.belongsTo(User, { foreignKey: 'userId', as: 'user' }); 
 // User.hasMany(UserBreed, { foreignKey: 'userId', as: 'userBreeds' });
 
-Endereco.hasMany(Logradouro, {foreignKey: 'idEndereco', as: 'logradouros'});
-Logradouro.belongsTo(Endereco, {foreignKey: 'idEndereco', as: 'endereco'});
+Adress.hasMany(Logradouro, {foreignKey: 'idEndereco', as: 'logradouros'});
+Logradouro.belongsTo(Adress, {foreignKey: 'idEndereco', as: 'endereco'});
 
-Alimento.hasMany(AlimentoDoacao, {foreignKey: 'idAlimento', as: 'alimento_doacao'});
-AlimentoDoacao.belongsTo(Alimento, {foreignKey: 'idAlimento', as: 'alimento'});
-AlimentoDoacao.belongsTo(Doacao, {foreignKey: 'idDoacao', as: 'doacao'});
-Doacao.hasMany(AlimentoDoacao, {foreignKey: 'idDoacao', as: 'alimento_doacao'});
-UnidadeMedida.hasMany(AlimentoDoacao, {foreignKey: 'idUnidadeMedida', as: 'alimento_doacao'});
-AlimentoDoacao.belongsTo(UnidadeMedida, {foreignKey: 'idUnidadeMedida', as: 'unidade_medida'});
+Aliment.hasMany(AlimentDonation, {foreignKey: 'idAliment', as: 'aliment_donation'});
+AlimentDonation.belongsTo(Aliment, {foreignKey: 'idAliment', as: 'aliment'});
+AlimentDonation.belongsTo(Donation, {foreignKey: 'idDonation', as: 'donation'});
+Donation.hasMany(AlimentDonation, {foreignKey: 'idDonation', as: 'aliment_donation'});
+UnitMeasure.hasMany(AlimentDonation, {foreignKey: 'idUnitMeasure', as: 'aliment_donation'});
+AlimentDonation.belongsTo(UnitMeasure, {foreignKey: 'idUnitMeasure', as: 'unit_measure'});
 
-Campanha.hasMany(CampanhaDonatario, {foreignKey: 'idCampanha', as: 'campanha_donatario'});
-CampanhaDonatario.belongsTo(Campanha, {foreignKey: 'idCampanha', as: 'campanha'});
-CampanhaDonatario.belongsTo(Donatario, {foreignKey: 'idDonatario', as: 'donatario'});
-Donatario.hasMany(CampanhaDonatario, {foreignKey: 'idDonatario', as: 'campanha_donatario'});
+Campaign.hasMany(CampaignGrantee, {foreignKey: 'idCampaign', as: 'campaign_grantee'});
+CampaignGrantee.belongsTo(Campaign, {foreignKey: 'idCampaign', as: 'campaign'});
+CampaignGrantee.belongsTo(Grantee, {foreignKey: 'idGrantee', as: 'grantee'});
+Grantee.hasMany(CampaignGrantee, {foreignKey: 'idGrantee', as: 'campaign_grantee'});
 
-Campanha.hasMany(Doacao, {foreignKey: 'idCampanha', as: 'doacao'});
-Doacao.belongsTo(Campanha, {foreignKey: 'idCampanha', as: 'campanha'});
-Doacao.belongsTo(Doador, {foreignKey: 'idDoador', as: 'doador'});
-Doador.hasMany(Doacao, {foreignKey: 'idDoador', as: 'doacao'});
+Campaign.hasMany(Donation, {foreignKey: 'idCampaign', as: 'donation'});
+Donation.belongsTo(Campaign, {foreignKey: 'idCampaign', as: 'campaign'});
+Donation.belongsTo(Giver, {foreignKey: 'idGiver', as: 'giver'});
+Giver.hasMany(Donation, {foreignKey: 'idGiver', as: 'donation'});
 
-Campanha.hasMany(Meta, {foreignKey: 'idCampanha', as: 'meta'});
-Meta.belongsTo(Campanha, {foreignKey: 'idCampanha', as: 'campanha'});
-Meta.belongsTo(Alimento, {foreignKey: 'idAlimento', as: 'alimento'});
-Alimento.hasMany(Meta, {foreignKey: 'idAlimento', as: 'meta'});
+Campaign.hasMany(Goal, {foreignKey: 'idCampaign', as: 'goal'});
+Goal.belongsTo(Campaign, {foreignKey: 'idCampaign', as: 'campaign'});
+Goal.belongsTo(Aliment, {foreignKey: 'idAliment', as: 'aliment'});
+Aliment.hasMany(Goal, {foreignKey: 'idAliment', as: 'goal'});
 
-Pessoa.hasMany(Doador, {foreignKey: 'idPessoa', as: 'doador'});
-Doador.belongsTo(Pessoa, {foreignKey: 'idPessoa', as: 'pessoa'});
-Pessoa.hasMany(Donatario, {foreignKey: 'idPessoa', as: 'donatario'});
-Donatario.belongsTo(Pessoa, {foreignKey: 'idPessoa', as: 'pessoa'});
+Person.hasMany(Giver, {foreignKey: 'idPerson', as: 'giver'});
+Giver.belongsTo(Person, {foreignKey: 'idPerson', as: 'person'});
+Person.hasMany(Grantee, {foreignKey: 'idPerson', as: 'grantee'});
+Grantee.belongsTo(Person, {foreignKey: 'idPerson', as: 'person'});
 
-Pessoa.hasMany(PermissaoPessoa, {foreignKey: 'idPessoa', as: 'permissao_pessoa'});
-PermissaoPessoa.belongsTo(Pessoa, {foreignKey: 'idPessoa', as: 'pessoa'});
-PermissaoPessoa.belongsTo(Permissao, {foreignKey: 'idPermissao', as: 'permissao'});
-Permissao.hasMany(PermissaoPessoa, {foreignKey: 'idPermissao', as: 'permissao_pessoa'});
 
 

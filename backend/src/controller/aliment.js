@@ -1,9 +1,9 @@
-const alimentoModel = require("../model/alimento");
+const alimentModel = require("../model/aliment");
 
-class AlimentoController {
+class AlimentController {
     async CriarAlimento(alimento, idUnidadeMedida){
         try {
-            const novoAlimento = await alimentoModel.create({
+            const novoAlimento = await alimentModel.create({
                 alimento: alimento,
                 idUnidadeMedida: idUnidadeMedida
             });
@@ -15,7 +15,7 @@ class AlimentoController {
 
     async ListarAlimentos(){
         try {
-            const alimentos = await alimentoModel.findAll({});
+            const alimentos = await alimentModel.findAll({});
             return alimentos;
         } catch (error) {
             return error;
@@ -23,4 +23,4 @@ class AlimentoController {
     }
 }
 
-module.exports = new AlimentoController();
+module.exports = new AlimentController();

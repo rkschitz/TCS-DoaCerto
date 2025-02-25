@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-// 2 - Adicionar Axios e criar uma instância do Axios
 const api = axios.create({
-  baseURL: 'localhost:3000/',
+  baseURL: 'http://localhost:3000/',
   timeout: 10000,
 });
 

@@ -1,14 +1,14 @@
 const database = require("../config/database");
 
-class UnidadeMedida {
+class UnityMeasure{
   constructor() {
-    this.model = database.db.define("unidade_medida", {
-      idUnidadeMedida: {
+    this.model = database.db.define("unit_measure", {
+      idUnitMeasure: {
         type: database.db.Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
-      unidadeMedida: {
+      unitMeasure: {
         type: database.db.Sequelize.STRING,
       }
     }, {
@@ -17,4 +17,4 @@ class UnidadeMedida {
   }
 }
 
-module.exports = new UnidadeMedida().model;
+module.exports = new UnityMeasure().model;
