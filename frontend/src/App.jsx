@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Login from './pages/login/Login.jsx';
 import Register from './pages/registro/RegisterPerson.jsx';
 import { AuthProvider } from './auth/Context';
-import React from 'react';
+import React, { use, useEffect } from 'react';
 import Layout from './components/Layout/Layout';
 // import Profile from './pages/Profile';
 // import Favorites from './pages/Favorites';
@@ -11,20 +11,27 @@ import Layout from './components/Layout/Layout';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import ListPersons from './pages/Person/ListPerson.jsx';
+import { useState } from 'react';
 
-function App() {
+const App = () => {
+
+  const [role, setRole] = useState(null);
+  useEffect(() => {
+    const storedRole = localStorage.getItem('role');
+    if (storedRole) {
+      setRole(storedRole);
+    }
+  }
+    , []);
+
   return (
     <AuthProvider>
       <Routes>
         <Route element={<Layout />}>
-          {/* <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/favorites" element={<Favorites />} />
-          <Route path="/feed" element={<BreedFeed />} /> */}
+          {role === 'A' && <Route path='/persons' element={<ListPersons />} />}
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path='/persons' element={<ListPersons />} />
       </Routes>
       <ToastContainer
         position="bottom-center"

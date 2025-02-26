@@ -85,7 +85,7 @@ class PersonController {
             return { mensagem: "Senha incorreta" };
         }
 
-        const token = jwt.sign({ idPerson: personValue.idPerson }, SECRET_KEY, { expiresIn: "1h" });
+        const token = jwt.sign({ idPerson: personValue.idPerson, role: personValue.role }, SECRET_KEY, { expiresIn: "1h" });
         // const permissoes = await rolePessoaController.buscarPermissoes(personValue.idPerson);
 
         return { token };

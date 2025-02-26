@@ -56,6 +56,7 @@ export const AuthProvider = ({ children }) => {
     setToken(newToken);
     setRole(getRole(newToken));
     setId(getId(newToken));
+    localStorage.setItem('role', getRole(newToken));
     localStorage.setItem('token', newToken);
   };
 
