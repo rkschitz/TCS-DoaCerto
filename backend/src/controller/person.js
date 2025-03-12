@@ -1,4 +1,4 @@
-const pessoaModel = require("../model/person");
+const personModel = require("../model/person");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -10,7 +10,7 @@ class PersonController {
         const senhaCriptografada = await bcrypt.hash(String(password), SALT_VALUE);
 
         try {
-            const personValue = await pessoaModel.create({
+            const personValue = await personModel.create({
                 CPF,
                 name,
                 email,
@@ -25,44 +25,57 @@ class PersonController {
         }
     }
 
-    async editarPessoa(idPerson, CPF, name, email, password, number, birthdate, role) {
-        const senhaCriptografada = await bcrypt.hash(String(password), SALT_VALUE);
+    async updatePerson(idPerson, CPF, name, email, password, number, birthdate, role) {
+        const oldPerson = await personModel.findOne({
+            where: { idPerson }
+        });
 
-        try {
-            const personValue = await pessoaModel.update({
-                CPF,
-                name,
-                email,
-                password: senhaCriptografada,
-                number,
-                birthdate,
-                role
-            }, {
-                where: { idPerson }
-            });
-            return personValue;
-        } catch (e) {
-            return { mensagem: e.message };
+        if(email){
+            const sameEmail = await personModel.findOne({ where: { email } });
+            if (sameEmail && sameEmail.idPerson !== idPerson) {
+                throw new Error("Email já cadastrado.");
+            }
         }
+
+        oldPerson.CPF = CPF || oldPerson.CPF;
+        oldPerson.name = name || oldPerson.name;
+        oldPerson.email = email || oldPerson.email;
+        oldPerson.role = role || oldPerson.role;
+        oldPerson.password = password
+            ? await bcrypt.hash(String(password), SALT_VALUE)
+            : oldPerson.password;
+        oldPerson.number = number || oldPerson.number;
+        oldPerson.birthdate = birthdate || oldPerson.birthdate;
+        oldPerson.save();
     }
 
     async searchPersons() {
-        const personValue = await pessoaModel.findAll();
+        const personValue = await personModel.findAll();
         return personValue;
     }
 
     async buscarPessoa(idPerson) {
-        const personValue = await pessoaModel.findOne({
+        const personValue = await personModel.findOne({
             where: { idPerson }
         });
         return personValue;
     }
 
     async findPersonById(idPerson) {
-        const personValue = await pessoaModel.findOne({
+        const personValue = await personModel.findOne({
             where: { idPerson }
         });
         return personValue
+    }
+
+    async deletePerson(idPerson) {
+        if(!idPerson){
+            throw new Error("Id é obrigatório.");
+        }
+
+        const personValue = await personModel.findOne({where: { idPerson }});
+
+        await personValue.destroy();
     }
 
     async login(email, password) {
@@ -70,7 +83,7 @@ class PersonController {
             return { mensagem: "Email e senha são obrigatórios" };
         }
 
-        const personValue = await pessoaModel.findOne({
+        const personValue = await personModel.findOne({
             where: { email }
         });
 

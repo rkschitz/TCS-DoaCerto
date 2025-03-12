@@ -10,7 +10,7 @@ import Layout from './components/Layout/Layout';
 // import BreedFeed from './pages/Breeds';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import ListPersons from './pages/Person/ListPerson.jsx';
+import ListPersons from './pages/Person/Person.jsx';
 import { useState } from 'react';
 
 const App = () => {
@@ -29,6 +29,7 @@ const App = () => {
       <Routes>
         <Route element={<Layout />}>
           {role === 'A' && <Route path='/persons' element={<ListPersons />} />}
+          <Route path='/' element={<div>Ola mundo</div>} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
