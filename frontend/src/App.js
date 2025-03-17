@@ -1,8 +1,8 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom"; // Removido BrowserRouter daqui
-import Header from "./components/header/header";
-import Login from "./pages/login/login";
-import Register from "./pages/registro/registrar";
+import Header from "./components/Header/Header";
+import Login from "./pages/login/Login";
+import Register from "./pages/registro/RegistroOrganizacao";
 
 const App = () => {
   return (

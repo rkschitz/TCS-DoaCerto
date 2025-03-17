@@ -3,62 +3,54 @@ const cors = require("cors");
 const database = require("./src/config/database");
 const bcrypt = require("bcrypt");
 
-const UserApi = require("./src/api/user");
-const UserRouter = require("./src/routes/user");
-const BreedRouter = require("./src/routes/breed");
-const User = require("./src/model/user");
-const UserBreedRouter = require("./src/routes/userBreed");
-const AlimentoRouter = require("./src/routes/alimento");
-const Permissao = require("./src/model/permissao");
-const Pessoa = require("./src/model/pessoa");
-const PermissaoUsuario = require("./src/model/permissao_pessoa");
-// const PessoaRouter = require("./src/routes/pessoa");
-const PessoaApi = require("./src/api/pessoa");
+const AlimentRouter = require("./src/routes/aliment");
+const Person = require("./src/model/person");
+const OrganizationRouter = require("./src/routes/organization");
+
+const PersonApi = require("./src/api/person");
+const PersonRouter = require("./src/routes/person");
 require("./src/model/association");
 
+
 const app = express();
+const corsOptions = {
+  origin: "http://localhost:3001", // ou um array de origens
+  methods: "GET,POST,PUT,DELETE", // Métodos permitidos
+  allowedHeaders: "Content-Type, Authorization", // Cabeçalhos permitidos
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
-app.use(cors());
 
 app.get("/", (req, res) => {
   res.status(200).json({ message: "OK" });
 });
 
-app.post("/api/v1/login", PessoaApi.login);
-app.post("/api/v1/registro", PessoaApi.criarPessoa);
+app.post("/api/v1/login", PersonApi.login);
+app.post("/api/v1/register", PersonApi.createPerson);
 
-app.use("/api/v1/user", UserRouter);
-app.use("/api/v1/breed", BreedRouter);
-app.use("/api/v1/userBreed", UserBreedRouter);
+app.use("/api/v1/person", PersonRouter);
+app.use("/api/v1/aliment", AlimentRouter);
+app.use("/api/v1/organization", OrganizationRouter)
 
-// app.use("/api/v1/pessoa", PessoaRouter);
-app.use("/api/v1/alimento", AlimentoRouter);
 
 
 const createTables = async () => {
   try {
 
-    await database.db.sync({ force: false });
+    await database.db.sync({ force: true });
 
     const cypherSenha = await bcrypt.hash('admin', 10);
 
     const adminData = {
-      nome: 'admin',
+      name: 'admin',
       email: 'admin',
-      senha: cypherSenha,
-      role: 'admin'
+      password: cypherSenha,
+      role: 'A'
     };
 
-    const permissoes = ['A', 'O', 'U'];
+    await Person.create(adminData);
 
-    for (let i = 0; i < permissoes.length; i++) {
-      await Permissao.create({ permissao: permissoes[i] });
-    }
-
-    const response = await Pessoa.create(adminData);
-    const responsePermissao = await Permissao.findOne({ where: { permissao: 'A' } });
-    await PermissaoUsuario.create({ idPermissao: responsePermissao.dataValues.idPermissao, idPessoa: response.dataValues.idPessoa });
-    
     console.log("Todas as tabelas foram criadas com sucesso!");
   } catch (error) {
     console.error(`Erro ao inicializar o banco de dados: ${error}`);

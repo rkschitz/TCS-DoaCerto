@@ -1,36 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./header.module.css";
 import Logo from "../../img/logo-doa-certo.png";
+import { AuthContext } from "../../auth/Context";
 
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const { logout, token, role } = useContext(AuthContext);
   return (
     <header className={styles.header}>
       <img src={Logo} alt="Logo" className={styles.logo} />
       <nav className={styles.navLinks}>
-        <a
-          onClick={() => navigate("/")}
-          className={location.pathname === "/" ? styles.activeLink : ""}
-        >
-          Home
-        </a>
-        <a
-          onClick={() => navigate("/campanhas")}
-          className={
-            location.pathname === "/campanhas" ? styles.activeLink : ""
-          }
-        >
-          Campanhas
-        </a>
-        <a
-          onClick={() => navigate("/sobre")}
-          className={location.pathname === "/sobre" ? styles.activeLink : ""}
-        >
-          Sobre
-        </a>
+        <a onClick={() => navigate("/")} className={location.pathname === "/" ? styles.activeLink : ""}>Home </a>
+        <a onClick={() => navigate("/campanhas")} className={location.pathname === "/campanhas" ? styles.activeLink : ""}>Campanhas</a>
+        <a onClick={() => navigate("/sobre")} className={location.pathname === "/sobre" ? styles.activeLink : ""}>Sobre</a>
+        {role == 'A' && <a onClick={() => navigate("/persons")} className={location.pathname === "/persons" ? styles.activeLink : ""}>Gerenciar pessoas</a>}
+        {role == 'A' && <a onClick={() => navigate("/organizations")} className={location.pathname === "/organizations" ? styles.activeLink : ""}>Gerenciar organizações</a>}    
       </nav>
       <div className={styles.authButtons}>
         <div className={styles.dropdown}>
@@ -44,15 +31,17 @@ const Header = () => {
             </button>
             <button
               className={styles.btnAuth}
-              onClick={() => navigate("/registerOrganizacao")}
+              onClick={() => navigate("/registerPerson")}
             >
               Organização
             </button>
           </div>
         </div>
-        <button className={styles.loginBtn} onClick={() => navigate("/login")}>
+        {!token ? <button className={styles.loginBtn} onClick={() => navigate("/login")}>
           Login
         </button>
+          : 
+          <button className={styles.logoutBtn} onClick={logout}>Logout</button>}
       </div>
     </header>
   );
