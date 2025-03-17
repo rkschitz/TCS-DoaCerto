@@ -25,7 +25,7 @@ class PersonController {
         }
     }
 
-    async updatePerson(idPerson, CPF, name, email, password, number, birthdate, role) {
+    async updatePerson(idPerson, CPF, name, email, password, number, birthdate, role, ieSituation) {
         const oldPerson = await personModel.findOne({
             where: { idPerson }
         });
@@ -46,6 +46,7 @@ class PersonController {
             : oldPerson.password;
         oldPerson.number = number || oldPerson.number;
         oldPerson.birthdate = birthdate || oldPerson.birthdate;
+        oldPerson.ieSituation = ieSituation || oldPerson.ieSituation;
         oldPerson.save();
     }
 
@@ -90,6 +91,10 @@ class PersonController {
 
         if (!personValue) {
             return { mensagem: "Usuário não encontrado" };
+        }
+
+        if (personValue.ieSituacao === "I") {
+            return { mensagem: "Usuário inativo" };
         }
 
         const senhaCorreta = await bcrypt.compare(password, personValue.password);

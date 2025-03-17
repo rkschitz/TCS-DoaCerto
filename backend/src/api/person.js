@@ -17,11 +17,11 @@ class PersonApi {
     }
 
     async updatePerson(req, res) {
-        const { CPF, name, email, password, number, birthdate, role, idAdress } = req.body
+        const { CPF, name, email, password, number, birthdate, role, ieSituation, idAdress } = req.body
         const { id } = req.params
 
         try {
-            const response = await PersonController.updatePerson(id, CPF, name, email, password, number, birthdate,role, idAdress)
+            const response = await PersonController.updatePerson(id, CPF, name, email, password, number, birthdate,role, ieSituation, idAdress)
             return res.status(200).send(response)
         } catch (e) {
             return res.status(400).send({ error: e.message })

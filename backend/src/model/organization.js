@@ -12,6 +12,11 @@ class Organization {
                 type: database.db.Sequelize.STRING,
                 allowNull: false,
             },
+            ieSituation: {
+                type: database.db.Sequelize.STRING,
+                allowNull: false,
+                defaultValue: 'A',
+            },
             idPerson: {
                 type: database.db.Sequelize.INTEGER,
                 references: {

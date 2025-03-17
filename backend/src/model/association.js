@@ -11,6 +11,7 @@ const Goal = require("./goal")
 const Organizacao = require("./organization")
 const Person = require("./person")
 const UnitMeasure = require("./unit_measure")
+const Organization = require("./organization")
 
 
 
@@ -48,6 +49,9 @@ Person.hasMany(Giver, {foreignKey: 'idPerson', as: 'giver'});
 Giver.belongsTo(Person, {foreignKey: 'idPerson', as: 'person'});
 Person.hasMany(Grantee, {foreignKey: 'idPerson', as: 'grantee'});
 Grantee.belongsTo(Person, {foreignKey: 'idPerson', as: 'person'});
+
+Person.hasMany(Organization, {foreignKey: 'idPerson', as: 'organization'});
+Organization.belongsTo(Person, {foreignKey: 'idPerson', as: 'person'});
 
 
 

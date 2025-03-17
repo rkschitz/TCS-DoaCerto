@@ -30,9 +30,14 @@ class Person {
       birthdate: {
         type: database.db.Sequelize.DATE,
       },
-      role:{
+      role: {
         type: database.db.Sequelize.STRING,
         defaultValue: 'U' // U = Usuário, A = Administrador, O = Organização
+      },
+      ieSituation: {
+        type: database.db.Sequelize.STRING,
+        allowNull: false,
+        defaultValue: 'A',
       },
       idAdress: {
         type: database.db.Sequelize.INTEGER,

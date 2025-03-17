@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import List from "../../components/List/List";
-import { listPersons, updatePerson, insertPerson, deletePerson } from "../../api/person"; // Assumindo que addPerson e editPerson sejam funções da sua API.
+import { listPersons, updatePerson, insertPerson, deletePerson } from "../../api/person";
 import CustomModal from "../../components/Modal/Modal";
 import { Form, FloatingLabel, Row, Col } from 'react-bootstrap';
 
@@ -44,6 +44,11 @@ export default function ListPersons() {
         setOpenModal(true);
     };
 
+    const handlePeopleSituation = async (person) => {
+        await updatePerson(person.idPerson, { ieSituation: person.ieSituation === 'A' ? 'I' : 'A' });
+        list();
+    }
+
     const handleAddNew = () => {
         setSelectedPerson({
             CPF: '',
@@ -72,8 +77,10 @@ export default function ListPersons() {
                             <span>{person.name}</span>
                             <span>{person.email}</span>
                             <span>{person.role}</span>
+                            <span>{person.ieSituation}</span>
                         </div>
                         <div className="buttons">
+                            <button onClick={() => handlePeopleSituation(person)}>Alterar</button>
                             <button onClick={() => handleEdit(person)}>Editar</button>
                             <button onClick={() => handleDelete(person.idPerson)}>Excluir</button>
                         </div>
