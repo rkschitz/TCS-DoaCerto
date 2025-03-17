@@ -10,7 +10,7 @@ const Logradouro = require("./logradouro")
 const Goal = require("./goal")
 const Organizacao = require("./organization")
 const Person = require("./person")
-const UnitMeasure = require("./unit_measure")
+const measurementUnit = require("./measurement_unit")
 const Organization = require("./organization")
 
 
@@ -27,8 +27,8 @@ Aliment.hasMany(AlimentDonation, {foreignKey: 'idAliment', as: 'aliment_donation
 AlimentDonation.belongsTo(Aliment, {foreignKey: 'idAliment', as: 'aliment'});
 AlimentDonation.belongsTo(Donation, {foreignKey: 'idDonation', as: 'donation'});
 Donation.hasMany(AlimentDonation, {foreignKey: 'idDonation', as: 'aliment_donation'});
-UnitMeasure.hasMany(AlimentDonation, {foreignKey: 'idUnitMeasure', as: 'aliment_donation'});
-AlimentDonation.belongsTo(UnitMeasure, {foreignKey: 'idUnitMeasure', as: 'unit_measure'});
+measurementUnit.hasMany(AlimentDonation, {foreignKey: 'idMeasurementUnit', as: 'aliment_donation'});
+AlimentDonation.belongsTo(measurementUnit, {foreignKey: 'idMeasurementUnit', as: 'measurement_unit'});
 
 Campaign.hasMany(CampaignGrantee, {foreignKey: 'idCampaign', as: 'campaign_grantee'});
 CampaignGrantee.belongsTo(Campaign, {foreignKey: 'idCampaign', as: 'campaign'});

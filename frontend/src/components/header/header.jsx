@@ -17,7 +17,9 @@ const Header = () => {
         <a onClick={() => navigate("/campanhas")} className={location.pathname === "/campanhas" ? styles.activeLink : ""}>Campanhas</a>
         <a onClick={() => navigate("/sobre")} className={location.pathname === "/sobre" ? styles.activeLink : ""}>Sobre</a>
         {role == 'A' && <a onClick={() => navigate("/persons")} className={location.pathname === "/persons" ? styles.activeLink : ""}>Gerenciar pessoas</a>}
-        {role == 'A' && <a onClick={() => navigate("/organizations")} className={location.pathname === "/organizations" ? styles.activeLink : ""}>Gerenciar organizações</a>}    
+        {role == 'A' && <a onClick={() => navigate("/organizations")} className={location.pathname === "/organizations" ? styles.activeLink : ""}>Gerenciar organizações</a>}
+        {role == 'A' && <a onClick={() => navigate("/manageCampaign")} className={location.pathname === "/manageCampaign" ? styles.activeLink : ""}>Gerenciar campanha</a>} 
+        {role == 'A' && <a onClick={() => navigate("/measurementUnit")} className={location.pathname === "/measurementUnit" ? styles.activeLink : ""}>Gerenciar unidades de medidas</a>}       
       </nav>
       <div className={styles.authButtons}>
         <div className={styles.dropdown}>

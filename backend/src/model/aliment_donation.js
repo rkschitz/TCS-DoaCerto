@@ -22,11 +22,11 @@ class AlimentDonation {
                     key: 'idAliment'
                 }
             },
-            idUnitMeasure:{
+            idMeasurementUnit:{
                 type: database.db.Sequelize.INTEGER,
                 references: {
-                    model: 'unit_measure',
-                    key: 'idUnitMeasure'
+                    model: 'measurement_unit',
+                    key: 'idMeasurementUnit'
                 }
             },
             quantidade: {

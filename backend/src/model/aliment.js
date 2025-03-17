@@ -15,11 +15,11 @@ class Aliment {
                 type: database.db.Sequelize.BOOLEAN,
                 defaultValue: true
             },
-            idUnitMeasure:{
+            idMeasurementUnit:{
                 type: database.db.Sequelize.INTEGER,
                 references: {
-                    model: 'unit_measure',
-                    key: 'idUnitMeasure'
+                    model: 'measurement_unit',
+                    key: 'idMeasurementUnit'
                 }
             }
         },{

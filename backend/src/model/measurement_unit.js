@@ -2,13 +2,13 @@ const database = require("../config/database");
 
 class UnityMeasure{
   constructor() {
-    this.model = database.db.define("unit_measure", {
-      idUnitMeasure: {
+    this.model = database.db.define("measurement_unit", {
+      idMeasurementUnit: {
         type: database.db.Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
-      unitMeasure: {
+      measurementUnit: {
         type: database.db.Sequelize.STRING,
       }
     }, {
