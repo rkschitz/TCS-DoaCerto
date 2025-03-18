@@ -1,6 +1,6 @@
 const database = require("../config/database");
 
-class UnityMeasure{
+class MeasurementUnit{
   constructor() {
     this.model = database.db.define("measurement_unit", {
       idMeasurementUnit: {
@@ -10,6 +10,10 @@ class UnityMeasure{
       },
       measurementUnit: {
         type: database.db.Sequelize.STRING,
+      },
+      ieSituation: {
+        type: database.db.Sequelize.STRING,
+        defaultValue: 'A'
       }
     }, {
       freezeTableName: true
@@ -17,4 +21,4 @@ class UnityMeasure{
   }
 }
 
-module.exports = new UnityMeasure().model;
+module.exports = new MeasurementUnit().model;

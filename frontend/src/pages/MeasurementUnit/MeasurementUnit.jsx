@@ -13,6 +13,7 @@ export default function MeasurementUnit() {
     async function list() {
         const response = await listMeasurementUnits();
         setMeasurementsUnits(response.data);
+        console.log(response)
     }
 
     useEffect(() => {
@@ -69,6 +70,7 @@ export default function MeasurementUnit() {
                     <li key={index.idMeasurementUnit}>
                         <div>
                             <span>{index.measurementUnit}</span>
+                            <span>{index.ieSituation}</span>
                         </div>
                         <div className="buttons">
                             <button onClick={() => handleMeasurementUnitSituation(index)}>Alterar</button>

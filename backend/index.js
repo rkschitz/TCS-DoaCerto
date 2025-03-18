@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const AlimentRouter = require("./src/routes/aliment");
 const Person = require("./src/model/person");
 const OrganizationRouter = require("./src/routes/organization");
+const MeansurementUnitRouter = require("./src/routes/measurementUnit");
 
 const PersonApi = require("./src/api/person");
 const PersonRouter = require("./src/routes/person");
@@ -32,6 +33,7 @@ app.post("/api/v1/register", PersonApi.createPerson);
 app.use("/api/v1/person", PersonRouter);
 app.use("/api/v1/aliment", AlimentRouter);
 app.use("/api/v1/organization", OrganizationRouter)
+app.use("/api/v1/measurementUnit", MeansurementUnitRouter)
 
 
 
