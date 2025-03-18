@@ -21,7 +21,7 @@ class Goal {
             idCampaign:{
                 type: database.db.Sequelize.INTEGER,
                 references: {
-                    model: 'Campaign',
+                    model: 'campaign',
                     key: 'idCampaign'
                 }
             }
