@@ -12,12 +12,13 @@ class MeasurementUnitController {
         }
     }
 
-    async update(idMeasurementUnit, measurementUnit) {
+    async update(idMeasurementUnit, measurementUnit, ieSituation) {
         const oldMeasurementUnit = await measurementUnitModel.findOne({
             where: { idMeasurementUnit }
         });
 
         oldMeasurementUnit.measurementUnit = measurementUnit || oldMeasurementUnit.measurementUnit;
+        oldMeasurementUnit.ieSituation = ieSituation || oldMeasurementUnit.ieSituation;
         oldMeasurementUnit.save();
     }
 

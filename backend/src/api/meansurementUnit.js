@@ -14,11 +14,11 @@ class MeansurementUnitApi{
     }
 
     async update(req,res){
-        const {measurementUnit} = req.body;
+        const {measurementUnit, ieSituation} = req.body;
         const {id} = req.params;
 
         try{
-            const response = await measurementUnitController.update(id, measurementUnit);
+            const response = await measurementUnitController.update(id, measurementUnit,ieSituation);
             return res.status(200).send(response);
         } catch(e){
             return res.status(400).send({error: e.message});

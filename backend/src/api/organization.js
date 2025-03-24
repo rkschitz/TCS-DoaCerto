@@ -6,7 +6,7 @@ class OrganizationApi {
         const { organization, ieSituation, idPerson, idAdress } = req.body
 
         try {
-            const response = await organizationController.create(organization, ieSituation, idPerson, idAdress)
+            const response = await organizationController.create(organization, idPerson)
             return res.status(200).send(response)
         } catch (e) {
             return res.status(400).send({ error: e.message })
@@ -17,8 +17,9 @@ class OrganizationApi {
         const { organization, ieSituation, idPerson, idAdress } = req.body
         const { id } = req.params
 
+        console.log('Api',req.body)
         try {
-            const response = await organizationController.update(id, organization, ieSituation, idPerson, idAdress)
+            const response = await organizationController.update(id, organization, idPerson, ieSituation)
             return res.status(200).send(response)
         } catch (e) {
             return res.status(400).send({ error: e.message })

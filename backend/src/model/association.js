@@ -11,14 +11,8 @@ const Goal = require("./goal")
 const Organizacao = require("./organization")
 const Person = require("./person")
 const measurementUnit = require("./measurement_unit")
-const Organization = require("./organization")
-
-
-
-// Breed.hasMany(UserBreed, { foreignKey: 'breedId', as: 'userBreeds' });
-// UserBreed.belongsTo(Breed, { foreignKey: 'breedId', as: 'breed' });
-// UserBreed.belongsTo(User, { foreignKey: 'userId', as: 'user' }); 
-// User.hasMany(UserBreed, { foreignKey: 'userId', as: 'userBreeds' });
+const Organization = require("./organization");
+const AlimentType = require("./alimentType");
 
 Adress.hasMany(Logradouro, {foreignKey: 'idEndereco', as: 'logradouros'});
 Logradouro.belongsTo(Adress, {foreignKey: 'idEndereco', as: 'endereco'});
@@ -53,5 +47,5 @@ Grantee.belongsTo(Person, {foreignKey: 'idPerson', as: 'person'});
 Person.hasMany(Organization, {foreignKey: 'idPerson', as: 'organization'});
 Organization.belongsTo(Person, {foreignKey: 'idPerson', as: 'person'});
 
-
-
+AlimentType.hasMany(Aliment, {foreignKey: 'idAlimentType', as: 'aliment'});
+Aliment.belongsTo(AlimentType, {foreignKey: 'idAlimentType', as: 'aliment_type'});

@@ -1,21 +1,22 @@
 import { useEffect, useState } from "react";
 import List from "../../components/List/List";
-import {updateOrganization, insertOrganization, deleteOrganization, listOrganizations } from "../../api/organization";
+import { updateOrganization, insertOrganization, deleteOrganization, listOrganizations } from "../../api/organization";
 import CustomModal from "../../components/Modal/Modal";
-import { Form, FloatingLabel, Row, Col } from 'react-bootstrap';
+import { Form, FloatingLabel, Row, Col }  from 'react-bootstrap';
+import { Select, MenuItem } from '@material-ui/core';
 
 export default function Organization() {
     const [organizations, setOrganizations] = useState([]);
     const [openModal, setOpenModal] = useState(false);
     const [selectOrganization, setSelectedOrganization] = useState(null);
     const [isEditMode, setIsEditMode] = useState(false);
-    
+
     async function list() {
         const response = await listOrganizations();
         console.log(response)
         setOrganizations(response.data);
     }
-    
+
     useEffect(() => {
         list();
     }, []);
@@ -94,7 +95,7 @@ export default function Organization() {
                 {selectOrganization && (
                     <Form>
                         <Row>
-                        <Col md={6} className="mb-3">
+                            <Col md={6} className="mb-3">
                                 <FloatingLabel controlId="floatingInput" label="Organização">
                                     <Form.Control
                                         type="text"
@@ -107,6 +108,17 @@ export default function Organization() {
                                     />
                                 </FloatingLabel>
                             </Col>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={age}
+                                label="Age"
+                                onChange={handleChange}
+                            >
+                                <MenuItem value={10}>Ten</MenuItem>
+                                <MenuItem value={20}>Twenty</MenuItem>
+                                <MenuItem value={30}>Thirty</MenuItem>
+                            </Select>
                             <Col md={6} className="mb-3">
                                 <FloatingLabel controlId="floatingInput" label="Pessoa">
                                     <Form.Control

@@ -14,17 +14,22 @@ class OrganizationController {
         }
     }
 
-    async update(idOrganization, organization, ieSituation) {
+    async update(idOrganization, organization, idPerson, ieSituation) {
+
         const oldOrganization = await organizationModel.findOne({
             where: { idOrganization }
         });
 
+        console.log(oldOrganization)
+
+
         oldOrganization.organization = organization || oldOrganization.organization;
         oldOrganization.ieSituation = ieSituation || oldOrganization.ieSituation;
+        oldOrganization.idPerson = idPerson || oldOrganization.idPerson;
         oldOrganization.save();
     }
 
-    async deletePerson(idOrganization) {
+    async delete(idOrganization) {
         if (!idOrganization) {
             throw new Error("Id é obrigatório.");
         }

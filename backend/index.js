@@ -7,6 +7,7 @@ const AlimentRouter = require("./src/routes/aliment");
 const Person = require("./src/model/person");
 const OrganizationRouter = require("./src/routes/organization");
 const MeansurementUnitRouter = require("./src/routes/measurementUnit");
+const AlimentType = require("./src/model/alimentType");
 
 const PersonApi = require("./src/api/person");
 const PersonRouter = require("./src/routes/person");
@@ -52,6 +53,16 @@ const createTables = async () => {
     };
 
     await Person.create(adminData);
+
+    const alimetTypes = [
+      { alimentType: 'Vegetal' },
+      { alimentType: 'Animal' },
+      { alimentType: 'Industrializado' }
+    ]
+
+    for (const alimentType of alimetTypes) {
+      await AlimentType.create(alimentType);
+    }
 
     console.log("Todas as tabelas foram criadas com sucesso!");
   } catch (error) {

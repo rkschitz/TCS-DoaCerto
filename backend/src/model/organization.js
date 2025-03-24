@@ -22,7 +22,8 @@ class Organization {
                 references: {
                     model: 'person',
                     key: 'idPerson'
-                }
+                },
+                allowNull: false,
             },
             idAdress: {
                 type: database.db.Sequelize.INTEGER,
