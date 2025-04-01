@@ -1,0 +1,32 @@
+[
+    { "name": "Arroz", "classification": "Cereais, pães e tubérculos" },
+    { "name": "Pão integral", "classification": "Cereais, pães e tubérculos" },
+    { "name": "Batata-doce", "classification": "Cereais, pães e tubérculos" },
+  
+    { "name": "Alface", "classification": "Hortaliças, como verduras e legumes" },
+    { "name": "Tomate", "classification": "Hortaliças, como verduras e legumes" },
+    { "name": "Brócolis", "classification": "Hortaliças, como verduras e legumes" },
+  
+    { "name": "Banana", "classification": "Frutas" },
+    { "name": "Maçã", "classification": "Frutas" },
+    { "name": "Laranja", "classification": "Frutas" },
+  
+    { "name": "Feijão preto", "classification": "Leguminosas, como feijão" },
+    { "name": "Lentilha", "classification": "Leguminosas, como feijão" },
+    { "name": "Grão-de-bico", "classification": "Leguminosas, como feijão" },
+  
+    { "name": "Frango", "classification": "Carnes e ovos" },
+    { "name": "Ovo", "classification": "Carnes e ovos" },
+    { "name": "Peixe", "classification": "Carnes e ovos" },
+  
+    { "name": "Leite", "classification": "Leite e derivados" },
+    { "name": "Queijo", "classification": "Leite e derivados" },
+    { "name": "Iogurte", "classification": "Leite e derivados" },
+  
+    { "name": "Azeite de oliva", "classification": "Óleos e gorduras" },
+    { "name": "Manteiga", "classification": "Óleos e gorduras" },
+  
+    { "name": "Açúcar", "classification": "Açúcares e doces" },
+    { "name": "Chocolate", "classification": "Açúcares e doces" }
+  ]
+  
