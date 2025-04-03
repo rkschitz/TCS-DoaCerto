@@ -1,32 +1,32 @@
 [
-    { "name": "Arroz", "classification": "Cereais, pães e tubérculos" },
-    { "name": "Pão integral", "classification": "Cereais, pães e tubérculos" },
-    { "name": "Batata-doce", "classification": "Cereais, pães e tubérculos" },
+    { "alimento": "Arroz", "tipoAlimento": "Cereais, pães e tubérculos" },
+    { "alimento": "Pão integral", "tipoAlimento": "Cereais, pães e tubérculos" },
+    { "alimento": "Batata-doce", "tipoAlimento": "Cereais, pães e tubérculos" },
   
-    { "name": "Alface", "classification": "Hortaliças, como verduras e legumes" },
-    { "name": "Tomate", "classification": "Hortaliças, como verduras e legumes" },
-    { "name": "Brócolis", "classification": "Hortaliças, como verduras e legumes" },
+    { "alimento": "Alface", "tipoAlimento": "Hortaliças, como verduras e legumes" },
+    { "alimento": "Tomate", "tipoAlimento": "Hortaliças, como verduras e legumes" },
+    { "alimento": "Brócolis", "tipoAlimento": "Hortaliças, como verduras e legumes" },
   
-    { "name": "Banana", "classification": "Frutas" },
-    { "name": "Maçã", "classification": "Frutas" },
-    { "name": "Laranja", "classification": "Frutas" },
+    { "alimento": "Banana", "tipoAlimento": "Frutas" },
+    { "alimento": "Maçã", "tipoAlimento": "Frutas" },
+    { "alimento": "Laranja", "tipoAlimento": "Frutas" },
   
-    { "name": "Feijão preto", "classification": "Leguminosas, como feijão" },
-    { "name": "Lentilha", "classification": "Leguminosas, como feijão" },
-    { "name": "Grão-de-bico", "classification": "Leguminosas, como feijão" },
+    { "alimento": "Feijão preto", "tipoAlimento": "Leguminosas, como feijão" },
+    { "alimento": "Lentilha", "tipoAlimento": "Leguminosas, como feijão" },
+    { "alimento": "Grão-de-bico", "tipoAlimento": "Leguminosas, como feijão" },
   
-    { "name": "Frango", "classification": "Carnes e ovos" },
-    { "name": "Ovo", "classification": "Carnes e ovos" },
-    { "name": "Peixe", "classification": "Carnes e ovos" },
+    { "alimento": "Frango", "tipoAlimento": "Carnes e ovos" },
+    { "alimento": "Ovo", "tipoAlimento": "Carnes e ovos" },
+    { "alimento": "Peixe", "tipoAlimento": "Carnes e ovos" },
   
-    { "name": "Leite", "classification": "Leite e derivados" },
-    { "name": "Queijo", "classification": "Leite e derivados" },
-    { "name": "Iogurte", "classification": "Leite e derivados" },
+    { "alimento": "Leite", "tipoAlimento": "Leite e derivados" },
+    { "alimento": "Queijo", "tipoAlimento": "Leite e derivados" },
+    { "alimento": "Iogurte", "tipoAlimento": "Leite e derivados" },
   
-    { "name": "Azeite de oliva", "classification": "Óleos e gorduras" },
-    { "name": "Manteiga", "classification": "Óleos e gorduras" },
+    { "alimento": "Azeite de oliva", "tipoAlimento": "Óleos e gorduras" },
+    { "alimento": "Manteiga", "tipoAlimento": "Óleos e gorduras" },
   
-    { "name": "Açúcar", "classification": "Açúcares e doces" },
-    { "name": "Chocolate", "classification": "Açúcares e doces" }
+    { "alimento": "Açúcar", "tipoAlimento": "Açúcares e doces" },
+    { "alimento": "Chocolate", "tipoAlimento": "Açúcares e doces" }
   ]
   

@@ -6,7 +6,7 @@ const SECRET_KEY = "doacerto";
 const SALT_VALUE = 10;
 
 class OrganizacaoController {
-    async criar(organizacao, cnpj, telefone, email) {
+    async criar(organizacao, cnpj, telefone, email, idPessoa) {
         const senhaCriptografada = await bcrypt.hash(String(cnpj), SALT_VALUE);
 
         try {
@@ -15,7 +15,10 @@ class OrganizacaoController {
                 cnpj,
                 telefone,
                 email,
-                senhaCriptografada
+                senhaCriptografada,
+                secretaria: idPessoa,
+                ieSituacao: 'A',
+                role: 'O'
             });
             return organizacaoValue;
         } catch (e) {
@@ -23,7 +26,7 @@ class OrganizacaoController {
         }
     }
 
-    async editar(idOrganizacao, organizacao, cnpj, telefone, email, senha, ieSituacao) {
+    async editar(idOrganizacao, organizacao, cnpj, telefone, email, senha, ieSituacao, idPessoa, role) {
         const senhaCriptografada = await bcrypt.hash(String(senha), SALT_VALUE);
 
         try {
@@ -33,7 +36,9 @@ class OrganizacaoController {
                 telefone,
                 email,
                 senha: senhaCriptografada,
-                ieSituacao
+                ieSituacao,
+                secretaria: idPessoa,
+                role
             }, {
                 where: { idOrganizacao }
             });
@@ -74,13 +79,13 @@ class OrganizacaoController {
     }
 
 
-    async login(cnpj, senha) {
-        if (!cnpj || !senha) {
-            return { mensagem: "CNPJ e senha são obrigatórios" };
+    async login(email, senha) {
+        if (!email || !senha) {
+            return { mensagem: "Email e senha são obrigatórios" };
         }
 
         const organizacaoValue = await organizacaoModel.findOne({
-            where: { cnpj }
+            where: { email }
         });
 
 

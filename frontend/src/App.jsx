@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import ListPersons from './pages/Person/Person.jsx';
 import { useState } from 'react';
 import Organization from './pages/Organization/Organization.jsx';
+import Donatario from './pages/Donatario/Donatario.jsx';
 
 const App = () => {
 
@@ -29,8 +30,7 @@ const App = () => {
     <AuthProvider>
       <Routes>
         <Route element={<Layout />}>
-          {role === 'A' && <Route path='/persons' element={<ListPersons />} />}
-          {role === 'A' && <Route path='/organizations' element={<Organization />} />}
+          {role === 'A' && <Route path='/donatarios' element={<Donatario />} />}
           <Route path='/' element={<div>Ola mundo</div>} />
         </Route>
         <Route path="/login" element={<Login />} />
