@@ -18,7 +18,8 @@ const Header = () => {
         <a onClick={() => navigate("/sobre")} className={location.pathname === "/sobre" ? styles.activeLink : ""}>Sobre</a>
         {role == 'A' && <a onClick={() => navigate("/persons")} className={location.pathname === "/persons" ? styles.activeLink : ""}>Gerenciar pessoas</a>}
         {role == 'A' && <a onClick={() => navigate("/organizations")} className={location.pathname === "/organizations" ? styles.activeLink : ""}>Gerenciar organizações</a>} */}
-        {role == 'A' && <a onClick={() => navigate("/donatarios")} className={location.pathname === "/donatarios" ? styles.activeLink : ""}>Gerenciar Donatarios</a>}    
+        {role === 'A' && <a onClick={() => navigate("/donatarios")} className={location.pathname === "/donatarios" ? styles.activeLink : ""}>Gerenciar Donatarios</a>}
+        {(role === 'A' || role === 'O') && <a onClick={() => navigate("/pessoa")} className={location.pathname === "/pessoa" ? styles.activeLink : ""}>Gerenciar Pessoas</a>}    
       </nav>
       <div className={styles.authButtons}>
         <div className={styles.dropdown}>

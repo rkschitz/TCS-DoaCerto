@@ -14,6 +14,7 @@ import ListPersons from './pages/Person/Person.jsx';
 import { useState } from 'react';
 import Organization from './pages/Organization/Organization.jsx';
 import Donatario from './pages/Donatario/Donatario.jsx';
+import Pessoa from './pages/Pessoa/Pessoa.jsx';
 
 const App = () => {
 
@@ -31,6 +32,7 @@ const App = () => {
       <Routes>
         <Route element={<Layout />}>
           {role === 'A' && <Route path='/donatarios' element={<Donatario />} />}
+          {(role === 'A' || role === 'O') && <Route path='/pessoa' element={<Pessoa />} />}
           <Route path='/' element={<div>Ola mundo</div>} />
         </Route>
         <Route path="/login" element={<Login />} />

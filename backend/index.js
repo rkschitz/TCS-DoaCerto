@@ -15,6 +15,10 @@ const SituacaoProfissional = require("./src/model/situacaoProfissional");
 const OrganizacaoApi = require("./src/api/organizacao");
 
 const DonatarioRouter = require("./src/routes/donatario")
+const PessoaRouter = require("./src/routes/pessoa")
+const PessoaController = require("./src/controller/pessoa")
+const OrganizacaoController = require("./src/controller/organizacao")
+const DonatarioController = require("./src/controller/donatario")
 
 const app = express();
 const corsOptions = {
@@ -35,10 +39,13 @@ app.use("/api/v1/login", OrganizacaoApi.login)
 app.use("/api/v1/aliment", AlimentRouter);
 app.use("/api/v1/organizacao", OrganizacaoRouter)
 app.use("/api/v1/donatario", DonatarioRouter)
+app.use("/api/v1/pessoa", PessoaRouter)
+const Dependente = require("./src/model/dependente")
 
 const createTables = async () => {
   try {
-    await database.db.sync({ force: true });
+    await database.db.sync({ force: true, logging: console.log  });
+
 
     const cypherSenha = await bcrypt.hash("admin", 10);
 
@@ -57,6 +64,12 @@ const createTables = async () => {
     const situacaoHabitacionaljson = JSON.parse(fs.readFileSync(situacaoHabitacionalPath, "utf-8"));
     const situacaoProfissionalPath = path.join(__dirname, "src/data/situacaoProfissional.json");
     const situacaoProfissionaljson = JSON.parse(fs.readFileSync(situacaoProfissionalPath, "utf-8"));
+    const pessoasPath = path.join(__dirname, "src/data/pessoas.json");
+    const pessoasJson = JSON.parse(fs.readFileSync(pessoasPath, "utf-8"));
+    const organizacoesPath = path.join(__dirname, "src/data/organizacoes.json");
+    const organizacoesJson = JSON.parse(fs.readFileSync(organizacoesPath, "utf-8"));
+    const donatariosPath = path.join(__dirname, "src/data/donatarios.json");
+    const donatariosJson = JSON.parse(fs.readFileSync(donatariosPath, "utf-8"));
 
     // Cadastrar tipos de alimentos sem repetir
     const tiposCadastrados = {};
@@ -87,6 +100,29 @@ const createTables = async () => {
     }
 
     console.log("Situação profissional cadastrada com sucesso!");
+
+    for (const pessoa of pessoasJson) {
+      await PessoaController.criar(pessoa.nome, pessoa.cpf, pessoa.telefone)
+    }
+    console.log('Pessoas criadas')
+
+    for (const organizacao of organizacoesJson) {
+      await OrganizacaoController.criar(organizacao.organizacao, organizacao.cnpj, organizacao.telefone, organizacao.email, organizacao.secretaria);
+    }
+
+    console.log('Organizações criadas')
+
+    for (const donatario of donatariosJson) {
+      await DonatarioController.criar(donatario.idPessoa, donatario.idSituacaoHabitacional
+        , donatario.tempoResidencia, donatario.rendaFamiliar,
+        donatario.idSituacaoProfissional, donatario.cadastroCrass,
+        donatario.outroLocal, donatario.enfermoEmCasa,
+        donatario.enfermoEmCasa, donatario.dataCadastro, donatario.idOrganizacao,
+        donatario.responsavelVisita, donatario.observacao, donatario.dtEntragaCesta, donatario.dependentes
+      )
+    }
+
+    console.log('Donatários criados')
 
 
   } catch (error) {

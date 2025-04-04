@@ -15,7 +15,7 @@ class OrganizacaoController {
                 cnpj,
                 telefone,
                 email,
-                senhaCriptografada,
+                senha: senhaCriptografada,
                 secretaria: idPessoa,
                 ieSituacao: 'A',
                 role: 'O'

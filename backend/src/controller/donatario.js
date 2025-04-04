@@ -1,6 +1,6 @@
 const DonatarioModel = require('../model/donatario');
 const DependenteModel = require('../model/dependente');
-const { response } = require('../..');
+
 class DonatarioController {
     async criar(idPessoa,
         idSituacaoHabitacional,
@@ -14,12 +14,12 @@ class DonatarioController {
         dataCadastro,
         idOrganizacao,
         responsavelVisita,
-        situacao,
         observacao,
         dtEntregaCesta,
         dependentes) {
         try {
-            const donatarioValue = await DonatarioModel.create({
+            const donatarioValue = 
+            await DonatarioModel.create({
                 idPessoa,
                 idSituacaoHabitacional,
                 tempoResidencia,
@@ -32,18 +32,18 @@ class DonatarioController {
                 dataCadastro,
                 idOrganizacao,
                 responsavelVisita,
-                situacao,
                 observacao,
                 dtEntregaCesta
             })
-
+            console.log('AAAAAAAA',dependentes)
+            
             if (dependentes) {
                 for (const dependente of dependentes) {
                     await DependenteModel.create({
                         idPessoa: dependente.idPessoa,
                         idGrauParentesco: dependente.idGrauParentesco,
                         idade: dependente.idade,
-                        idDonatario: donatarioValue.idDonatario
+                        idProvedor: donatarioValue.idDonatario
                     })
                 }
             }

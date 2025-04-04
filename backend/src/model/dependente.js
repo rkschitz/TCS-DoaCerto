@@ -1,3 +1,5 @@
+const database = require("../config/database.js");
+
 class Dependente{
     constructor(){
         this.model = database.db.define("dependente", {
@@ -29,3 +31,5 @@ class Dependente{
         });
     }
 }
+
+module.exports = new Dependente().model;

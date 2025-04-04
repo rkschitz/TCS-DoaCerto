@@ -1,0 +1,11 @@
+[
+    {"nome": "Ruhan", "cpf":"1111111111", "telefone":"47984192876"},
+    {"nome": "Guilherme", "cpf":"22222222222", "telefone":"47991790349"},
+    {"nome": "Renan", "cpf":"33333333333", "telefone":"47999333893"},
+    {"nome": "Duda", "cpf":"44444444444", "telefone":"47999999999"},
+    {"nome": "Lucas", "cpf":"55555555555", "telefone":"47988888888"},
+    {"nome": "Gustavo", "cpf":"66666666666", "telefone":"47977777777"},
+    {"nome": "Gabriel", "cpf":"77777777777", "telefone":"47966666666"},
+    {"nome": "Matheus", "cpf":"88888888888", "telefone":"47955555555"},
+    {"nome": "Felipe", "cpf":"99999999999", "telefone":"47944444444"}
+]
