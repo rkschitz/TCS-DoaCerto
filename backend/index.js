@@ -115,7 +115,7 @@ const createTables = async () => {
     console.log('Pessoas criadas')
 
     for (const organizacao of organizacoesJson) {
-      await OrganizacaoController.criar(organizacao.organizacao, organizacao.cnpj, organizacao.telefone, organizacao.email, organizacao.secretaria);
+      await OrganizacaoController.criar(organizacao.organizacao, organizacao.cnpj, organizacao.telefone, organizacao.email, organizacao.idSecretaria);
     }
 
     console.log('Organizações criadas')

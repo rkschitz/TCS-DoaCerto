@@ -13,8 +13,8 @@ TipoAlimento.hasMany(Alimento, { foreignKey: "idTipoAlimento" });
 Alimento.belongsTo(TipoAlimento, { foreignKey: "idTipoAlimento" });
 
 // 🏢 Relacionamento entre Pessoa e Organizacao
-Pessoa.belongsTo(Organizacao, { foreignKey: "idOrganizacao" });
-Organizacao.hasMany(Pessoa, { foreignKey: "idOrganizacao" });
+Organizacao.belongsTo(Pessoa, { as: 'secretaria', foreignKey: 'idSecretaria' });
+Pessoa.hasMany(Organizacao, { as: 'organizacoes', foreignKey: 'idSecretaria' });
 
 // // 🚨 Removido relacionamento duplicado entre Donatario e Pessoa
 // Donatario.belongsTo(Pessoa, { foreignKey: "idPessoa" });
@@ -30,16 +30,16 @@ Donatario.belongsTo(Pessoa, { as: 'responsavel', foreignKey: 'responsavelVisita'
 Pessoa.hasMany(Donatario, { as: 'visitasResponsaveis', foreignKey: 'responsavelVisita' });
 
 // 🏢 Relacionamento entre Donatario e Organizacao
-Donatario.belongsTo(Organizacao, {as: 'organizacao', foreignKey: "idOrganizacao" });
-Organizacao.hasMany(Donatario, {as:'donatarios', foreignKey: "idOrganizacao" });
+Donatario.belongsTo(Organizacao, { as: 'organizacao', foreignKey: "idOrganizacao" });
+Organizacao.hasMany(Donatario, { as: 'donatarios', foreignKey: "idOrganizacao" });
 
 // 🏠 Relacionamento entre Donatario e SituacaoHabitacional
-Donatario.belongsTo(SituacaoHabitacional, {as:'situacaoHabitacional', foreignKey: "idSituacaoHabitacional" });
-SituacaoHabitacional.hasMany(Donatario, { as:'donatarios', foreignKey: "idSituacaoHabitacional" });
+Donatario.belongsTo(SituacaoHabitacional, { as: 'situacaoHabitacional', foreignKey: "idSituacaoHabitacional" });
+SituacaoHabitacional.hasMany(Donatario, { as: 'donatarios', foreignKey: "idSituacaoHabitacional" });
 
 // 👷‍♂️ Relacionamento entre Donatario e SituacaoProfissional
-Donatario.belongsTo(SituacaoProfissional, {as:'situacaoProfissional', foreignKey: "idSituacaoProfissional" });
-SituacaoProfissional.hasMany(Donatario, {as:'donatarios', foreignKey: "idSituacaoProfissional" });
+Donatario.belongsTo(SituacaoProfissional, { as: 'situacaoProfissional', foreignKey: "idSituacaoProfissional" });
+SituacaoProfissional.hasMany(Donatario, { as: 'donatarios', foreignKey: "idSituacaoProfissional" });
 
 // Um Donatario tem muitos Dependentes
 Donatario.hasMany(Dependente, { as: 'dependentes', foreignKey: 'idProvedor' });
@@ -50,17 +50,7 @@ Dependente.belongsTo(Donatario, { as: 'provedor', foreignKey: 'idProvedor' });
 // Um Dependente pertence a uma Pessoa (dados pessoais do dependente)
 Dependente.belongsTo(Pessoa, { as: 'pessoa', foreignKey: 'idPessoa' });
 
-// Dependente.belongsToMany(GrauParentesco, {as: 'grauParentesco', foreignKey:'idGrauParentesco'});
-// GrauParentesco.belongsTo(Dependente, {as: 'dependentes', foreignKey:'idGrauParentesco'});
+Dependente.belongsTo(GrauParentesco, { as: 'grauParentesco', foreignKey: 'idGrauParentesco' });
 
-
-Dependente.belongsTo(GrauParentesco, {
-    as: 'grauParentesco',
-    foreignKey: 'idGrauParentesco'
-  });
-  
-  // GrauParentesco possui muitos Dependentes (1:N)
-  GrauParentesco.hasMany(Dependente, {
-    as: 'dependentes',
-    foreignKey: 'idGrauParentesco'
-  });
+// GrauParentesco possui muitos Dependentes (1:N)
+GrauParentesco.hasMany(Dependente, { as: 'dependentes', foreignKey: 'idGrauParentesco' });

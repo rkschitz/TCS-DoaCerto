@@ -33,7 +33,7 @@ class Organizacao {
             ieSituacao:{
                 type: database.db.Sequelize.STRING,
             },
-            secretaria:{
+            idSecretaria:{
                 type: database.db.Sequelize.INTEGER,
                 references: {
                     model: "pessoa",

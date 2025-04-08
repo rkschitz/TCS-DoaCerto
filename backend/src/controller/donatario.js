@@ -150,7 +150,12 @@ class DonatarioController {
             }, {
                 model: organizacaoModel,
                 as: 'organizacao',
-                attributes: ['idOrganizacao', 'organizacao']
+                attributes: ['idOrganizacao', 'organizacao'],
+                include: {
+                    model: pessoaModel,
+                    as: 'secretaria',
+                    attributes: ['idPessoa', 'nome', 'cpf']
+                }
             }, {
                 model: situacaoHabitacional,
                 as: 'situacaoHabitacional',

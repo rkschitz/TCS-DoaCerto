@@ -12,6 +12,7 @@ class Donatario {
                 type: database.db.Sequelize.INTEGER,
                 references: {
                     model: 'pessoa',
+                    as: 'pessoa',
                     key: 'idPessoa'
                 }
             },
@@ -62,6 +63,7 @@ class Donatario {
                 type: database.db.Sequelize.INTEGER,
                 references: {
                     model: 'pessoa',
+                    as:'responsavelVisita',
                     key: 'idPessoa'
                 }
             },
