@@ -65,7 +65,11 @@ class Donatario {
                     key: 'idPessoa'
                 }
             },
-            situacao:{
+            ieSituacao:{
+                type: database.db.Sequelize.STRING,
+                defaultValue: 'A' // A Ativo I Inativo
+            },
+            situacaoCadastral:{
                 type: database.db.Sequelize.STRING,
                 defaultValue: 'P' // Pendente Aprovado Reprovado
             },

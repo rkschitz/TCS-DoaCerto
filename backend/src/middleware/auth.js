@@ -20,8 +20,6 @@ function authMiddleware(roles = []) {
         if(!organizaoLogada) {
           return res.status(404).json({ mensagem: "Usuário não encontrado" });
         }
-
-        console.log(organizaoLogada.dataValues.role)
         
         if(roles.length && !roles.includes(organizaoLogada.dataValues.role)){
           return res.status(403).json({ mensagem: "Sem permissão" });

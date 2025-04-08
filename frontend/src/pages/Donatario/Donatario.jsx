@@ -6,10 +6,14 @@ export default function Donatario() {
     const [donatarios, setDonatarios] = useState([])
 
     async function listar() {
-        const response = await listarDonatariosAtivos();
-        setDonatarios(response.data)
+        try {
+            const response = await listarDonatariosAtivos();
+            console.log(response.data);
+            setDonatarios(response.data);
+        } catch (error) {
+            console.error("Erro ao buscar donatários:", error);
+        }
     }
-
     useEffect(() => {
         listar();
     }, []);
@@ -19,7 +23,11 @@ export default function Donatario() {
             <div className="titulo">Donatarios</div>
             <div className="conteudo">
                 {donatarios.map((donatario, index) => (
-                    <a key={index}>{donatario.idDonatario}</a>
+                    <div className="donatario" key={index}>
+                        Nome:{donatario.pessoa.nome}<br/>
+                        Data de nascimento:{donatario.pessoa.dtNascimento} CPF:{donatario.pessoa.cpf}<br/>
+                        
+                    </div>
                 ))}
             </div>
         </div>

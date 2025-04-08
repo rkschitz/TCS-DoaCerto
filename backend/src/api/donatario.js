@@ -1,23 +1,25 @@
 const DonatarioModel = require('../model/donatario');
 const DependenteModel = require('../model/dependente');
 const DonatarioController = require('../controller/donatario')
-class DonatarioApi{
-    async criar(idPessoa,
-        idSituacaoHabitacional,
-        tempoResidencia,
-        rendaFamiliar,
-        idSituacaoProfissional,
-        cadastroCras,
-        outroLocal,
-        enfermoNaCasa,
-        situacaoEnfermo,
-        dataCadastro,
-        idOrganizacao,
-        responsavelVisita,
-        situacao,
-        observacao,
-        dtEntregaCesta,
-        dependentes) {
+class DonatarioApi {
+    async criar(req, res) {
+
+        const { idPessoa,
+            idSituacaoHabitacional,
+            tempoResidencia,
+            rendaFamiliar,
+            idSituacaoProfissional,
+            cadastroCras,
+            outroLocal,
+            enfermoNaCasa,
+            situacaoEnfermo,
+            dataCadastro,
+            idOrganizacao,
+            responsavelVisita,
+            situacao,
+            observacao,
+            dtEntregaCesta,
+            dependentes } = req.body;
         try {
             const donatarioValue = await DonatarioModel.create({
                 idPessoa,
@@ -55,9 +57,13 @@ class DonatarioApi{
         }
     }
 
-    async buscarAtivos(){
-        const response = await DonatarioController.buscarAtivos();
-        return response;
+    async buscarAtivos(req,res) {
+        try {
+            const response = await DonatarioController.buscarAtivos();
+            return res.status(200).send(response)
+        } catch (e) {
+            return res.status(400).send({ error: e.message })
+        }
     }
 }
 

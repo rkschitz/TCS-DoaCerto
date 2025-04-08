@@ -19,6 +19,10 @@ class Pessoa {
             telefone: {
                 type: database.db.Sequelize.STRING,
             },
+            dtNascimento:{
+                type: database.db.Sequelize.DATE,
+                mask: 'DD/MM/YYYY'
+            }
         }, {
             freezeTableName: true
         });

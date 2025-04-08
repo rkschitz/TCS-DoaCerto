@@ -19,7 +19,11 @@ const PessoaRouter = require("./src/routes/pessoa")
 const PessoaController = require("./src/controller/pessoa")
 const OrganizacaoController = require("./src/controller/organizacao")
 const DonatarioController = require("./src/controller/donatario")
+const GrauParentesco = require("./src/model/grauParentesco")
+const DependenteController = require("./src/controller/dependente")
 
+
+require("./src/model/association");
 const app = express();
 const corsOptions = {
   origin: "http://localhost:3001",
@@ -44,7 +48,7 @@ const Dependente = require("./src/model/dependente")
 
 const createTables = async () => {
   try {
-    await database.db.sync({ force: true, logging: console.log  });
+    await database.db.sync({ force: true, logging: console.log });
 
 
     const cypherSenha = await bcrypt.hash("admin", 10);
@@ -70,6 +74,10 @@ const createTables = async () => {
     const organizacoesJson = JSON.parse(fs.readFileSync(organizacoesPath, "utf-8"));
     const donatariosPath = path.join(__dirname, "src/data/donatarios.json");
     const donatariosJson = JSON.parse(fs.readFileSync(donatariosPath, "utf-8"));
+    const grauParentescoPath = path.join(__dirname, "src/data/grauParentesco.json");
+    const grauParentescoJson = JSON.parse(fs.readFileSync(grauParentescoPath, "utf-8"));
+    const dependentePath = path.join(__dirname, "src/data/dependentes.json");
+    const dependentesJson = JSON.parse(fs.readFileSync(dependentePath, "utf-8"));
 
     // Cadastrar tipos de alimentos sem repetir
     const tiposCadastrados = {};
@@ -102,7 +110,7 @@ const createTables = async () => {
     console.log("Situação profissional cadastrada com sucesso!");
 
     for (const pessoa of pessoasJson) {
-      await PessoaController.criar(pessoa.nome, pessoa.cpf, pessoa.telefone)
+      await PessoaController.criar(pessoa.nome, pessoa.cpf, pessoa.telefone, pessoa.dtNascimento)
     }
     console.log('Pessoas criadas')
 
@@ -124,6 +132,17 @@ const createTables = async () => {
 
     console.log('Donatários criados')
 
+    for(const grauParentesco of grauParentescoJson) {
+      await GrauParentesco.create(grauParentesco)
+    }
+
+    console.log('Grau de parentesco criado')
+
+    for(const dependente of dependentesJson) {
+      await DependenteController.criar(dependente.idPessoa,dependente.idade,dependente.idProvedor,dependente.idGrauParentesco)
+    }
+
+    console.log('Dependentes criados')
 
   } catch (error) {
     console.error(`Erro ao inicializar o banco de dados: ${error}`);

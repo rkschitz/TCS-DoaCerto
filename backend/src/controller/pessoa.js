@@ -1,12 +1,13 @@
 const pessoaModel = require('../model/pessoa');
 
 class PessoaController {
-    async criar(nome, cpf, telefone) {
+    async criar(nome, cpf, telefone,dtNascimento) {
         try {
             const pessoaValue = await pessoaModel.create({
                 nome,
                 cpf,
-                telefone
+                telefone,
+                dtNascimento
             })
             return pessoaValue;
 

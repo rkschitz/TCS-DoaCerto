@@ -12,7 +12,6 @@ export default function Organization() {
     
     async function list() {
         const response = await listOrganizations();
-        console.log(response)
         setOrganizations(response.data);
     }
     

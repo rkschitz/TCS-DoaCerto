@@ -1,5 +1,12 @@
+const { fn, col, literal } = require("sequelize");
 const DonatarioModel = require('../model/donatario');
 const DependenteModel = require('../model/dependente');
+const pessoaModel = require('../model/pessoa');
+const organizacaoModel = require('../model/organizacao');
+const situacaoHabitacional = require('../model/situacaoHabitacional');
+const situacaoProfissional = require('../model/situacaoProfissional');
+const dependente = require('../model/dependente');
+const grauParentescoModel = require('../model/grauParentesco');
 
 class DonatarioController {
     async criar(idPessoa,
@@ -18,25 +25,25 @@ class DonatarioController {
         dtEntregaCesta,
         dependentes) {
         try {
-            const donatarioValue = 
-            await DonatarioModel.create({
-                idPessoa,
-                idSituacaoHabitacional,
-                tempoResidencia,
-                rendaFamiliar,
-                idSituacaoProfissional,
-                cadastroCras,
-                outroLocal,
-                enfermoNaCasa,
-                situacaoEnfermo,
-                dataCadastro,
-                idOrganizacao,
-                responsavelVisita,
-                observacao,
-                dtEntregaCesta
-            })
-            console.log('AAAAAAAA',dependentes)
-            
+            const donatarioValue =
+                await DonatarioModel.create({
+                    idPessoa,
+                    idSituacaoHabitacional,
+                    tempoResidencia,
+                    rendaFamiliar,
+                    idSituacaoProfissional,
+                    cadastroCras,
+                    outroLocal,
+                    enfermoNaCasa,
+                    situacaoEnfermo,
+                    dataCadastro,
+                    idOrganizacao,
+                    responsavelVisita,
+                    observacao,
+                    dtEntregaCesta
+                })
+            console.log('AAAAAAAA', dependentes)
+
             if (dependentes) {
                 for (const dependente of dependentes) {
                     await DependenteModel.create({
@@ -129,10 +136,45 @@ class DonatarioController {
         return donatarioValue;
     }
 
-    async buscarAtivos(){
+    async buscarAtivos() {
         const donatarios = await DonatarioModel.findAll({
-            ieSituacao : 'A'
-        })
+            where: { ieSituacao: 'A' },
+            include: [{
+                model: pessoaModel,
+                as: 'pessoa',
+                attributes: ['idPessoa', 'nome', 'cpf', [literal(`DATE_FORMAT(pessoa.dtNascimento, "%d/%m/%Y")`), 'dtNascimento']]
+            }, {
+                model: pessoaModel,
+                as: 'responsavel',
+                attributes: ['idPessoa', 'nome', 'cpf']
+            }, {
+                model: organizacaoModel,
+                as: 'organizacao',
+                attributes: ['idOrganizacao', 'organizacao']
+            }, {
+                model: situacaoHabitacional,
+                as: 'situacaoHabitacional',
+                attributes: ['idSituacaoHabitacional', 'situacaoHabitacional']
+            }, {
+                model: situacaoProfissional,
+                as: 'situacaoProfissional',
+                attributes: ['idSituacaoProfissional', 'situacaoProfissional']
+            }, {
+                model: dependente,
+                as: 'dependentes',
+                attributes: ['idDependente', 'idade'],
+                include: [{
+                    model: pessoaModel,
+                    as: 'pessoa',
+                    attributes: ['idPessoa', 'nome', 'cpf']
+                }, {
+                    model: grauParentescoModel,
+                    as: 'grauParentesco',
+                    attributes: ['grauParentesco']
+                }]
+            }]
+
+        });
         return donatarios;
     }
 }

@@ -22,10 +22,18 @@ class Dependente{
             idProvedor:{
                 type: database.db.Sequelize.INTEGER,
                 references: {
-                    model: 'pessoa',
-                    key: 'idPessoa'
+                    model: 'donatario',
+                    key: 'idDonatario'
                 },
             },
+            idGrauParentesco:{
+                type: database.db.Sequelize.INTEGER,
+                references: {
+                    model: 'grau_parentesco',
+                    key: 'idGrauParentesco'
+                },
+            },
+
         },{
             freezeTableName: true
         });
