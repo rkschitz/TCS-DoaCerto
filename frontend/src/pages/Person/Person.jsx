@@ -23,7 +23,6 @@ export default function ListPersons() {
         if (!isEditMode) {
             await insertPerson(selectedPerson);
         } else {
-            console.log(selectedPerson);
             await updatePerson(selectedPerson.idPerson, selectedPerson)
         }
         setOpenModal(false);

@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const person = require('../controller/person')
+const organizacao = require('../controller/organizacao')
 
 function authMiddleware(roles = []) {
   return (req, res, next) => {
@@ -15,15 +15,13 @@ function authMiddleware(roles = []) {
           return res.status(401).json({ mensagem: "Token inválido" });
         }
         
-        const userLogged = await person.findPersonById(decoded.idPerson)
+        const organizaoLogada = await organizacao.buscarPorId(decoded.idOrganizacao)
 
-        if(!userLogged) {
+        if(!organizaoLogada) {
           return res.status(404).json({ mensagem: "Usuário não encontrado" });
         }
-
-        console.log(userLogged.dataValues.role)
         
-        if(roles.length && !roles.includes(userLogged.dataValues.role)){
+        if(roles.length && !roles.includes(organizaoLogada.dataValues.role)){
           return res.status(403).json({ mensagem: "Sem permissão" });
         }
 

@@ -1,4 +1,4 @@
-const alimentModel = require("../model/aliment");
+const alimentModel = require("../model/alimento");
 
 class AlimentController {
     async CriarAlimento(alimento, idUnidadeMedida){

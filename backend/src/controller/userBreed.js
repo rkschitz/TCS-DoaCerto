@@ -68,8 +68,6 @@ class UserBreedController {
             }]
         });
 
-        console.log(userBreeds)
-
         const formattedBreeds = userBreeds.map(userBreed => ({
             id: userBreed.id,
             breedId: userBreed.breed.breedId, // Correção no acesso ao atributo

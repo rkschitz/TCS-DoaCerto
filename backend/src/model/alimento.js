@@ -1,30 +1,27 @@
 const database = require("../config/database");
 
-class Endereco {
+class Alimento {
     constructor(){
-        this.model = database.db.define("adress", {
-            idAdress:{
+        this.model = database.db.define("alimento", {
+            idAlimento:{
                 type: database.db.Sequelize.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
             },
-            number:{
+            alimento:{
                 type: database.db.Sequelize.STRING,
             },
-            complement:{
-                type: database.db.Sequelize.STRING,
-            },
-            idLogradouro:{
+            idTipoAlimento:{
                 type: database.db.Sequelize.INTEGER,
                 references: {
-                    model: 'logradouro',
-                    key: 'idLogradouro'
+                    model: 'tipo_alimento',
+                    key: 'idTipoAlimento'
                 }
-            }
+            },	
         },{
             freezeTableName: true
         });
     }
 }
 
-module.exports = new Endereco().model;
+module.exports = new Alimento().model;

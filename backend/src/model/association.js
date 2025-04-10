@@ -1,57 +1,56 @@
-const AlimentDonation = require("./aliment_donation");
-const Aliment = require("./aliment");
-const CampaignGrantee = require("./campaign_grantee");
-const Campaign = require("./campaign");
-const Donation = require("./donation");
-const Giver = require("./giver");
-const Grantee = require("./grantee");
-const Adress = require("./adress")
-const Logradouro = require("./logradouro")
-const Goal = require("./goal")
-const Organizacao = require("./organization")
-const Person = require("./person")
-const measurementUnit = require("./measurement_unit")
-const Organization = require("./organization")
+const Alimento = require("./alimento");
+const Donatario = require("./donatario");
+const SituacaoHabitacional = require("./situacaoHabitacional");
+const TipoAlimento = require("./tipoAlimento");
+const SituacaoProfissional = require("./situacaoProfissional");
+const Pessoa = require("./pessoa");
+const Dependente = require("./dependente");
+const Organizacao = require("./organizacao");
+const GrauParentesco = require("./grauParentesco");
 
+// 🥦 Relacionamento entre TipoAlimento e Alimento
+TipoAlimento.hasMany(Alimento, { foreignKey: "idTipoAlimento" });
+Alimento.belongsTo(TipoAlimento, { foreignKey: "idTipoAlimento" });
 
+// 🏢 Relacionamento entre Pessoa e Organizacao
+Organizacao.belongsTo(Pessoa, { as: 'secretaria', foreignKey: 'idSecretaria' });
+Pessoa.hasMany(Organizacao, { as: 'organizacoes', foreignKey: 'idSecretaria' });
 
-// Breed.hasMany(UserBreed, { foreignKey: 'breedId', as: 'userBreeds' });
-// UserBreed.belongsTo(Breed, { foreignKey: 'breedId', as: 'breed' });
-// UserBreed.belongsTo(User, { foreignKey: 'userId', as: 'user' }); 
-// User.hasMany(UserBreed, { foreignKey: 'userId', as: 'userBreeds' });
+// // 🚨 Removido relacionamento duplicado entre Donatario e Pessoa
+// Donatario.belongsTo(Pessoa, { foreignKey: "idPessoa" });
 
-Adress.hasMany(Logradouro, {foreignKey: 'idEndereco', as: 'logradouros'});
-Logradouro.belongsTo(Adress, {foreignKey: 'idEndereco', as: 'endereco'});
+// 👶 Relacionamento entre Dependente e Pessoa (Dependente e Provedor)
 
-Aliment.hasMany(AlimentDonation, {foreignKey: 'idAliment', as: 'aliment_donation'});
-AlimentDonation.belongsTo(Aliment, {foreignKey: 'idAliment', as: 'aliment'});
-AlimentDonation.belongsTo(Donation, {foreignKey: 'idDonation', as: 'donation'});
-Donation.hasMany(AlimentDonation, {foreignKey: 'idDonation', as: 'aliment_donation'});
-measurementUnit.hasMany(AlimentDonation, {foreignKey: 'idMeasurementUnit', as: 'aliment_donation'});
-AlimentDonation.belongsTo(measurementUnit, {foreignKey: 'idMeasurementUnit', as: 'measurement_unit'});
+//Relacionamento entre Donatario e Pessoa
+Donatario.belongsTo(Pessoa, { foreignKey: 'idPessoa' });
+Pessoa.hasMany(Donatario, { foreignKey: 'idPessoa' });
 
-Campaign.hasMany(CampaignGrantee, {foreignKey: 'idCampaign', as: 'campaign_grantee'});
-CampaignGrantee.belongsTo(Campaign, {foreignKey: 'idCampaign', as: 'campaign'});
-CampaignGrantee.belongsTo(Grantee, {foreignKey: 'idGrantee', as: 'grantee'});
-Grantee.hasMany(CampaignGrantee, {foreignKey: 'idGrantee', as: 'campaign_grantee'});
+// 👥 Relacionamento entre Donatario e Pessoa (Responsável pela Visita)
+Donatario.belongsTo(Pessoa, { as: 'responsavel', foreignKey: 'responsavelVisita' });
+Pessoa.hasMany(Donatario, { as: 'visitasResponsaveis', foreignKey: 'responsavelVisita' });
 
-Campaign.hasMany(Donation, {foreignKey: 'idCampaign', as: 'donation'});
-Donation.belongsTo(Campaign, {foreignKey: 'idCampaign', as: 'campaign'});
-Donation.belongsTo(Giver, {foreignKey: 'idGiver', as: 'giver'});
-Giver.hasMany(Donation, {foreignKey: 'idGiver', as: 'donation'});
+// 🏢 Relacionamento entre Donatario e Organizacao
+Donatario.belongsTo(Organizacao, { as: 'organizacao', foreignKey: "idOrganizacao" });
+Organizacao.hasMany(Donatario, { as: 'donatarios', foreignKey: "idOrganizacao" });
 
-Campaign.hasMany(Goal, {foreignKey: 'idCampaign', as: 'goal'});
-Goal.belongsTo(Campaign, {foreignKey: 'idCampaign', as: 'campaign'});
-Goal.belongsTo(Aliment, {foreignKey: 'idAliment', as: 'aliment'});
-Aliment.hasMany(Goal, {foreignKey: 'idAliment', as: 'goal'});
+// 🏠 Relacionamento entre Donatario e SituacaoHabitacional
+Donatario.belongsTo(SituacaoHabitacional, { as: 'situacaoHabitacional', foreignKey: "idSituacaoHabitacional" });
+SituacaoHabitacional.hasMany(Donatario, { as: 'donatarios', foreignKey: "idSituacaoHabitacional" });
 
-Person.hasMany(Giver, {foreignKey: 'idPerson', as: 'giver'});
-Giver.belongsTo(Person, {foreignKey: 'idPerson', as: 'person'});
-Person.hasMany(Grantee, {foreignKey: 'idPerson', as: 'grantee'});
-Grantee.belongsTo(Person, {foreignKey: 'idPerson', as: 'person'});
+// 👷‍♂️ Relacionamento entre Donatario e SituacaoProfissional
+Donatario.belongsTo(SituacaoProfissional, { as: 'situacaoProfissional', foreignKey: "idSituacaoProfissional" });
+SituacaoProfissional.hasMany(Donatario, { as: 'donatarios', foreignKey: "idSituacaoProfissional" });
 
-Person.hasMany(Organization, {foreignKey: 'idPerson', as: 'organization'});
-Organization.belongsTo(Person, {foreignKey: 'idPerson', as: 'person'});
+// Um Donatario tem muitos Dependentes
+Donatario.hasMany(Dependente, { as: 'dependentes', foreignKey: 'idProvedor' });
 
+// Um Dependente pertence a um Donatario (o provedor)
+Dependente.belongsTo(Donatario, { as: 'provedor', foreignKey: 'idProvedor' });
 
+// Um Dependente pertence a uma Pessoa (dados pessoais do dependente)
+Dependente.belongsTo(Pessoa, { as: 'pessoa', foreignKey: 'idPessoa' });
 
+Dependente.belongsTo(GrauParentesco, { as: 'grauParentesco', foreignKey: 'idGrauParentesco' });
+
+// GrauParentesco possui muitos Dependentes (1:N)
+GrauParentesco.hasMany(Dependente, { as: 'dependentes', foreignKey: 'idGrauParentesco' });
