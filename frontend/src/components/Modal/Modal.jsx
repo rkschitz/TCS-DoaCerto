@@ -8,7 +8,8 @@ export default function CustomModal({
   submit, 
   reset, 
   submitText = "Save Changes", 
-  resetText = "Cancel"
+  resetText = "Cancel",
+  submitDisable
 }) {
 
   const handleClose = () => setShow(false);
@@ -32,7 +33,7 @@ export default function CustomModal({
         <Button variant="secondary" onClick={handleReset}>
           {resetText}
         </Button>
-        <Button variant="primary" onClick={handleSubmit}>
+        <Button variant="primary" onClick={handleSubmit} disabled={submitDisable}>
           {submitText}
         </Button>
       </Modal.Footer>

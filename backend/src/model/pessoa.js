@@ -22,7 +22,10 @@ class Pessoa {
             dtNascimento:{
                 type: database.db.Sequelize.DATE,
                 mask: 'DD/MM/YYYY'
-            }
+            },
+            sexo: {
+                type: database.db.Sequelize.STRING,
+            },
         }, {
             freezeTableName: true
         });

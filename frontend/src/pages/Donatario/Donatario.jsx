@@ -1,18 +1,20 @@
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 import { listarDonatariosAtivos } from '../../api/donatario'
 import CustomModal from "../../components/Modal/Modal";
+import { Form, FloatingLabel, Row, Col } from 'react-bootstrap'
+import PessoaLocalizador from "../../components/PessoaLocalizador/PessoaLocalizador";
 
 export default function Donatario() {
 
     const [donatarios, setDonatarios] = useState([])
     const [openModal, setOpenModal] = useState(false);
+    const [openLocalizadorPessoa, setOpenLocalizadorPessoa] = useState(false)
     const [selectedDonatario, setSelectedDonatario] = useState(null);
     const [isEditMode, setIsEditMode] = useState(false);
 
     async function listar() {
         try {
             const response = await listarDonatariosAtivos();
-            console.log(response.data);
             setDonatarios(response.data);
         } catch (error) {
             console.error("Erro ao buscar donatários:", error);
@@ -36,24 +38,21 @@ export default function Donatario() {
 
     const handleReset = () => {
         setOpenModal(false);
-        setSelectedPerson(null);
+        setSelectedDonatario(null);
         setIsEditMode(false);
     };
 
     const handleEdit = (person) => {
-        setSelectedPerson(person);
+        setSelectedDonatario(person);
         setIsEditMode(true);
         setOpenModal(true);
     };
 
     const handleAddNew = () => {
-        setSelectedPerson({
+        setSelectedDonatario({
+            idPessoa: '',
             CPF: '',
-            name: '',
-            email: '',
-            password: '',
-            number: '',
-            birthdate: ''
+            nome: '',
         });
         setIsEditMode(false);
         setOpenModal(true);
@@ -104,6 +103,15 @@ export default function Donatario() {
                         Data da entrega da cesta: {donatario.dtEntregaCesta}<br />
                     </div>
                 ))}
+                <PessoaLocalizador
+                    onSelect={(pessoa) => setSelectedDonatario({
+                        ...selectedDonatario,
+                        idPessoa: pessoa.idPessoa,
+                        nome: pessoa.nome
+                    })}
+                    show={openLocalizadorPessoa}
+                    setShow={setOpenLocalizadorPessoa}
+                />
                 <CustomModal
                     title={isEditMode ? "Editar Pessoa" : "Cadastrar Pessoa"}
                     submit={handleSubmit}
@@ -121,11 +129,8 @@ export default function Donatario() {
                                         <Form.Control
                                             type="text"
                                             placeholder="Nome"
-                                            value={selectedDonatario.name}
-                                            onChange={(e) => setSelectedDonatario({
-                                                ...selectedDonatario,
-                                                name: e.target.value
-                                            })}
+                                            value={selectedDonatario.nome}
+                                            onClick={(e) => setOpenLocalizadorPessoa(true)}
                                         />
                                     </FloatingLabel>
                                 </Col>

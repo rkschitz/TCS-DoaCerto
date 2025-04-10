@@ -45,6 +45,16 @@ class PessoaApi {
             return res.status(400).send({ error: e.message })
         }
     }
+
+    async buscarPorNomeCpf(req,res){
+        const { nome, cpf } = req.query
+        try {
+            const response = await pessoaController.buscarPorNomeCpf(nome, cpf)
+            return res.status(200).send(response)
+        } catch (e) {
+            return res.status(400).send({ error: e.message })
+        }
+    }
 }
 
 module.exports = new PessoaApi

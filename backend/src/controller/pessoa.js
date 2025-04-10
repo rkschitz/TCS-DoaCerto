@@ -1,13 +1,15 @@
 const pessoaModel = require('../model/pessoa');
+const { Op } = require('sequelize');
 
 class PessoaController {
-    async criar(nome, cpf, telefone,dtNascimento) {
+    async criar(nome, cpf, telefone, dtNascimento,sexo) {
         try {
             const pessoaValue = await pessoaModel.create({
                 nome,
                 cpf,
                 telefone,
-                dtNascimento
+                dtNascimento,
+                sexo
             })
             return pessoaValue;
 
@@ -48,6 +50,23 @@ class PessoaController {
 
     async buscarTodos() {
         return await pessoaModel.findAll();
+    }
+
+
+    async buscarPorNomeCpf(nome, cpf) {
+        if (!nome && !cpf) {
+            throw new Error("Nome ou CPF devem ser informados.");
+        }
+
+        const where = {};
+        if (nome) {
+            where.nome = { [Op.like]: `%${nome}%` };
+        }
+        if (cpf) {
+            where.cpf = { [Op.like]: `%${cpf}%` };
+        }
+
+        return await pessoaModel.findAll({ where });
     }
 }
 

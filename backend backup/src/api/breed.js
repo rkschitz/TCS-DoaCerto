@@ -3,7 +3,6 @@ const BreedController = require('../controller/breed');
 class BreedApi {
     async createBreed(req, res) {
         const {breedId, name, weight, life_span, origin, temperament, image } = req.body;
-        console.log(req.body)
         try {
             const response = await BreedController.createBreed(breedId, name, weight, life_span, origin, temperament, image);
             return res.status(201).send(response);

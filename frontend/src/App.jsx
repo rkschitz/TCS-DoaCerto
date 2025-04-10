@@ -10,9 +10,7 @@ import Layout from './components/Layout/Layout';
 // import BreedFeed from './pages/Breeds';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import ListPersons from './pages/Person/Person.jsx';
 import { useState } from 'react';
-import Organization from './pages/Organization/Organization.jsx';
 import Donatario from './pages/Donatario/Donatario.jsx';
 import Pessoa from './pages/Pessoa/Pessoa.jsx';
 

@@ -14,7 +14,6 @@ class UserApi {
             const user = await UserController.createUser(nome, email, senha, userAdmin ? role : 'viewer')
             return res.status(201).send(user)
         } catch (e) {
-            console.log(e)
             return res.status(400).send({ error: `Erro ao criar usuário ${e.message}`})
         }
     }

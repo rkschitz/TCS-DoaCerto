@@ -110,7 +110,7 @@ const createTables = async () => {
     console.log("Situação profissional cadastrada com sucesso!");
 
     for (const pessoa of pessoasJson) {
-      await PessoaController.criar(pessoa.nome, pessoa.cpf, pessoa.telefone, pessoa.dtNascimento)
+      const response = await PessoaController.criar(pessoa.nome, pessoa.cpf, pessoa.telefone, pessoa.dtNascimento, pessoa.sexo);
     }
     console.log('Pessoas criadas')
 

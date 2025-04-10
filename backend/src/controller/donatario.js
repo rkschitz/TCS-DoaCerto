@@ -42,7 +42,6 @@ class DonatarioController {
                     observacao,
                     dtEntregaCesta
                 })
-            console.log('AAAAAAAA', dependentes)
 
             if (dependentes) {
                 for (const dependente of dependentes) {
