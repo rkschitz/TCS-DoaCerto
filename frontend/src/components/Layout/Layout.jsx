@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from '../Header/Header.jsx';
+import Header from '../header/Header.jsx';
 // import Footer from '../Footer';
 import PrivateRoute from '../PrivateRoute/index.jsx';
 import './styles.css'
@@ -7,7 +7,7 @@ import './styles.css'
 export default function Layout() {
     return (
         <div className="estrutura">
-            <Header  />
+            <Header   />
             <div className='content'>
                 <PrivateRoute />
             </div>

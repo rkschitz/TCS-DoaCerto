@@ -2,13 +2,15 @@ const pessoaController = require('../controller/pessoa')
 
 class PessoaApi {
     async criar(req, res) {
-        const { nome, cpf, telefone } = req.body
+        const { nome, cpf, telefone, email,dtNascimento, sexo } = req.body
 
-        if (!nome || !cpf || !telefone) {
-            return res.status(400).send("Nome, cpf e telefone são obrigatórios")
+        console.log(req.body)
+
+        if (!nome || !cpf || !telefone || !dtNascimento || !email || !sexo) {
+            return res.status(400).send("Nome, cpf, telefone, data de nascimento, email e sexo são obrigatórios")
         }
         try {
-            const response = await pessoaController.criar(nome, cpf, telefone)
+            const response = await pessoaController.criar(nome, cpf, telefone, email, dtNascimento, sexo)
             return res.status(200).send(response)
         } catch (e) {
             return res.status(400).send({ error: e.message })

@@ -3,6 +3,7 @@ import { listarDonatariosAtivos } from '../../api/donatario'
 import CustomModal from "../../components/Modal/Modal";
 import { Form, FloatingLabel, Row, Col } from 'react-bootstrap'
 import PessoaLocalizador from "../../components/PessoaLocalizador/PessoaLocalizador";
+import SituacaoProfissionalSelect from "../../components/SituacaoProfissionalSelect/SituacaoProfissionalSelect";
 
 export default function Donatario() {
 
@@ -51,8 +52,10 @@ export default function Donatario() {
     const handleAddNew = () => {
         setSelectedDonatario({
             idPessoa: '',
-            CPF: '',
             nome: '',
+            CPF: '',
+            dtNascimento: '',
+            idSituacaoHabitacional: '',
         });
         setIsEditMode(false);
         setOpenModal(true);
@@ -107,7 +110,11 @@ export default function Donatario() {
                     onSelect={(pessoa) => setSelectedDonatario({
                         ...selectedDonatario,
                         idPessoa: pessoa.idPessoa,
-                        nome: pessoa.nome
+                        nome: pessoa.nome,
+                        CPF: pessoa.cpf,
+                        dtNascimento: pessoa.dtNascimento,
+                        email: pessoa.email,
+                        sexo: pessoa.sexo
                     })}
                     show={openLocalizadorPessoa}
                     setShow={setOpenLocalizadorPessoa}
@@ -164,10 +171,10 @@ export default function Donatario() {
                                 <Col md={6} className="mb-3">
                                     <FloatingLabel controlId="floatingPassword" label="Password">
                                         <Form.Control
-                                            type="password"
+                                            type="sexo"
                                             placeholder="Password"
-                                            value={selectedDonatario.password}
-                                            onChange={(e) => setSelectedDonatario({ ...selectedDonatario, password: e.target.value })}
+                                            value={selectedDonatario.sexo}
+                                            onChange={(e) => setSelectedDonatario({ ...selectedDonatario, sexo: e.target.value })}
                                         />
                                     </FloatingLabel>
                                 </Col>
@@ -181,6 +188,13 @@ export default function Donatario() {
                                             onChange={(e) => setSelectedDonatario({ ...selectedDonatario, birthdate: e.target.value })}
                                         />
                                     </FloatingLabel>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={6} className="mb-3">
+                                    <SituacaoProfissionalSelect onChange={(situacao) => setSelectedDonatario({
+                                        ...selectedDonatario, idSituacaoProfissional: situacao
+                                    })} />
                                 </Col>
                             </Row>
                         </Form>

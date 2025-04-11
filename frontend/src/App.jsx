@@ -1,7 +1,5 @@
 // import Home from './pages/Home'
 import { Routes, Route } from 'react-router-dom';
-import Login from './pages/login/Login.jsx';
-import Register from './pages/registro/RegisterPerson.jsx';
 import { AuthProvider } from './auth/Context';
 import React, { use, useEffect } from 'react';
 import Layout from './components/Layout/Layout';
@@ -13,6 +11,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useState } from 'react';
 import Donatario from './pages/Donatario/Donatario.jsx';
 import Pessoa from './pages/Pessoa/Pessoa.jsx';
+import Login from './pages/login/login.jsx';
+import Register from './pages/registro/RegisterPerson.jsx';
 
 const App = () => {
 
