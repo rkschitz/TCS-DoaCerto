@@ -9,7 +9,6 @@ export default function PessoaModal({ show, setShow, pessoaCriada }) {
     const [pessoa, setPessoa] = useState(null);
 
     const cadastrarPessoa = async () => {
-        console.log(pessoa)
         const response = await criar(pessoa);
         if (response.status === 200) {
             pessoaCriada?.(response.data);

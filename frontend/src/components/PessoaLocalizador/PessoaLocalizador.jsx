@@ -20,7 +20,8 @@ export default function PessoaLocalizador({ onSelect, show, setShow }) {
             cpf: item.cpf,
             dtNascimento: item.dtNascimento,
             sexo: item.sexo,
-            email: item.email
+            email: item.email,
+            telefone: item.telefone,
         }));
         setPessoas(responsePessoa);
     }

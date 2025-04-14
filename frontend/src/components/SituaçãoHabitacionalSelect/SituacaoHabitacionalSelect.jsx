@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Select from "../Select/Select";
 // import { buscarTodos } from "../../api/situacaoProfissional";
 
-export default function SituacaoProfissionalSelect({onChange,value }) {
+export default function SituacaoHabitacionalSelect({ onChange, value }) {
     const [opcoes, setOpcoes] = useState([]);
 
     const buscarOpcoes = async () => {
@@ -14,10 +14,8 @@ export default function SituacaoProfissionalSelect({onChange,value }) {
         // }
 
         setOpcoes([
-            { value: 1, descricao: 'Ativo' },
-            { value: 2, descricao: 'Inativo' },
-            { value: 3, descricao: 'Aposentado' },
-            { value: 4, descricao: 'Desempregado' },
+            { value: 1, descricao: 'Com casa' },
+            { value: 2, descricao: 'Sem casa' }
         ]);
     }
 
@@ -30,7 +28,7 @@ export default function SituacaoProfissionalSelect({onChange,value }) {
             options={opcoes}
             onChange={onChange}
             value={value}
-            label="Situação profissional"
+            label="Situação habitacional"
         />
     )
 }
