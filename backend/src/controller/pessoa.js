@@ -2,12 +2,14 @@ const pessoaModel = require('../model/pessoa');
 const { Op } = require('sequelize');
 
 class PessoaController {
-    async criar(nome, cpf, telefone, dtNascimento,sexo) {
+    async criar(nome, cpf, telefone, email, dtNascimento, sexo) {
+        console.log(nome, cpf, telefone, email, dtNascimento, sexo)
         try {
             const pessoaValue = await pessoaModel.create({
                 nome,
                 cpf,
                 telefone,
+                email,
                 dtNascimento,
                 sexo
             })

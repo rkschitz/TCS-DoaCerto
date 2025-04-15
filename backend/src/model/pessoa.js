@@ -19,6 +19,11 @@ class Pessoa {
             telefone: {
                 type: database.db.Sequelize.STRING,
             },
+            email:{
+                type: database.db.Sequelize.STRING,
+                allowNull: false,
+                unique: true,
+            },
             dtNascimento:{
                 type: database.db.Sequelize.DATE,
                 mask: 'DD/MM/YYYY'

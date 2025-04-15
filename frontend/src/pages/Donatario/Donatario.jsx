@@ -3,6 +3,10 @@ import { listarDonatariosAtivos } from '../../api/donatario'
 import CustomModal from "../../components/Modal/Modal";
 import { Form, FloatingLabel, Row, Col } from 'react-bootstrap'
 import PessoaLocalizador from "../../components/PessoaLocalizador/PessoaLocalizador";
+import SituacaoProfissionalSelect from "../../components/SituacaoProfissionalSelect/SituacaoProfissionalSelect";
+import SexoSelect from "../../components/SexoSelect/SexoSelect";
+import SituacaoHabitacionalSelect from "../../components/SituaçãoHabitacionalSelect/SituacaoHabitacionalSelect";
+import RadioGroup from "../../components/RadioButton/RadioButton";
 
 export default function Donatario() {
 
@@ -11,6 +15,7 @@ export default function Donatario() {
     const [openLocalizadorPessoa, setOpenLocalizadorPessoa] = useState(false)
     const [selectedDonatario, setSelectedDonatario] = useState(null);
     const [isEditMode, setIsEditMode] = useState(false);
+    const [dependentes, setDependentes] = useState([]);
 
     async function listar() {
         try {
@@ -33,6 +38,7 @@ export default function Donatario() {
         setOpenModal(false);
         setSelectedDonatario(null);
         setIsEditMode(false);
+        setDependentes([]);
         listar();
     }
 
@@ -40,6 +46,7 @@ export default function Donatario() {
         setOpenModal(false);
         setSelectedDonatario(null);
         setIsEditMode(false);
+        setDependentes([]);
     };
 
     const handleEdit = (person) => {
@@ -51,8 +58,10 @@ export default function Donatario() {
     const handleAddNew = () => {
         setSelectedDonatario({
             idPessoa: '',
-            CPF: '',
             nome: '',
+            CPF: '',
+            dtNascimento: '',
+            idSituacaoHabitacional: '',
         });
         setIsEditMode(false);
         setOpenModal(true);
@@ -107,7 +116,12 @@ export default function Donatario() {
                     onSelect={(pessoa) => setSelectedDonatario({
                         ...selectedDonatario,
                         idPessoa: pessoa.idPessoa,
-                        nome: pessoa.nome
+                        nome: pessoa.nome,
+                        CPF: pessoa.cpf,
+                        dtNascimento: pessoa.dtNascimento,
+                        email: pessoa.email,
+                        sexo: pessoa.sexo,
+                        telefone: pessoa.telefone,
                     })}
                     show={openLocalizadorPessoa}
                     setShow={setOpenLocalizadorPessoa}
@@ -131,9 +145,12 @@ export default function Donatario() {
                                             placeholder="Nome"
                                             value={selectedDonatario.nome}
                                             onClick={(e) => setOpenLocalizadorPessoa(true)}
+
                                         />
                                     </FloatingLabel>
                                 </Col>
+                            </Row>
+                            <Row>
                                 <Col md={6} className="mb-3">
                                     <FloatingLabel controlId="floatingInput" label="CPF">
                                         <Form.Control
@@ -144,17 +161,43 @@ export default function Donatario() {
                                                 ...selectedDonatario,
                                                 CPF: e.target.value
                                             })}
+                                            disabled
                                         />
                                     </FloatingLabel>
                                 </Col>
 
                                 <Col md={6} className="mb-3">
-                                    <FloatingLabel controlId="floatingInput" label="Email address">
+                                    <FloatingLabel controlId="floatingInput" label="Data de nascimento">
                                         <Form.Control
-                                            type="email"
-                                            placeholder="name@example.com"
-                                            value={selectedDonatario.email}
-                                            onChange={(e) => setSelectedDonatario({ ...selectedDonatario, email: e.target.value })}
+                                            type="date"
+                                            placeholder="dd/mm/aaaa"
+                                            value={selectedDonatario.dtNascimento}
+                                            onChange={(e) => setSelectedDonatario({ ...selectedDonatario, dtNascimento: e.target.value })}
+                                            disabled
+                                        />
+                                    </FloatingLabel>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={6} className="mb-3">
+                                    <FloatingLabel controlId="floatingInput" label="Cidade">
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="Cidade"
+                                            value={selectedDonatario.cidade}
+                                            onChange={(e) => setSelectedDonatario({ ...selectedDonatario, cidade: e.target.value })}
+                                            disabled
+                                        />
+                                    </FloatingLabel>
+                                </Col>
+                                <Col md={6} className="mb-3">
+                                    <FloatingLabel controlId="floatingInput" label="Nacionalidade">
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="Nacionalidade"
+                                            value={selectedDonatario.nacionalidade}
+                                            onChange={(e) => setSelectedDonatario({ ...selectedDonatario, nacionalidade: e.target.value })}
+
                                         />
                                     </FloatingLabel>
                                 </Col>
@@ -162,27 +205,118 @@ export default function Donatario() {
 
                             <Row>
                                 <Col md={6} className="mb-3">
-                                    <FloatingLabel controlId="floatingPassword" label="Password">
-                                        <Form.Control
-                                            type="password"
-                                            placeholder="Password"
-                                            value={selectedDonatario.password}
-                                            onChange={(e) => setSelectedDonatario({ ...selectedDonatario, password: e.target.value })}
-                                        />
-                                    </FloatingLabel>
+                                    <SexoSelect
+                                        onChange={(sexo) => setSelectedDonatario({ ...selectedDonatario, sexo })}
+                                        value={selectedDonatario.sexo}
+                                        disabled={true}
+                                    />
                                 </Col>
-
+                            </Row>
+                            <Row>
                                 <Col md={6} className="mb-3">
-                                    <FloatingLabel label="Data de nascimento">
+                                    <FloatingLabel label="Endereço">
                                         <Form.Control
-                                            type="date"
-                                            placeholder="Data de nascimento"
-                                            value={selectedDonatario.birthdate}
-                                            onChange={(e) => setSelectedDonatario({ ...selectedDonatario, birthdate: e.target.value })}
+                                            type="text"
+                                            placeholder="Endereço"
+                                            value={selectedDonatario.endereco}
+                                            onChange={(e) => setSelectedDonatario({ ...selectedDonatario, endereco: e.target.value })}
+                                            disabled
                                         />
                                     </FloatingLabel>
                                 </Col>
                             </Row>
+                            <Row>
+                                <Col md={6} className="mb-3">
+                                    <SituacaoHabitacionalSelect onChange={(situacao) => setSelectedDonatario({
+                                        ...selectedDonatario, idSituacaoProfissional: situacao
+                                    })}
+                                        value={selectedDonatario.idSituacaoHabitacional} />
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={8} className="mb-3">
+                                    <FloatingLabel controlId="floatingInput" label="Há quanto tempo reside no local?">
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="Há quanto tempo reside no local?"
+                                            value={selectedDonatario.tempoResidencia}
+                                            onChange={(e) => setSelectedDonatario({ ...selectedDonatario, tempoResidencia: e.target.value })}
+                                        />
+                                    </FloatingLabel>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={8} className="mb-3">
+                                    <FloatingLabel controlId="floatingInput" label="Telefone">
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="Telefone"
+                                            value={selectedDonatario.telefone}
+                                            onChange={(e) => setSelectedDonatario({ ...selectedDonatario, telefone: e.target.value })}
+                                        />
+                                    </FloatingLabel>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={8} className="mb-3">
+                                    <FloatingLabel controlId="floatingInput" label="Renda familíar">
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="Renda familíar"
+                                            value={selectedDonatario.rendaFamiliar}
+                                            onChange={(e) => setSelectedDonatario({ ...selectedDonatario, rendaFamiliar: e.target.value })}
+                                        />
+                                    </FloatingLabel>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={8} className="mb-3">
+                                    <SituacaoProfissionalSelect onChange={(situacao) => setSelectedDonatario({ ...selectedDonatario, idSituacaoProfissional: situacao })}
+                                        value={selectedDonatario.idSituacaoProfissional} />
+                                </Col>
+                            </Row>
+                            {/* <Row>
+                                <Col md={8} className="mb-3">
+                                    <FloatingLabel controlId="floatingInput" label="Possui cadastro no Cras ou outro local?">
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="Possui cadastro no Cras ou outro local?"
+                                            value={selectedDonatario.rendaFamiliar}
+                                            onChange={(e) => setSelectedDonatario({ ...selectedDonatario, rendaFamiliar: e.target.value })}
+                                        />
+                                    </FloatingLabel>
+                                </Col>
+                            </Row> */}
+                            <Row>
+                                <Col md={14} className="mb-3">
+                                    <RadioGroup
+                                        title='Alguém com doença grave ou que esteja acamado reside na mesma casa?'
+                                        options={[
+                                            { label: 'Sim', value: '1' },
+                                            { label: 'Não', value: '0' },
+                                        ]}
+                                        selectedValue={selectedDonatario.enfermoNaCasa}
+                                        onChange={(e) => setSelectedDonatario({ ...selectedDonatario, enfermoNaCasa: e.target.value,
+                                            situacaoEnfermo: e.target.value === '1' ? selectedDonatario.situacaoEnfermo : ''
+                                         })}
+                                    />
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={14} className="mb-3">
+                                    <FloatingLabel controlId="floatingInput" label="Situação do enfermo">
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="Situação do enfermo"
+                                            value={selectedDonatario.situacaoEnfermo}
+                                            onChange={(e) => setSelectedDonatario({ ...selectedDonatario, situacaoEnfermo: e.target.value })}
+                                            disabled={selectedDonatario.enfermoNaCasa === '0' || !selectedDonatario.enfermoNaCasa ? true : false}
+                                        />
+                                    </FloatingLabel>
+                                </Col>
+                            </Row>
+                            <h5>Moradores na casa</h5>
+                            
                         </Form>
                     )}
                 </CustomModal>
