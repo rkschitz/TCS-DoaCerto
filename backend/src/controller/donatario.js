@@ -1,6 +1,6 @@
-const { fn, col, literal } = require("sequelize");
+const { literal } = require("sequelize");
 const DonatarioModel = require('../model/donatario');
-const DependenteModel = require('../model/dependente');
+const DependenteController = require('../controller/dependente');
 const pessoaModel = require('../model/pessoa');
 const organizacaoModel = require('../model/organizacao');
 const situacaoHabitacional = require('../model/situacaoHabitacional');
@@ -45,12 +45,11 @@ class DonatarioController {
 
             if (dependentes) {
                 for (const dependente of dependentes) {
-                    await DependenteModel.create({
-                        idPessoa: dependente.idPessoa,
-                        idGrauParentesco: dependente.idGrauParentesco,
-                        idade: dependente.idade,
-                        idProvedor: donatarioValue.idDonatario
-                    })
+                    await DependenteController.criar(
+                        dependente.idPessoa,
+                        donatarioValue.idDonatario,
+                        dependente.idGrauParentesco
+                    )
                 }
             }
 
@@ -103,7 +102,6 @@ class DonatarioController {
                     await DependenteModel.update({
                         idPessoa: dependente.idPessoa,
                         idGrauParentesco: dependente.idGrauParentesco,
-                        idade: dependente.idade,
                         idDonatario: donatarioValue.idDonatario
                     }, {
                         where: { idDonatario }
@@ -141,7 +139,7 @@ class DonatarioController {
             include: [{
                 model: pessoaModel,
                 as: 'pessoa',
-                attributes: ['idPessoa', 'nome', 'cpf', [literal(`DATE_FORMAT(pessoa.dtNascimento, "%d/%m/%Y")`), 'dtNascimento']]
+                attributes: ['idPessoa', 'nome', 'cpf', 'dtNascimento']
             }, {
                 model: pessoaModel,
                 as: 'responsavel',
@@ -166,11 +164,11 @@ class DonatarioController {
             }, {
                 model: dependente,
                 as: 'dependentes',
-                attributes: ['idDependente', 'idade'],
+                attributes: ['idDependente'],
                 include: [{
                     model: pessoaModel,
                     as: 'pessoa',
-                    attributes: ['idPessoa', 'nome', 'cpf']
+                    attributes: ['idPessoa', 'nome', 'cpf', 'dtNascimento']
                 }, {
                     model: grauParentescoModel,
                     as: 'grauParentesco',

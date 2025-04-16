@@ -139,7 +139,7 @@ const createTables = async () => {
     console.log('Grau de parentesco criado')
 
     for(const dependente of dependentesJson) {
-      await DependenteController.criar(dependente.idPessoa,dependente.idade,dependente.idProvedor,dependente.idGrauParentesco)
+      await DependenteController.criar(dependente.idPessoa,dependente.idProvedor,dependente.idGrauParentesco)
     }
 
     console.log('Dependentes criados')

@@ -4,6 +4,8 @@ const DonatarioController = require('../controller/donatario')
 class DonatarioApi {
     async criar(req, res) {
 
+        console.log(req)
+
         const { idPessoa,
             idSituacaoHabitacional,
             tempoResidencia,
@@ -14,14 +16,16 @@ class DonatarioApi {
             enfermoNaCasa,
             situacaoEnfermo,
             dataCadastro,
-            idOrganizacao,
             responsavelVisita,
             situacao,
             observacao,
             dtEntregaCesta,
             dependentes } = req.body;
+
+        const { idOrganizacao } = req.session
         try {
-            const donatarioValue = await DonatarioModel.create({
+
+            const donatarioValue = await DonatarioController.criar(
                 idPessoa,
                 idSituacaoHabitacional,
                 tempoResidencia,
@@ -36,20 +40,9 @@ class DonatarioApi {
                 responsavelVisita,
                 situacao,
                 observacao,
-                dtEntregaCesta
-            })
-
-            if (dependentes) {
-                for (const dependente of dependentes) {
-                    await DependenteModel.create({
-                        idPessoa: dependente.idPessoa,
-                        idGrauParentesco: dependente.idGrauParentesco,
-                        idade: dependente.idade,
-                        idDonatario: donatarioValue.idDonatario
-                    })
-                }
-            }
-
+                dtEntregaCesta,
+                dependentes
+            )
 
             return donatarioValue;
         } catch (e) {
@@ -57,7 +50,7 @@ class DonatarioApi {
         }
     }
 
-    async buscarAtivos(req,res) {
+    async buscarAtivos(req, res) {
         try {
             const response = await DonatarioController.buscarAtivos();
             return res.status(200).send(response)

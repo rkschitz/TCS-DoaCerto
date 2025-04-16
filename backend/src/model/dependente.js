@@ -15,10 +15,6 @@ class Dependente{
                     key: 'idPessoa'
                 },
             },
-            idade: {
-                type: database.db.Sequelize.INTEGER,
-                allowNull: false
-            },
             idProvedor:{
                 type: database.db.Sequelize.INTEGER,
                 references: {

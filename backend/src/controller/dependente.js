@@ -1,10 +1,9 @@
 const dependenteModel = require('../model/dependente');
-class DependenteController{
-    async criar(idPessoa,idade,idProvedor,idGrauParentesco) {
+class DependenteController {
+    async criar(idPessoa, idProvedor, idGrauParentesco) {
         try {
             const dependenteValue = await dependenteModel.create({
                 idPessoa,
-                idade,
                 idProvedor,
                 idGrauParentesco
             })
