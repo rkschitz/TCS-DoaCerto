@@ -9,7 +9,7 @@ import SituacaoHabitacionalSelect from "../../components/SituaçãoHabitacionalS
 import RadioGroup from "../../components/RadioButton/RadioButton";
 import calcularIdade from "../../utils/calcularIdade";
 import GrauParentescoSelect from "../../components/GrauParentescoSelect/GrauParentescoSelect";
-import formatarDataBR from "../../utils/formatarDataBR";
+import formatarDataBR from "../../utils/formatarDataBR"
 
 export default function Donatario() {
 
@@ -25,8 +25,8 @@ export default function Donatario() {
     async function listar() {
         try {
             const response = await listarDonatariosAtivos();
-            console.log(response.data)
             setDonatarios(response.data);
+            console.log(response.data)
         } catch (error) {
             console.error("Erro ao buscar donatários:", error);
         }
@@ -34,6 +34,39 @@ export default function Donatario() {
     useEffect(() => {
         listar();
     }, []);
+
+    const adicionarDependenteAut = async () => {
+        const novoDonatario = {
+            idPessoa: 2,
+            idSituacaoHabitacional: 1,
+            tempoResidencia: "2 meses",
+            rendaFamiliar: 2000,
+            idSituacaoProfissional: 1,
+            cadastroCras: false,
+            outroLocal: null,
+            enfermoNaCasa: false,
+            situacaoEnfermo: null,
+            idOrganizacao: 2,
+            responsavelVisita: 1,
+            observacao: "observações",
+            dtEntregaCesta: "2023-10-01",
+            dependentes: [
+                {
+                    idPessoa: 3,
+                    idade: 10,
+                    idGrauParentesco: 1
+                },
+                {
+                    idPessoa: 4,
+                    idade: 5,
+                    idGrauParentesco: 2
+                }
+            ]
+        }
+
+        const response = await criarDonatario(novoDonatario);
+        console.log(response)
+    }
 
     const handleSubmit = async () => {
         const donatarioFinal = { ...selectedDonatario, dependentes };
@@ -91,13 +124,16 @@ export default function Donatario() {
         <div className="container-donatarios">
             <div className="titulo">Donatarios</div>
             <button onClick={handleAddNew}>Adicionar novo donatario</button>
+            <button onClick={adicionarDependenteAut}>
+                Adicionar aaaaaaa
+            </button>
             <div className="conteudo">
                 {donatarios.map((donatario, index) => (
                     <div className="donatario" key={index}>
-                        Nome:{donatario.pessoa.nome}<br />
+                        Nome:{donatario?.pessoa.nome}<br />
                         CPF:{donatario.pessoa.cpf} Data de nascimento:{formatarDataBR(donatario.pessoa.dtNascimento)}<br />
                         Cidade: Nacionalidade:<br />
-                        Sexo:{donatario.pessoa.sexo}<br />
+                        Sexo:{donatario.pessoa.sexo === 'M' ? 'Masculino' : 'Feminino'}<br />
                         Endereço:<br />
                         Situação habitacional:{donatario.situacaoHabitacional.situacaoHabitacional}<br />
                         Há quanto tempo reside no local:{donatario.tempoResidencia}<br />
@@ -117,17 +153,17 @@ export default function Donatario() {
                                 </tr>
                             </thead>
                             <tbody key={index}>
-                                {donatario.dependentes.map((dependente, index) => (
-                                    <tr>
-                                        <td>{dependente?.pessoa.nome}</td>
-                                        <td>{dependente?.grauParentesco.grauParentesco}</td>
-                                        <td>{calcularIdade(dependente?.pessoa.dtNascimento)}</td>
+                                {donatario.dependentes.map((dependente, i) => (
+                                    <tr key={i}>
+                                        <td>{dependente?.pessoa?.nome}</td>
+                                        <td>{dependente?.grauParentesco?.grauParentesco}</td>
+                                        <td>{calcularIdade(dependente?.pessoa?.dtNascimento)}</td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
-                        Data do cadastro: {formatarDataBR(donatario.dataCadastro)} Secretária: {donatario?.organizacao.secretaria.nome}<br />
-                        Responsável pela visita: {donatario?.responsavel.nome} Situação: {donatario.situacaoCadastral}<br />
+                        Data do cadastro: {formatarDataBR(donatario.dataCadastro)} Secretária: {donatario?.organizacao?.secretaria?.nome}<br />
+                        Responsável pela visita: {donatario?.responsavel?.nome} Situação: {donatario.situacaoCadastral}<br />
                         Observações da secretária e da ação social: {donatario?.observacao}<br />
                         Data da entrega da cesta: {donatario?.dtEntregaCesta}<br />
                     </div>
@@ -149,7 +185,7 @@ export default function Donatario() {
                             const novoDependente = {
                                 idPessoa: pessoa.idPessoa,
                                 nome: pessoa.nome,
-                                idade: calcularIdade(pessoa.dtNascimento),
+                                idade: pessoa.idade,
                                 grauParentesco: pessoa.grauParentesco || '',
                             };
                             setDependentes(prev => [...prev, novoDependente]);
@@ -204,10 +240,10 @@ export default function Donatario() {
                                     <FloatingLabel controlId="floatingInput" label="Data de nascimento">
                                         <Form.Control
                                             type="text"
-                                            value={formatarDataBR(selectedDonatario.dtNascimento)}
+                                            value={(selectedDonatario.dtNascimento)}
                                             onChange={(e) => setSelectedDonatario({ ...selectedDonatario, dtNascimento: e.target.value })}
                                             disabled
-                                            
+
 
                                         />
                                     </FloatingLabel>
@@ -365,7 +401,7 @@ export default function Donatario() {
                             </button>
                             {dependentes.map((dependente, index) => (
                                 <div key={index}>
-                                    Nome: {dependente.nome} Idade: {dependente.idade}
+                                    Nome: {dependente?.nome} Idade: {dependente?.idade}
                                     {<GrauParentescoSelect
                                         onChange={(grauParentesco) => {
                                             const updatedDependentes = [...dependentes];

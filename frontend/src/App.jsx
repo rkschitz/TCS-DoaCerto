@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useState } from 'react';
 import Donatario from './pages/Donatario/Donatario.jsx';
 import Pessoa from './pages/Pessoa/Pessoa.jsx';
-import Login from './pages/login/login.jsx';
+import Login from './pages/Login/Login.jsx';
 import Register from './pages/registro/RegisterPerson.jsx';
 
 const App = () => {

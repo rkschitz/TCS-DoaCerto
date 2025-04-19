@@ -23,7 +23,8 @@ class DonatarioController {
         responsavelVisita,
         observacao,
         dtEntregaCesta,
-        dependentes) {
+        dependentes = []) {
+        console.log('Dependentes=>', dependentes)
         try {
             const donatarioValue =
                 await DonatarioModel.create({
@@ -43,19 +44,22 @@ class DonatarioController {
                     dtEntregaCesta
                 })
 
-            if (dependentes) {
+            if (Array.isArray(dependentes) && dependentes.length > 0) {
                 for (const dependente of dependentes) {
-                    await DependenteController.criar(
-                        dependente.idPessoa,
-                        donatarioValue.idDonatario,
-                        dependente.idGrauParentesco
-                    )
+                    try {
+                        await DependenteController.criar(
+                            dependente.idPessoa,
+                            donatarioValue.dataValues.idDonatario,
+                            dependente.idGrauParentesco
+                        )
+                    } catch (e) {
+                        return { mensagem: e.message }
+                    }
                 }
             }
-
-
             return donatarioValue;
         } catch (e) {
+            console.log('erro ta aqui', e)
             return { mensagem: e.message };
         }
     }
@@ -139,7 +143,7 @@ class DonatarioController {
             include: [{
                 model: pessoaModel,
                 as: 'pessoa',
-                attributes: ['idPessoa', 'nome', 'cpf', 'dtNascimento']
+                attributes: ['idPessoa', 'nome', 'cpf', 'dtNascimento', 'sexo']
             }, {
                 model: pessoaModel,
                 as: 'responsavel',

@@ -4,8 +4,6 @@ const DonatarioController = require('../controller/donatario')
 class DonatarioApi {
     async criar(req, res) {
 
-        console.log(req)
-
         const { idPessoa,
             idSituacaoHabitacional,
             tempoResidencia,
@@ -17,7 +15,6 @@ class DonatarioApi {
             situacaoEnfermo,
             dataCadastro,
             responsavelVisita,
-            situacao,
             observacao,
             dtEntregaCesta,
             dependentes } = req.body;
@@ -38,15 +35,14 @@ class DonatarioApi {
                 dataCadastro,
                 idOrganizacao,
                 responsavelVisita,
-                situacao,
                 observacao,
                 dtEntregaCesta,
                 dependentes
             )
 
-            return donatarioValue;
+            return res.status(200).send(donatarioValue);
         } catch (e) {
-            return { mensagem: e.message };
+            return res.status(400).send({ error: e.message });
         }
     }
 
