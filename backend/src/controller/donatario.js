@@ -23,8 +23,8 @@ class DonatarioController {
         responsavelVisita,
         observacao,
         dtEntregaCesta,
-        dependentes = []) {
-        console.log('Dependentes=>', dependentes)
+        dependentes = [],
+        nacionalidade) {
         try {
             const donatarioValue =
                 await DonatarioModel.create({
@@ -41,7 +41,8 @@ class DonatarioController {
                     idOrganizacao,
                     responsavelVisita,
                     observacao,
-                    dtEntregaCesta
+                    dtEntregaCesta,
+                    nacionalidade
                 })
 
             if (Array.isArray(dependentes) && dependentes.length > 0) {
@@ -143,7 +144,7 @@ class DonatarioController {
             include: [{
                 model: pessoaModel,
                 as: 'pessoa',
-                attributes: ['idPessoa', 'nome', 'cpf', 'dtNascimento', 'sexo']
+                attributes: ['idPessoa', 'nome', 'cpf', 'dtNascimento', 'sexo', 'telefone']
             }, {
                 model: pessoaModel,
                 as: 'responsavel',

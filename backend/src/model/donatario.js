@@ -80,8 +80,10 @@ class Donatario {
             },
             dtEntregaCesta:{
                 type: database.db.Sequelize.DATE,
+            },
+            nacionalidade:{
+                type: database.db.Sequelize.STRING,
             }
-
         }, {
             freezeTableName: true
         });

@@ -17,7 +17,8 @@ class DonatarioApi {
             responsavelVisita,
             observacao,
             dtEntregaCesta,
-            dependentes } = req.body;
+            dependentes,
+            nacionalidade } = req.body;
 
         const { idOrganizacao } = req.session
         try {
@@ -37,7 +38,8 @@ class DonatarioApi {
                 responsavelVisita,
                 observacao,
                 dtEntregaCesta,
-                dependentes
+                dependentes,
+                nacionalidade
             )
 
             return res.status(200).send(donatarioValue);

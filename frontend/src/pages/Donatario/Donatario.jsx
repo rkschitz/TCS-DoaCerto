@@ -50,6 +50,7 @@ export default function Donatario() {
             responsavelVisita: 1,
             observacao: "observações",
             dtEntregaCesta: "2023-10-01",
+            nacionalidade: 'Brasileiro',
             dependentes: [
                 {
                     idPessoa: 3,
@@ -114,6 +115,17 @@ export default function Donatario() {
             CPF: '',
             dtNascimento: '',
             idSituacaoHabitacional: '',
+            tempoResidencia: '',
+            rendaFamiliar: '',
+            idSituacaoProfissional: '',
+            cadastroCras: false,
+            outroLocal: '',
+            enfermoNaCasa: false,
+            situacaoEnfermo: '',
+            responsavelVisita: 1,
+            observacao: '',
+            dtEntregaCesta: '',
+            dependentes: [],
         });
         setIsEditMode(false);
         setOpenModal(true);
@@ -130,9 +142,10 @@ export default function Donatario() {
             <div className="conteudo">
                 {donatarios.map((donatario, index) => (
                     <div className="donatario" key={index}>
+                        <button onClick={() => { setOpenModal(true); setSelectedDonatario({...donatario, dtNascimento: formatarDataBR(donatario.pessoa?.dtNascimento)}); console.log(donatario); setIsEditMode(true) }}>Editar</button>
                         Nome:{donatario?.pessoa.nome}<br />
                         CPF:{donatario.pessoa.cpf} Data de nascimento:{formatarDataBR(donatario.pessoa.dtNascimento)}<br />
-                        Cidade: Nacionalidade:<br />
+                        Cidade: Nacionalidade:{donatario.nacionalidade}<br />
                         Sexo:{donatario.pessoa.sexo === 'M' ? 'Masculino' : 'Feminino'}<br />
                         Endereço:<br />
                         Situação habitacional:{donatario.situacaoHabitacional.situacaoHabitacional}<br />
@@ -211,7 +224,7 @@ export default function Donatario() {
                                         <Form.Control
                                             type="text"
                                             placeholder="Nome"
-                                            value={selectedDonatario.nome}
+                                            value={selectedDonatario.nome || selectedDonatario.pessoa?.nome}
                                             onClick={() => {
                                                 setLocalizadorPara('donatario');
                                                 setOpenLocalizadorPessoa(true);
@@ -226,7 +239,7 @@ export default function Donatario() {
                                         <Form.Control
                                             type="text"
                                             placeholder="CPF"
-                                            value={selectedDonatario.CPF}
+                                            value={selectedDonatario.CPF || selectedDonatario.pessoa?.cpf}
                                             onChange={(e) => setSelectedDonatario({
                                                 ...selectedDonatario,
                                                 CPF: e.target.value
@@ -240,11 +253,9 @@ export default function Donatario() {
                                     <FloatingLabel controlId="floatingInput" label="Data de nascimento">
                                         <Form.Control
                                             type="text"
-                                            value={(selectedDonatario.dtNascimento)}
+                                            value={selectedDonatario.dtNascimento}
                                             onChange={(e) => setSelectedDonatario({ ...selectedDonatario, dtNascimento: e.target.value })}
                                             disabled
-
-
                                         />
                                     </FloatingLabel>
                                 </Col>
@@ -278,7 +289,7 @@ export default function Donatario() {
                                 <Col md={6} className="mb-3">
                                     <SexoSelect
                                         onChange={(sexo) => setSelectedDonatario({ ...selectedDonatario, sexo })}
-                                        value={selectedDonatario.sexo}
+                                        value={selectedDonatario.sexo || selectedDonatario.pessoa?.sexo}
                                         disabled={true}
                                     />
                                 </Col>
@@ -289,7 +300,7 @@ export default function Donatario() {
                                         <Form.Control
                                             type="text"
                                             placeholder="Endereço"
-                                            value={selectedDonatario.endereco}
+                                            value={selectedDonatario.endereco || selectedDonatario.pessoa?.endereco}
                                             onChange={(e) => setSelectedDonatario({ ...selectedDonatario, endereco: e.target.value })}
                                             disabled
                                         />
@@ -322,7 +333,7 @@ export default function Donatario() {
                                         <Form.Control
                                             type="text"
                                             placeholder="Telefone"
-                                            value={selectedDonatario.telefone}
+                                            value={selectedDonatario.telefone || selectedDonatario.pessoa?.telefone}
                                             onChange={(e) => setSelectedDonatario({ ...selectedDonatario, telefone: e.target.value })}
                                             disabled={true}
                                         />
