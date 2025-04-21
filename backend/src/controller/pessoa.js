@@ -3,7 +3,6 @@ const { Op } = require('sequelize');
 
 class PessoaController {
     async criar(nome, cpf, telefone, email, dtNascimento, sexo) {
-        console.log(nome, cpf, telefone, email, dtNascimento, sexo)
         try {
             const pessoaValue = await pessoaModel.create({
                 nome,
@@ -20,38 +19,51 @@ class PessoaController {
         }
     }
 
-    async editar(idPessoa, nome, cpf, telefone) {
-        const oldPerson = await pessoaModel.findOne({
-            where: { idPessoa }
-        });
-
-        if (cpf) {
-            const sameCpf = await pessoaModel.findOne({ where: { cpf } });
-            if (sameCpf && sameCpf.idPessoa !== idPessoa) {
-                throw new Error("CPF já cadastrado.");
-            }
+    async editar(
+        idPessoa,
+        nome,
+        cpf,
+        telefone,
+        email,
+        dtNascimento,
+        sexo
+    ) {
+        const pessoa = await pessoaModel.findByPk(idPessoa);
+        if (!pessoa) {
+            throw new Error("Pessoa não encontrada.");
         }
 
-        oldPerson.cpf = cpf || oldPerson.cpf;
-        oldPerson.name = nome || oldPerson.nome;
-        oldPerson.telefone = telefone || oldPerson.telefone;
-        oldPerson.save();
+        const existente = await pessoaModel.findOne({ where: { cpf } });
+        if (existente && existente.dataValues.idPessoa !== Number(idPessoa)) {
+            throw new Error("CPF já cadastrado.");
+        }
+
+        const updates = { cpf };
+        if (nome != null) updates.nome = nome;
+        if (telefone != null) updates.telefone = telefone;
+        if (email != null) updates.email = email;
+        if (dtNascimento != null) updates.dtNascimento = dtNascimento;
+        if (sexo != null) updates.sexo = sexo;
+
+        await pessoa.update(updates);
+        return pessoa;
     }
 
+
     async deletar(idPessoa) {
+
         try {
-
             const personValue = await pessoaModel.findOne({ where: { idPessoa } });
-
             await personValue.destroy();
-
+            return { mensagem: "Pessoa excluída com sucesso." };
         } catch (e) {
             return { mensagem: e.message }
         }
     }
 
     async buscarTodos() {
-        return await pessoaModel.findAll();
+        const response = await pessoaModel.findAll();
+        return response;
     }
 
 

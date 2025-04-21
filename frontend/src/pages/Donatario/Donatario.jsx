@@ -1,5 +1,5 @@
-import { use, useEffect, useState } from "react"
-import { criarDonatario, listarDonatariosAtivos } from '../../api/donatario'
+import { useEffect, useState } from "react"
+import { criarDonatario, editarDonatario, excluirDonatario, listarDonatariosAtivos } from '../../api/donatario'
 import CustomModal from "../../components/Modal/Modal";
 import { Form, FloatingLabel, Row, Col } from 'react-bootstrap'
 import PessoaLocalizador from "../../components/PessoaLocalizador/PessoaLocalizador";
@@ -26,7 +26,6 @@ export default function Donatario() {
         try {
             const response = await listarDonatariosAtivos();
             setDonatarios(response.data);
-            console.log(response.data)
         } catch (error) {
             console.error("Erro ao buscar donatários:", error);
         }
@@ -66,7 +65,6 @@ export default function Donatario() {
         }
 
         const response = await criarDonatario(novoDonatario);
-        console.log(response)
     }
 
     const handleSubmit = async () => {
@@ -86,7 +84,19 @@ export default function Donatario() {
                 alert("Erro ao cadastrar donatário.");
             }
         } else {
-            console.log('editando:', donatarioFinal);
+            try {
+                const response = await editarDonatario(donatarioFinal);
+                if (response.status === 200) {
+                    alert("Donatário editado com sucesso!");
+                }
+                else {
+                    alert("Erro ao editar donatário.");
+                }
+                console.log(response)
+            } catch (e) {
+                console.error("Erro ao editar donatário:", e);
+                alert("Erro ao editar donatário.");
+            }
         }
         setOpenModal(false);
         setSelectedDonatario(null);
@@ -102,13 +112,31 @@ export default function Donatario() {
         setDependentes([]);
     };
 
+    const handleDelete = async (idDonatario) => {
+        if (window.confirm("Você tem certeza que deseja excluir esse donatário?")) {
+            const response = await excluirDonatario(idDonatario);
+            if (response.status === 200) {
+                alert("Donatário excluído com sucesso!");
+            } else {
+                alert("Erro ao excluir donatário.");
+            }
+            listar();
+        }
+    }
+
     const handleEdit = (person) => {
-        setSelectedDonatario(person);
+        setSelectedDonatario(person)
+        setDependentes(person.dependentes.map((dependente) => ({
+            idDependente: dependente.idDependente,
+            idPessoa: dependente.pessoa.idPessoa,
+            nome: dependente.pessoa.nome,
+            idGrauParentesco: dependente.grauParentesco.idGrauParentesco
+        })));
         setIsEditMode(true);
         setOpenModal(true);
     };
 
-    const handleAddNew = () => {
+    const limparFormulario = () => {
         setSelectedDonatario({
             idPessoa: '',
             nome: '',
@@ -127,6 +155,10 @@ export default function Donatario() {
             dtEntregaCesta: '',
             dependentes: [],
         });
+    }
+
+    const handleAddNew = () => {
+        limparFormulario();
         setIsEditMode(false);
         setOpenModal(true);
         setDependentes([]);
@@ -142,7 +174,12 @@ export default function Donatario() {
             <div className="conteudo">
                 {donatarios.map((donatario, index) => (
                     <div className="donatario" key={index}>
-                        <button onClick={() => { setOpenModal(true); setSelectedDonatario({...donatario, dtNascimento: formatarDataBR(donatario.pessoa?.dtNascimento)}); console.log(donatario); setIsEditMode(true) }}>Editar</button>
+                        <button onClick={() => {
+                            handleEdit(donatario);
+                        }}>Editar</button>
+                        <button onClick={() => {
+                            handleDelete(donatario.idDonatario)
+                        }}>Excluir</button>
                         Nome:{donatario?.pessoa.nome}<br />
                         CPF:{donatario.pessoa.cpf} Data de nascimento:{formatarDataBR(donatario.pessoa.dtNascimento)}<br />
                         Cidade: Nacionalidade:{donatario.nacionalidade}<br />
@@ -169,8 +206,8 @@ export default function Donatario() {
                                 {donatario.dependentes.map((dependente, i) => (
                                     <tr key={i}>
                                         <td>{dependente?.pessoa?.nome}</td>
-                                        <td>{dependente?.grauParentesco?.grauParentesco}</td>
                                         <td>{calcularIdade(dependente?.pessoa?.dtNascimento)}</td>
+                                        <td>{dependente?.grauParentesco?.grauParentesco}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -224,7 +261,7 @@ export default function Donatario() {
                                         <Form.Control
                                             type="text"
                                             placeholder="Nome"
-                                            value={selectedDonatario.nome || selectedDonatario.pessoa?.nome}
+                                            value={!isEditMode ? selectedDonatario.nome : selectedDonatario.pessoa?.nome}
                                             onClick={() => {
                                                 setLocalizadorPara('donatario');
                                                 setOpenLocalizadorPessoa(true);
@@ -416,10 +453,10 @@ export default function Donatario() {
                                     {<GrauParentescoSelect
                                         onChange={(grauParentesco) => {
                                             const updatedDependentes = [...dependentes];
-                                            updatedDependentes[index].grauParentesco = grauParentesco;
+                                            updatedDependentes[index].idGrauParentesco = grauParentesco;
                                             setDependentes(updatedDependentes);
                                         }}
-                                        value={dependente.grauParentesco}
+                                        value={dependente.idGrauParentesco}
                                         placeholder="Selecione o grau de parentesco"
                                     />}
                                     <button

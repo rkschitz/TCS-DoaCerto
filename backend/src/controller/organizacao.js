@@ -1,6 +1,7 @@
 const organizacaoModel = require("../model/organizacao");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const pessoaModel = require("../model/pessoa");
 
 const SECRET_KEY = "doacerto";
 const SALT_VALUE = 10;
@@ -26,26 +27,29 @@ class OrganizacaoController {
         }
     }
 
-    async editar(idOrganizacao, organizacao, cnpj, telefone, email, senha, ieSituacao, idPessoa, role) {
-        const senhaCriptografada = await bcrypt.hash(String(senha), SALT_VALUE);
-
-        try {
-            const organizacaoValue = await organizacaoModel.update({
-                organizacao,
-                cnpj,
-                telefone,
-                email,
-                senha: senhaCriptografada,
-                ieSituacao,
-                secretaria: idPessoa,
-                role
-            }, {
-                where: { idOrganizacao }
-            });
-            return organizacaoValue;
-        } catch (e) {
-            return { mensagem: e.message };
+    async editar(idOrganizacao, organizacao, cnpj, telefone, email, senha, ieSituacao, idPessoa) {
+        const organizacaoAtual = await organizacaoModel.findByPk(idOrganizacao)
+        if (!organizacaoAtual) {
+            throw new Error("Organizacao não encontrada.");
         }
+
+        const existente = await organizacaoModel.findOne({ where: { cnpj } });
+        if (existente && existente.dataValues.idOrganizacao !== Number(idOrganizacao)) {
+            throw new Error("CNPJ já cadastrado.");
+        }
+
+        const updates = { cnpj };
+        if (organizacao != null) updates.organizacao = organizacao;
+        if (telefone != null) updates.telefone = telefone;
+        if (email != null) updates.email = email;
+        if (ieSituacao != null) updates.ieSituacao = ieSituacao;
+        if (senha != null) updates.senha = senha;
+
+        const senhaCriptografada = await bcrypt.hash(String(senha), SALT_VALUE);
+        if (senha != null) updates.senha = senhaCriptografada;
+
+        await organizacaoAtual.update(updates);
+        return organizacaoAtual;
     }
 
     async deletar(idOrganizacao) {
@@ -67,11 +71,17 @@ class OrganizacaoController {
     }
 
     async buscarOrganizacoes() {
-        const organizacaoValue = await organizacaoModel.findAll();
+        const organizacaoValue = await organizacaoModel.findAll({
+            include: [{
+                model: pessoaModel,
+                as: 'secretaria',
+                attributes: ['idPessoa', 'nome']
+            }]
+        });
         return organizacaoValue;
     }
 
-    async buscarOrganizacoesAtivas(){
+    async buscarOrganizacoesAtivas() {
         const organizacaoValue = await organizacaoModel.findAll({
             where: { ieSituacao: 'A' }
         });

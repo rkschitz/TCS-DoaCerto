@@ -13,6 +13,7 @@ import Donatario from './pages/Donatario/Donatario.jsx';
 import Pessoa from './pages/Pessoa/Pessoa.jsx';
 import Login from './pages/Login/Login.jsx';
 import Register from './pages/registro/RegisterPerson.jsx';
+import Organizacao from './pages/Organizacao/Organizacao.jsx';
 
 const App = () => {
 
@@ -30,7 +31,9 @@ const App = () => {
       <Routes>
         <Route element={<Layout />}>
           {role === 'A' && <Route path='/donatarios' element={<Donatario />} />}
+          {role === 'A' && <Route path='/organizacoes' element={<Organizacao />} />}
           {(role === 'A' || role === 'O') && <Route path='/pessoa' element={<Pessoa />} />}
+
           <Route path='/' element={<div>Ola mundo</div>} />
         </Route>
         <Route path="/login" element={<Login />} />

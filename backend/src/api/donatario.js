@@ -48,6 +48,62 @@ class DonatarioApi {
         }
     }
 
+    async editar(req, res) {
+
+        const {
+            idDonatario,
+            idPessoa,
+            idSituacaoHabitacional,
+            tempoResidencia,
+            rendaFamiliar,
+            idSituacaoProfissional,
+            cadastroCras,
+            outroLocal,
+            enfermoNaCasa,
+            situacaoEnfermo,
+            dataCadastro,
+            responsavelVisita,
+            situacao,
+            observacao,
+            dtEntregaCesta,
+            dependentes } = req.body;
+
+        try {
+            const donatarioValue = await DonatarioController.editar(
+                idDonatario,
+                idPessoa,
+                idSituacaoHabitacional,
+                tempoResidencia,
+                rendaFamiliar,
+                idSituacaoProfissional,
+                cadastroCras,
+                outroLocal,
+                enfermoNaCasa,
+                situacaoEnfermo,
+                dataCadastro,
+                responsavelVisita,
+                situacao,
+                observacao,
+                dtEntregaCesta,
+                dependentes
+            )
+
+            return res.status(200).send(donatarioValue);
+        } catch (e) {
+            return res.status(400).send({ error: e.message });
+        }
+    }
+
+    async excluir(req, res) {
+        const { idDonatario } = req.params;
+        try {
+            const donatarioValue = await DonatarioController.excluir(idDonatario);
+            return res.status(200).send(donatarioValue);
+        } catch (e) {
+            return res.status(400).send({ error: e.message });
+        }
+    }
+
     async buscarAtivos(req, res) {
         try {
             const response = await DonatarioController.buscarAtivos();

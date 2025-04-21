@@ -17,11 +17,11 @@ class OrganizacaoApi {
     }
 
     async editar(req, res) {
-        const { organizacao, cnpj, telefone, email, senha, ieSituacao, idPessoa, role } = req.body
+        const { organizacao, cnpj, telefone, email, senha, ieSituacao, idPessoa } = req.body
         const { idOrganizacao } = req.params
-
+        
         try {
-            const response = await OrganizacaoController.editar(idOrganizacao, organizacao, cnpj, telefone, email, senha, ieSituacao, idPessoa, role)
+            const response = await OrganizacaoController.editar(idOrganizacao, organizacao, cnpj, telefone, email, senha, ieSituacao, idPessoa)
             return res.status(200).send(response)
         } catch (e) {
             return res.status(400).send({ error: e.message })
