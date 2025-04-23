@@ -7,3 +7,18 @@ export const loginOrganizacao = async (email, senha) => {
     });
     return response;
 };
+
+export const buscarOrganizacoes = async () => {
+    const response = await api.get('/api/v1/organizacao');
+    return response;
+}
+
+export const editarOrganizacao = async (organizacao) => {
+    const response = await api.put(`/api/v1/organizacao/${organizacao.idOrganizacao}`, organizacao);
+    return response;
+}
+
+export const criarOrganizacao = async (organizacao) => {
+    const response = await api.post('/api/v1/organizacao', organizacao);
+    return response;
+}

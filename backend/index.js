@@ -16,6 +16,8 @@ const OrganizacaoApi = require("./src/api/organizacao");
 
 const DonatarioRouter = require("./src/routes/donatario")
 const PessoaRouter = require("./src/routes/pessoa")
+const GrauParentescoRouter = require("./src/routes/grauParentesco")
+
 const PessoaController = require("./src/controller/pessoa")
 const OrganizacaoController = require("./src/controller/organizacao")
 const DonatarioController = require("./src/controller/donatario")
@@ -44,6 +46,7 @@ app.use("/api/v1/aliment", AlimentRouter);
 app.use("/api/v1/organizacao", OrganizacaoRouter)
 app.use("/api/v1/donatario", DonatarioRouter)
 app.use("/api/v1/pessoa", PessoaRouter)
+app.use("/api/v1/grauParentesco", GrauParentescoRouter)
 const Dependente = require("./src/model/dependente")
 
 const createTables = async () => {
@@ -120,6 +123,12 @@ const createTables = async () => {
 
     console.log('Organizações criadas')
 
+    for(const grauParentesco of grauParentescoJson) {
+      await GrauParentesco.create(grauParentesco)
+    }
+
+    console.log('Grau de parentesco criado')
+
     for (const donatario of donatariosJson) {
       await DonatarioController.criar(donatario.idPessoa, donatario.idSituacaoHabitacional
         , donatario.tempoResidencia, donatario.rendaFamiliar,
@@ -132,14 +141,8 @@ const createTables = async () => {
 
     console.log('Donatários criados')
 
-    for(const grauParentesco of grauParentescoJson) {
-      await GrauParentesco.create(grauParentesco)
-    }
-
-    console.log('Grau de parentesco criado')
-
-    for(const dependente of dependentesJson) {
-      await DependenteController.criar(dependente.idPessoa,dependente.idade,dependente.idProvedor,dependente.idGrauParentesco)
+    for (const dependente of dependentesJson) {
+      await DependenteController.criar(dependente.idPessoa, dependente.idProvedor, dependente.idGrauParentesco)
     }
 
     console.log('Dependentes criados')

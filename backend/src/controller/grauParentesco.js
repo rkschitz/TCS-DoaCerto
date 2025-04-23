@@ -8,6 +8,15 @@ class GrauParentescoController{
             return {mensagem: e.message}
         }
     }
+
+    async buscarTodos(){
+        try{
+            const grauParentescoValue = await GrauParentescoModel.findAll()
+            return grauParentescoValue
+        }catch(e){
+            return {mensagem: e.message}
+        }
+    }
 }
 
 module.exports = new GrauParentescoController()

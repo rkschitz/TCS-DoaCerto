@@ -3,6 +3,8 @@ import Localizador from "../Localizador/Localizador";
 import { buscarPessoaPorNome } from "../../api/pessoa";
 import { useState, useEffect } from "react";
 import PessoaModal from "../PessoaModal/PessoaModal";
+import formatarDataBR from "../../utils/formatarDataBR";
+import calcularIdade from "../../utils/calcularIdade";
 
 export default function PessoaLocalizador({ onSelect, show, setShow }) {
     const [pessoas, setPessoas] = useState([]);
@@ -18,7 +20,8 @@ export default function PessoaLocalizador({ onSelect, show, setShow }) {
             idPessoa: item.idPessoa,
             nome: item.nome,
             cpf: item.cpf,
-            dtNascimento: item.dtNascimento,
+            dtNascimento: formatarDataBR(item.dtNascimento),
+            idade: calcularIdade(item.dtNascimento),
             sexo: item.sexo,
             email: item.email,
             telefone: item.telefone,

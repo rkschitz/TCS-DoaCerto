@@ -4,8 +4,6 @@ class PessoaApi {
     async criar(req, res) {
         const { nome, cpf, telefone, email,dtNascimento, sexo } = req.body
 
-        console.log(req.body)
-
         if (!nome || !cpf || !telefone || !dtNascimento || !email || !sexo) {
             return res.status(400).send("Nome, cpf, telefone, data de nascimento, email e sexo são obrigatórios")
         }
@@ -18,11 +16,10 @@ class PessoaApi {
     }
 
     async editar(req, res) {
-        const { nome, cpf, telefone } = req.body
+        const { nome, cpf, telefone, dtNascimento, email, sexo } = req.body
         const { idPessoa } = req.params
-
         try {
-            const response = await pessoaController.editar(idPessoa, nome, cpf, telefone)
+            const response = await pessoaController.editar(idPessoa, nome, cpf, telefone,email,dtNascimento,sexo)
             return res.status(200).send(response)
         } catch (e) {
             return res.status(400).send({ error: e.message })
