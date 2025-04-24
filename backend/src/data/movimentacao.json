@@ -1,0 +1,34 @@
+[
+  {
+    "ieMovimentacao": "E",
+    "idOrganizacao": 1,
+    "alimentos": [
+      {
+        "idAlimento": 1,
+        "idUnidadeMedida": 1,
+        "quantidade": 5
+      },
+      {
+        "idAlimento": 2,
+        "idUnidadeMedida": 13,
+        "quantidade": 2
+      }
+    ]
+  },
+  {
+    "ieMovimentacao": "E",
+    "idOrganizacao": 1,
+    "alimentos": [
+      {
+        "idAlimento": 1,
+        "idUnidadeMedida": 1,
+        "quantidade": 5
+      },
+      {
+        "idAlimento": 2,
+        "idUnidadeMedida": 13,
+        "quantidade": 2
+      }
+    ]
+  }
+]
