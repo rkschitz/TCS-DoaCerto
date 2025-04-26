@@ -10,6 +10,7 @@ import RadioGroup from "../../components/RadioButton/RadioButton";
 import calcularIdade from "../../utils/calcularIdade";
 import GrauParentescoSelect from "../../components/GrauParentescoSelect/GrauParentescoSelect";
 import formatarDataBR from "../../utils/formatarDataBR"
+import styles from "./donatario.module.css";
 
 export default function Donatario() {
 
@@ -164,59 +165,94 @@ export default function Donatario() {
         setDependentes([]);
     };
 
+    const cpfMask = (value) => {
+        if (!value) return '';
+        return value
+          .replace(/\D/g, '')
+          .replace(/(\d{3})(\d)/, '$1.$2')
+          .replace(/(\d{3})(\d)/, '$1.$2')
+          .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+          .replace(/(-\d{2})\d+?$/, '$1');
+      };
+
+    const foneMask = (value) => {
+        if (!value) return '';
+        return value
+          .replace(/\D/g, '')
+          .replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3')
+          .replace(/(-\d{4})\d+?$/, '$1');
+      };
+    
     return (
-        <div className="container-donatarios">
-            <div className="titulo">Donatarios</div>
+        <div className={styles.containerDonatarios}>
+            <div className={styles.titulo}>Donatarios</div>
             <button onClick={handleAddNew}>Adicionar novo donatario</button>
             <button onClick={adicionarDependenteAut}>
                 Adicionar aaaaaaa
             </button>
-            <div className="conteudo">
+            <div className={styles.conteudo}>
                 {donatarios.map((donatario, index) => (
-                    <div className="donatario" key={index}>
-                        <button onClick={() => {
-                            handleEdit(donatario);
-                        }}>Editar</button>
-                        <button onClick={() => {
-                            handleDelete(donatario.idDonatario)
-                        }}>Excluir</button>
-                        Nome:{donatario?.pessoa.nome}<br />
-                        CPF:{donatario.pessoa.cpf} Data de nascimento:{formatarDataBR(donatario.pessoa.dtNascimento)}<br />
-                        Cidade: Nacionalidade:{donatario.nacionalidade}<br />
-                        Sexo:{donatario.pessoa.sexo === 'M' ? 'Masculino' : 'Feminino'}<br />
-                        Endereço:<br />
-                        Situação habitacional:{donatario.situacaoHabitacional.situacaoHabitacional}<br />
-                        Há quanto tempo reside no local:{donatario.tempoResidencia}<br />
-                        Telefone:{donatario.pessoa.telefone}<br />
-                        Renda familiar:{donatario.rendaFamiliar}<br />
-                        Situação (empregado, desempregado, aposentado, etc.):{donatario.situacaoProfissional.situacaoProfissional}<br />
-                        Possui cadastro no CRAS?{donatario.cadastroCras ? donatario.cadastroCras : donatario.outroLocal}<br />
-                        Alguém com doença grave ou que esteja acamado reside na mesma casa:{donatario.enfermoNaCasa}<br />
-                        Situação do enfermo:{donatario.situacaoEnfermo}<br />
-                        Moradores na casa<br />
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th scope="col">Nome</th>
-                                    <th scope="col">Idade</th>
-                                    <th scope="col">Grau de parentesco</th>
-                                </tr>
-                            </thead>
-                            <tbody key={index}>
-                                {donatario.dependentes.map((dependente, i) => (
-                                    <tr key={i}>
-                                        <td>{dependente?.pessoa?.nome}</td>
-                                        <td>{calcularIdade(dependente?.pessoa?.dtNascimento)}</td>
-                                        <td>{dependente?.grauParentesco?.grauParentesco}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                        Data do cadastro: {formatarDataBR(donatario.dataCadastro)} Secretária: {donatario?.organizacao?.secretaria?.nome}<br />
-                        Responsável pela visita: {donatario?.responsavel?.nome} Situação: {donatario.situacaoCadastral}<br />
-                        Observações da secretária e da ação social: {donatario?.observacao}<br />
-                        Data da entrega da cesta: {donatario?.dtEntregaCesta}<br />
+                    <div className={styles.cardDonatario}>
+                    <div className={styles.cardHeader}>
+                      <h2>{donatario?.pessoa.nome}</h2>
+                      <div>
+                        <button className={styles.actionExcluir} onClick={() => handleDelete(donatario.idDonatario)}>Excluir</button>
+                        <button className={styles.actionEditar} onClick={() => handleEdit(donatario)}>Editar</button>
+                      </div>
                     </div>
+                  
+                    <div className={styles.cardContent}>
+                      <div className={styles.section}>
+                        <h4>Informações Pessoais</h4>
+                        <p><strong>CPF:</strong> {cpfMask(donatario.pessoa.cpf)}</p>
+                        <p><strong>Data de nascimento:</strong> {formatarDataBR(donatario.pessoa.dtNascimento)}</p>
+                        <p><strong>Sexo:</strong> {donatario.pessoa.sexo === 'M' ? 'Masculino' : 'Feminino'}</p>
+                      </div>
+                  
+                      <div className={styles.section}>
+                        <h4>Contato</h4>
+                        <p><strong>Telefone:</strong> {foneMask(donatario.pessoa.telefone)}</p>
+                        <p><strong>Endereço:</strong> {donatario.endereco}</p>
+                      </div>
+                  
+                      <div className={styles.section}>
+                        <h4>Condição Social</h4>
+                        <p><strong>Renda Familiar:</strong> {donatario.rendaFamiliar}</p>
+                        <p><strong>Cadastro no CRAS:</strong> {donatario.cadastroCras ? 'Sim' : 'Não'}</p>
+                        <p><strong>Situação Profissional:</strong> {donatario.situacaoProfissional.situacaoProfissional}</p>
+                      </div>
+                  
+                      <div className={styles.section}>
+                        <h4>Moradores</h4>
+                        <table className={styles.tableMoradores}>
+                          <thead>
+                            <tr>
+                              <th>Nome</th>
+                              <th>Idade</th>
+                              <th>Grau de Parentesco</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {donatario.dependentes.map((dep, i) => (
+                              <tr key={i}>
+                                <td>{dep?.pessoa?.nome}</td>
+                                <td>{calcularIdade(dep?.pessoa?.dtNascimento)}</td>
+                                <td>{dep?.grauParentesco?.grauParentesco}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                  
+                      <div className={styles.footerInfo}>
+                        <p><strong>Data do Cadastro:</strong> {formatarDataBR(donatario.dataCadastro)}</p>
+                        <p><strong>Secretária:</strong> {donatario?.organizacao?.secretaria?.nome}</p>
+                        <p><strong>Responsável pela Visita:</strong> {donatario?.responsavel?.nome}</p>
+                        <p><strong>Observações:</strong> {donatario?.observacao}</p>
+                        <p><strong>Entrega da Cesta:</strong> {donatario?.dtEntregaCesta}</p>
+                      </div>
+                    </div>
+                  </div>
                 ))}
                 <PessoaLocalizador
                     onSelect={(pessoa) => {
@@ -449,7 +485,7 @@ export default function Donatario() {
                             </button>
                             {dependentes.map((dependente, index) => (
                                 <div key={index}>
-                                    Nome: {dependente?.nome} Idade: {dependente?.idade}
+                                    <strong>Nome:</strong> {dependente?.nome} <strong>Idade:</strong> {dependente?.idade}
                                     {<GrauParentescoSelect
                                         onChange={(grauParentesco) => {
                                             const updatedDependentes = [...dependentes];
