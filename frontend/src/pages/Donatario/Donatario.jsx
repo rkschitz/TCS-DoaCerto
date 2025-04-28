@@ -16,6 +16,8 @@ import calcularIdade from "../../utils/calcularIdade";
 import GrauParentescoSelect from "../../components/GrauParentescoSelect/GrauParentescoSelect";
 import formatarDataBR from "../../utils/formatarDataBR";
 import styles from "./donatario.module.css";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { FaRegTrashAlt, FaRegEdit } from "react-icons/fa";
 
 export default function Donatario() {
   const [donatarios, setDonatarios] = useState([]);
@@ -193,9 +195,20 @@ export default function Donatario() {
 
   return (
     <div className={styles.containerDonatarios}>
-      <div className={styles.titulo}>Donatarios</div>
-      <button onClick={handleAddNew}>Adicionar novo donatario</button>
-      <button onClick={adicionarDependenteAut}>Adicionar automatico</button>
+      <div className={styles.header}>
+        <div className={styles.titulo}>Donatários</div>
+        <div>
+          <button className={styles.buttonAdicionar} onClick={handleAddNew}>
+            Adicionar novo donatário
+          </button>
+          <button
+            className={styles.buttonAdicionar}
+            onClick={adicionarDependenteAut}
+          >
+            Adicionar automático
+          </button>
+        </div>
+      </div>
 
       <div className={styles.conteudo}>
         {donatarios.map((donatario, index) => (
@@ -210,19 +223,23 @@ export default function Donatario() {
                       className={styles.actionExcluir}
                       onClick={() => handleDelete(donatario.idDonatario)}
                     >
-                      Excluir
+                      <FaRegTrashAlt /> Excluir
                     </button>
                     <button
                       className={styles.actionEditar}
                       onClick={() => handleEdit(donatario)}
                     >
-                      Editar
+                      <FaRegEdit /> Editar
                     </button>
                     <button
-                      className={styles.expandButton}
+                      className={styles.expandirButton}
                       onClick={() => toggleExpand(index)}
                     >
-                      {expandirDonatario === index ? "▲" : "▼"}
+                      {expandirDonatario === index ? (
+                        <IoIosArrowUp />
+                      ) : (
+                        <IoIosArrowDown />
+                      )}
                     </button>
                   </div>
                 </div>

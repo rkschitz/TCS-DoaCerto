@@ -1,34 +1,43 @@
 .containerDonatarios {
     padding: 32px;
     background-color: #f9fafb;
-    border-radius: 4px;
+    border-radius: .45rem;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
     margin: 32px auto;
     max-width: 1200px;
   }
   
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  
   .titulo {
     font-size: 32px;
     font-weight: bold;
-    margin-bottom: 24px;
     color: #333;
-    text-align: center;
   }
   
-  button {
-    background-color: rgb(165, 74, 240);
+  .buttonAdicionar { 
+    background: linear-gradient(to right, #7E69AB, #9B87F5);
     color: white;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
-    margin: 8px 8px 8px 0 !important;
+    margin: 8px 8px 8px 0;
     font-weight: 500;
-    border-radius: 4px !important;
+    border-radius: .75rem;
   }
   
-  button:hover {
-    transition: 0.6s;
-    background-color: rgb(146, 24, 245);
+  .buttonAdicionar:hover {
+    background: linear-gradient(to right, #8573aa, #a897f1);
+  }
+  
+  
+  button{
+    background-color: #dc3545;
   }
   
   .conteudo {
@@ -115,29 +124,17 @@
     font-weight: 500;
   }
   
-  @media (max-width: 768px) {
-    .container-donatarios {
-      padding: 16px;
-    }
-  
-    .titulo {
-      font-size: 24px;
-    }
-  }
-  
   .cardDonatario {
     background: #fff;
-    padding: 32px;
-    border-radius: 4px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    margin-bottom: 32px;
+    padding: 22px;
+    border-radius: .75rem;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   }
   
   .cardHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
   }
   
   .cardContent {
@@ -150,35 +147,59 @@
     border-top: 1px solid #eee;
     padding-top: 16px;
   }
+
+  .expandirButton{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: transparent;
+    color: #9B87F5;
+    border: 1px solid #9B87F5;
+    padding: 12px 16px;
+    cursor: pointer;
+    margin: 8px 8px 8px 8px !important;
+    font-weight: 500;
+    border-radius: .75rem !important;
+  }
   
   .actionEditar{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     margin-left: 8px;
-    background-color: rgb(165, 74, 240);
+    background-color: #9b87f5;
     border: none;
-    padding: 8px 16px;
-    border-radius: 8px;
     color: white;
+    padding: 8px 16px;
+    border-radius: .75rem;
     font-weight: bold;
     cursor: pointer;
   }
 
-  .actionEditar :hover {
-    background-color: rgb(146, 24, 245);
+  .actionEditar:hover {
+    background-color: #7862d6;
   }
 
-  .actionExcluir{
+  .actionExcluir {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     margin-left: 8px;
-    background-color: #dc3545;
+    background-color: #ef4444;
     border: none;
-    padding: 8px 16px;
-    border-radius: 8px;
     color: white;
+    padding: 8px 16px;
+    border-radius: 0.75rem;
     font-weight: bold;
     cursor: pointer;
   }
+  
 
-  .actionExcluir :hover {
-    background-color: rgb(146, 24, 245);
+  .actionExcluir:hover {
+    background-color: #d42121;
   }
   
   .tableMoradores {
