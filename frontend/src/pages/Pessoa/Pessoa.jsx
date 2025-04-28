@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { buscarTodasPessoas, criar, deletarPessoa } from "../../api/pessoa";
 import formatarDataBR from "../../utils/formatarDataBR";
 import PessoaModal from "../../components/PessoaModal/PessoaModal";
+import styles from "./pessoa.module.css";
 
 export default function Pessoa() {
   const [pessoas, setPessoas] = useState([]);
@@ -30,37 +31,93 @@ export default function Pessoa() {
     } catch (err) {
       console.error("Erro ao excluir pessoa:", err);
     }
-  }
+  };
 
   useEffect(() => {
     listarPessoas();
   }, []);
 
+  const cpfMask = (value) => {
+    if (!value) return "";
+    return value
+      .replace(/\D/g, "")
+      .replace(/(\d{3})(\d)/, "$1.$2")
+      .replace(/(\d{3})(\d)/, "$1.$2")
+      .replace(/(\d{3})(\d{1,2})/, "$1-$2")
+      .replace(/(-\d{2})\d+?$/, "$1");
+  };
+
+  const foneMask = (value) => {
+    if (!value) return "";
+    return value
+      .replace(/\D/g, "")
+      .replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3")
+      .replace(/(-\d{4})\d+?$/, "$1");
+  };
+
   return (
-    <div className="container">
-      <button onClick={() => setAbrirModalPessoa(true)}>Adicionar pessoa</button>
-      {pessoas.map((pessoa) => (
-        <div key={pessoa.idPessoa} className="card">
-          <h2>{pessoa.nome}</h2>
-          <button onClick={() => handleDelete(pessoa.idPessoa)}>Excluir</button>
-          <button onClick={() => {setPessoaSelecionada(pessoa);setAbrirModalPessoa(true)}}>Editar</button>
-          <p>CPF: {pessoa.cpf}</p>
-          <p>Telefone: {pessoa.telefone}</p>
-          <p>Email: {pessoa.email}</p>
-          <p>
-            Data de Nascimento:{formatarDataBR(pessoa.dtNascimento)}
-          </p>
-          <p>Sexo: {pessoa.sexo === 'M' ? 'Masculino' : 'Feminino'}</p>
-        </div>
-  ))
-}
-<PessoaModal
-  show={abrirModalPessoa}
-  setShow={setAbrirModalPessoa}
-  pessoaSelecionada={pessoaSelecionada}
-  onPessoaCriada={listarPessoas}
-  onPessoaAtualizada={listarPessoas}
-/>
-    </div >
+    <div className={styles.containerPessoa}>
+      <div className={styles.header}>
+        <h1>Gerenciar Pessoas</h1>
+        <button
+          className={styles.addButton}
+          onClick={() => setAbrirModalPessoa(true)}
+        >
+          Adicionar Pessoa
+        </button>
+      </div>
+
+      <div className={styles.cardsGrid}>
+        {pessoas.map((pessoa) => (
+          <div key={pessoa.idPessoa} className={styles.card}>
+            <h2 className={styles.nome}>{pessoa.nome}</h2>
+            <div className={styles.cardAcoes}>
+              <button
+                className={styles.excluirButton}
+                onClick={() => handleDelete(pessoa.idPessoa)}
+              >
+                Excluir
+              </button>
+              <button
+                className={styles.editarButton}
+                onClick={() => {
+                  setPessoaSelecionada(pessoa);
+                  setAbrirModalPessoa(true);
+                }}
+              >
+                Editar
+              </button>
+            </div>
+            <div className={styles.info}>
+              <p>
+                <strong>CPF:</strong> {cpfMask(pessoa.cpf)}
+              </p>
+              <p>
+                <strong>Telefone:</strong> {foneMask(pessoa.telefone)}
+              </p>
+              <p>
+                <strong>Email:</strong> {pessoa.email}
+              </p>
+              <p>
+                <strong>Data de Nascimento:</strong>{" "}
+                {formatarDataBR(pessoa.dtNascimento)}
+              </p>
+              <p>
+                <strong>Sexo:</strong>{" "}
+                {pessoa.sexo === "M" ? "Masculino" : "Feminino"}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <PessoaModal
+        show={abrirModalPessoa}
+        setShow={setAbrirModalPessoa}
+        pessoaSelecionada={pessoaSelecionada}
+        onPessoaCriada={listarPessoas}
+        onPessoaAtualizada={listarPessoas}
+      />
+    </div>
   );
 }
