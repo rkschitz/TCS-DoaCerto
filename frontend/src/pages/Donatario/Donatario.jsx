@@ -211,7 +211,7 @@ export default function Donatario() {
       </div>
 
       <div className={styles.conteudo}>
-        {donatarios.map((donatario, index) => (
+        {/* {donatarios.map((donatario, index) => ( */}
           <div className={styles.conteudo}>
             {donatarios.map((donatario, index) => (
               <div key={index} className={styles.cardDonatario}>
@@ -340,7 +340,7 @@ export default function Donatario() {
               </div>
             ))}
           </div>
-        ))}
+        {/* ))} */}
 
         <PessoaLocalizador
           onSelect={(pessoa) => {

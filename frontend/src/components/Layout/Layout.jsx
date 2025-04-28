@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from '../header/header.jsx';
+import Header from '../Header/Header.jsx';
 // import Footer from '../Footer';
 import PrivateRoute from '../PrivateRoute/index.jsx';
 import './styles.css'
