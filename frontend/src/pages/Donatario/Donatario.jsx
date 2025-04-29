@@ -216,7 +216,13 @@ export default function Donatario() {
             {donatarios.map((donatario, index) => (
               <div key={index} className={styles.cardDonatario}>
                 <div className={styles.cardHeader}>
-                  <h2>{donatario?.pessoa?.nome}</h2>
+                <div className={styles.cardTitulo}>
+                <div className={styles.inicial}>
+                  {donatario?.pessoa?.nome?.charAt(0).toUpperCase()}
+                </div>
+                <h2>{donatario?.pessoa?.nome}</h2>
+              </div>
+
 
                   <div className={styles.actions}>
                     <button
@@ -244,7 +250,7 @@ export default function Donatario() {
                   </div>
                 </div>
 
-                {expandirDonatario === index && (
+                <div className={`${styles.cardContentTransition} ${expandirDonatario === index ? styles.expandido : ''}`}>
                   <div className={styles.cardContent}>
                     <div className={styles.section}>
                       <h4>Informações Pessoais</h4>
@@ -336,7 +342,8 @@ export default function Donatario() {
                       </p>
                     </div>
                   </div>
-                )}
+                  </div>
+                
               </div>
             ))}
           </div>
@@ -658,7 +665,7 @@ export default function Donatario() {
               <h5>Moradores na casa</h5>
               <button
                 type="button"
-                className="btn btn-primary mb-3"
+                className={styles.buttonAdcMorador}
                 onClick={() => {
                   setLocalizadorPara("dependente");
                   setOpenLocalizadorPessoa(true);

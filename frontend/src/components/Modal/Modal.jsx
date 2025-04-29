@@ -1,5 +1,5 @@
 import { Button, Modal } from 'react-bootstrap';
-import styles from "../../pages/Donatario/donatario.module.css";
+import styles from "./Modal.module.css";
 
 export default function CustomModal({
   title, 

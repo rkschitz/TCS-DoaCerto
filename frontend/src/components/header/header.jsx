@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import styles from "./header.module.css";
+import styles from "./Header.module.css";
 import Logo from "../../img/logo-doa-certo.png";
 import { AuthContext } from "../../auth/Context";
 
