@@ -69,24 +69,34 @@ export default function Pessoa() {
 
       <div className={styles.cardsGrid}>
         {pessoas.map((pessoa) => (
-          <div key={pessoa.idPessoa} className={styles.card}>
-            <h2 className={styles.nome}>{pessoa.nome}</h2>
-            <div className={styles.cardAcoes}>
-              <button
-                className={styles.excluirButton}
-                onClick={() => handleDelete(pessoa.idPessoa)}
-              >
-                Excluir
-              </button>
-              <button
-                className={styles.editarButton}
-                onClick={() => {
-                  setPessoaSelecionada(pessoa);
-                  setAbrirModalPessoa(true);
-                }}
-              >
-                Editar
-              </button>
+          <div
+            key={pessoa.idPessoa}
+            className={styles.card}
+            style={{
+              borderBottom: `4px solid ${
+                pessoa.sexo === "M" ? "#3498db" : "#e91e63"
+              }`,
+            }}
+          >
+            <div className={styles.cardHeader}>
+              <h2 className={styles.nome}>{pessoa.nome}</h2>
+              <div className={styles.cardAcoes}>
+                <button
+                  className={styles.editarButton}
+                  onClick={() => {
+                    setPessoaSelecionada(pessoa);
+                    setAbrirModalPessoa(true);
+                  }}
+                >
+                  Editar
+                </button>
+                <button
+                  className={styles.excluirButton}
+                  onClick={() => handleDelete(pessoa.idPessoa)}
+                >
+                  Excluir
+                </button>
+              </div>
             </div>
             <div className={styles.info}>
               <p>

@@ -52,7 +52,7 @@
   
   .cardAcoes {
     justify-content: space-between;
-    margin-bottom: 1.5rem;
+    gap: 10px;
   }
   
   .excluirButton {
@@ -71,7 +71,7 @@
   }
   
   .editarButton {
-    background-color: #3498db;
+    background-color: #9b87f5;
     color: white;
     border: none;
     padding: 0.6rem 1.2rem;
@@ -79,15 +79,32 @@
     cursor: pointer;
     font-size: 0.9rem;
     transition: background-color 0.3s;
+    margin-right: 12px;
   }
   
   .editarButton:hover {
-    background-color: #2980b9;
+    background-color: #7862d6;
   }
   
   .info p {
     margin: 0.4rem 0;
     font-size: 1rem;
     color: #555;
+  }
+  
+  .cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 2rem;
+    min-height: 300px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-bottom: 4px solid transparent;
   }
   

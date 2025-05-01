@@ -9,7 +9,7 @@
   }
   
   .addButton {
-    background-color: #3498db;
+    background-color: #9b87f5;
     color: white;
     padding: 0.7rem 1.5rem;
     border: none;
@@ -20,7 +20,7 @@
   }
   
   .addButton:hover {
-    background-color: #2d81b9;
+    background-color: #7862d6;
   }
   
   .cardsGrid {
@@ -58,7 +58,7 @@
   }
   
   .editarButton {
-    background-color: #3498db;
+    background-color: #9b87f5;
     color: white;
     border: none;
     padding: 0.5rem 1rem;
@@ -69,7 +69,7 @@
   }
   
   .editarButton:hover {
-    background-color: #2980b9;
+    background-color: #7862d6;
   }
   
   .info p {
