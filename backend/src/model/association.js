@@ -10,6 +10,12 @@ const GrauParentesco = require("./grauParentesco");
 const UnidadeMedida = require("./unidadeMedida")
 const Movimentacao = require("./movimentacao")
 const MovimentacaoAlimento = require("./movimentacaoAlimento")
+const Rua = require("./rua");
+const Bairro = require("./bairro");
+const Cidade = require("./cidade");
+const Estado = require("./estado");
+const Pais = require("./pais");
+const Endereco = require("./endereco");
 
 // 🥦 Relacionamento entre TipoAlimento e Alimento
 TipoAlimento.hasMany(Alimento, { foreignKey: "idTipoAlimento" });
@@ -124,3 +130,24 @@ UnidadeMedida.hasMany(MovimentacaoAlimento, {
   foreignKey: "idUnidadeMedida",
   as: "movimentacao_alimento",
 });
+
+Rua.belongsTo(Bairro, { foreignKey: "idBairro" });
+Bairro.hasMany(Rua, { foreignKey: "idBairro" });
+
+Bairro.belongsTo(Cidade, { foreignKey: "idCidade" });
+Cidade.hasMany(Bairro, { foreignKey: "idCidade" });
+
+Cidade.belongsTo(Estado, { foreignKey: "idEstado" });
+Estado.hasMany(Cidade, { foreignKey: "idEstado" });
+
+Estado.belongsTo(Pais, { foreignKey: "idPais" });
+Pais.hasMany(Estado, { foreignKey: "idPais" });
+
+Endereco.belongsTo(Rua, { foreignKey: "idRua" });
+Rua.hasMany(Endereco, { foreignKey: "idRua" });
+
+Pessoa.belongsTo(Endereco, {foreignKey: 'idEndereco',as: 'endereco',});
+Endereco.hasMany(Pessoa, {foreignKey: 'idEndereco',  as: 'pessoas',});
+
+Organizacao.belongsTo(Endereco, {foreignKey: 'idEndereco',as: 'endereco',});
+Endereco.hasMany(Organizacao, {foreignKey: 'idEndereco',  as: 'organizacoes',});

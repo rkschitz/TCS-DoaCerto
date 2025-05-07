@@ -106,6 +106,8 @@ export default function Pessoa() {
                 <strong>Sexo:</strong>{" "}
                 {pessoa.sexo === "M" ? "Masculino" : "Feminino"}
               </p>
+              <p> Rua: {pessoa.endereco?.rua} Número: {pessoa.endereco?.numero} Complemento: {pessoa.endereco?.complemento} </p><br />
+                <p> Bairro: {pessoa.endereco?.bairro} Estado: {pessoa.endereco?.estado} Pais: {pessoa.endereco?.pais} </p>
             </div>
           </div>
         ))}
@@ -118,6 +120,6 @@ export default function Pessoa() {
         onPessoaCriada={listarPessoas}
         onPessoaAtualizada={listarPessoas}
       />
-    </div>
+    </div >
   );
 }

@@ -39,6 +39,13 @@ class Organizacao {
                     model: "pessoa",
                     key: "idPessoa"
                 }
+            },
+            idEndereco:{
+                type: database.db.Sequelize.INTEGER,
+                references: {
+                    model: 'endereco',
+                    key: 'idEndereco'
+                }
             }
             
         },{

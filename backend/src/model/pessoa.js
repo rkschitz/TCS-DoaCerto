@@ -31,6 +31,14 @@ class Pessoa {
             sexo: {
                 type: database.db.Sequelize.STRING,
             },
+            idEndereco: {
+                type: database.db.Sequelize.INTEGER,
+                references: {
+                    model: 'endereco',
+                    as: 'endereco',
+                    key: 'idEndereco'
+                }
+            },
         }, {
             freezeTableName: true
         });

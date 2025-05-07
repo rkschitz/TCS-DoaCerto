@@ -40,6 +40,8 @@ export default function Organizacao() {
                         <p>Email: {organizacao.email}</p>
                         <p>IE: {organizacao.ieSituacao}</p>
                         <p>Secretária: {organizacao.secretaria?.nome}</p>
+                        <p> Rua: {organizacao.endereco?.rua} Número: {organizacao.endereco?.numero} Complemento: {organizacao.endereco?.complemento} </p><br />
+                        <p> Bairro: {organizacao.endereco?.bairro} Estado: {organizacao.endereco?.estado} Pais: {organizacao.endereco?.pais} </p>
                     </div>
                 ))}
             </div>

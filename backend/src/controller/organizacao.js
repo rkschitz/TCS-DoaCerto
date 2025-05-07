@@ -2,13 +2,22 @@ const organizacaoModel = require("../model/organizacao");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const pessoaModel = require("../model/pessoa");
+const enderecoController = require("./endereco");
+const enderecoModel = require('../model/endereco');
+const ruaModel = require('../model/rua');
+const bairroModel = require('../model/bairro');
+const cidadeModel = require('../model/cidade');
+const estadoModel = require('../model/estado');
+const paisModel = require('../model/pais');
 
 const SECRET_KEY = "doacerto";
 const SALT_VALUE = 10;
 
 class OrganizacaoController {
-    async criar(organizacao, cnpj, telefone, email, idPessoa) {
+    async criar(organizacao, cnpj, telefone, email, idPessoa, endereco) {
         const senhaCriptografada = await bcrypt.hash(String(cnpj), SALT_VALUE);
+
+        const enderecoValue = await enderecoController.criar(endereco);
 
         try {
             const organizacaoValue = await organizacaoModel.create({
@@ -19,7 +28,8 @@ class OrganizacaoController {
                 senha: senhaCriptografada,
                 idSecretaria: idPessoa,
                 ieSituacao: 'A',
-                role: 'O'
+                role: 'O',
+                idEndereco: !enderecoValue.mensagem ? enderecoValue.dataValues.idEndereco : null
             });
             return organizacaoValue;
         } catch (e) {
@@ -27,7 +37,7 @@ class OrganizacaoController {
         }
     }
 
-    async editar(idOrganizacao, organizacao, cnpj, telefone, email, senha, ieSituacao, idPessoa) {
+    async editar(idOrganizacao, organizacao, cnpj, telefone, email, senha, ieSituacao, idPessoa, endereco) {
         const organizacaoAtual = await organizacaoModel.findByPk(idOrganizacao)
         if (!organizacaoAtual) {
             throw new Error("Organizacao não encontrada.");
@@ -43,12 +53,29 @@ class OrganizacaoController {
         if (telefone != null) updates.telefone = telefone;
         if (email != null) updates.email = email;
         if (ieSituacao != null) updates.ieSituacao = ieSituacao;
+        if (idPessoa != null) updates.idSecretaria = idPessoa;
         if (senha != null) updates.senha = senha;
 
         const senhaCriptografada = await bcrypt.hash(String(senha), SALT_VALUE);
         if (senha != null) updates.senha = senhaCriptografada;
 
         await organizacaoAtual.update(updates);
+
+        if (endereco) {
+            if (organizacaoAtual.idEndereco) {
+                const enderecoAtualizado = await enderecoController.atualizarRuaDoEndereco(organizacaoAtual.idEndereco, endereco);
+                if (enderecoAtualizado.mensagem) {
+                    throw new Error(enderecoAtualizado.mensagem);
+                }
+            } else {
+                const novoEndereco = await enderecoController.criar(endereco);
+                if (novoEndereco.mensagem) {
+                    throw new Error(novoEndereco.mensagem);
+                }
+                await organizacaoAtual.update({ idEndereco: novoEndereco.idEndereco });
+            }
+        }
+
         return organizacaoAtual;
     }
 
@@ -76,9 +103,69 @@ class OrganizacaoController {
                 model: pessoaModel,
                 as: 'secretaria',
                 attributes: ['idPessoa', 'nome']
+            },
+            {
+                model: enderecoModel,
+                as: 'endereco',
+                required: false,
+                attributes: ['numero', 'complemento'],
+                include: {
+                    model: ruaModel,
+                    required: false,
+                    attributes: ['rua', 'CEP'],
+                    include: {
+                        model: bairroModel,
+                        required: false,
+                        attributes: ['bairro'],
+                        include: {
+                            model: cidadeModel,
+                            required: false,
+                            attributes: ['cidade'],
+                            include: {
+                                model: estadoModel,
+                                required: false,
+                                attributes: ['estado'],
+                                include: {
+                                    model: paisModel,
+                                    required: false,
+                                    attributes: ['pais'],
+                                }
+                            }
+                        }
+                    }
+                }
             }]
         });
-        return organizacaoValue;
+        return organizacaoValue.map(p => {
+            const e = p.endereco;
+            const r = e?.rua;
+            const b = r?.bairro;
+            const c = b?.cidade;
+            const est = c?.estado;
+            const pais = est?.pai;
+
+            return {
+                idOrganizacao: p.idOrganizacao,
+                organizacao: p.organizacao,
+                cnpj: p.cnpj,
+                telefone: p.telefone,
+                email: p.email,
+                dtCadastro: p.dtCadastro,
+                ieSituacao: p.ieSituacao,
+                idSecretaria: p.idSecretaria,
+                idEndereco: p.idEndereco,
+                endereco: e ? {
+                    cep: r?.CEP,
+                    rua: r?.rua,
+                    numero: e?.numero,
+                    complemento: e?.complemento,
+                    bairro: b?.bairro,
+                    cidade: c?.cidade,
+                    estado: est?.estado,
+                    pais: pais?.pais
+                } : null,
+            }
+        })
     }
 
     async buscarOrganizacoesAtivas() {

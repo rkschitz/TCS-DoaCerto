@@ -110,7 +110,7 @@ const createTables = async () => {
       fs.readFileSync(unidadeMedidaPath, "utf-8")
     );
 
-    const movimentacaoPath = path.join(__dirname,"src/data/movimentacao.json");
+    const movimentacaoPath = path.join(__dirname, "src/data/movimentacao.json");
     const movimentacaoJson = JSON.parse(
       fs.readFileSync(movimentacaoPath, "utf-8")
     )
@@ -154,7 +154,8 @@ const createTables = async () => {
         pessoa.telefone,
         pessoa.email,
         pessoa.dtNascimento,
-        pessoa.sexo
+        pessoa.sexo,
+        pessoa.endereco
       );
     }
     console.log("Pessoas criadas");
@@ -165,7 +166,8 @@ const createTables = async () => {
         organizacao.cnpj,
         organizacao.telefone,
         organizacao.email,
-        organizacao.idSecretaria
+        organizacao.idSecretaria,
+        organizacao.endereco,
       );
     }
 
@@ -216,14 +218,13 @@ const createTables = async () => {
     console.log("Unidade de medidas criadas");
 
     for (const movimentacao of movimentacaoJson) {
-      const response = await MovimentacaoController.criar(
+      await MovimentacaoController.criar(
         movimentacao.ieMovimentacao,
         movimentacao.idOrganizacao,
         movimentacao.idDoador,
         movimentacao.idDonatario,
         movimentacao.alimentos
       );
-      console.log(response)
     }
   } catch (error) {
     console.error(`Erro ao inicializar o banco de dados: ${error}`);

@@ -1,17 +1,30 @@
 const pessoaModel = require('../model/pessoa');
+const enderecoController = require('./endereco');
+const enderecoModel = require('../model/endereco');
+const ruaModel = require('../model/rua');
+const bairroModel = require('../model/bairro');
+const cidadeModel = require('../model/cidade');
+const estadoModel = require('../model/estado');
+const paisModel = require('../model/pais');
+
 const { Op } = require('sequelize');
 
 class PessoaController {
-    async criar(nome, cpf, telefone, email, dtNascimento, sexo) {
+    async criar(nome, cpf, telefone, email, dtNascimento, sexo, endereco) {
         try {
+
+            const enderecoValue = await enderecoController.criar(endereco);
+
             const pessoaValue = await pessoaModel.create({
                 nome,
                 cpf,
                 telefone,
                 email,
                 dtNascimento,
-                sexo
+                sexo,
+                idEndereco: !enderecoValue.mensagem ? enderecoValue.dataValues.idEndereco : null
             })
+
             return pessoaValue;
 
         } catch (e) {
@@ -26,7 +39,8 @@ class PessoaController {
         telefone,
         email,
         dtNascimento,
-        sexo
+        sexo,
+        endereco
     ) {
         const pessoa = await pessoaModel.findByPk(idPessoa);
         if (!pessoa) {
@@ -46,6 +60,25 @@ class PessoaController {
         if (sexo != null) updates.sexo = sexo;
 
         await pessoa.update(updates);
+
+        if (endereco) {
+            if (pessoa.idEndereco) {
+                // Atualiza a rua e dados do endereço existente
+                const enderecoAtualizado = await enderecoController.atualizarRuaDoEndereco(pessoa.idEndereco, endereco);
+                if (enderecoAtualizado?.mensagem) {
+                    throw new Error("Erro ao atualizar endereço: " + enderecoAtualizado.mensagem);
+                }
+            } else {
+                // Cria novo endereço e associa à pessoa
+                const novoEndereco = await enderecoController.criar(endereco);
+                if (novoEndereco?.mensagem) {
+                    throw new Error("Erro ao criar endereço: " + novoEndereco.mensagem);
+                }
+
+                await pessoa.update({ idEndereco: novoEndereco.idEndereco });
+            }
+        }
+
         return pessoa;
     }
 
@@ -62,9 +95,70 @@ class PessoaController {
     }
 
     async buscarTodos() {
-        const response = await pessoaModel.findAll();
-        return response;
+        const pessoas = await pessoaModel.findAll({
+            include: {
+                model: enderecoModel,
+                as: 'endereco',
+                required: false,
+                attributes: ['numero', 'complemento'],
+                include: {
+                    model: ruaModel,
+                    required: false,
+                    attributes: ['rua', 'CEP'],
+                    include: {
+                        model: bairroModel,
+                        required: false,
+                        attributes: ['bairro'],
+                        include: {
+                            model: cidadeModel,
+                            required: false,
+                            attributes: ['cidade'],
+                            include: {
+                                model: estadoModel,
+                                required: false,
+                                attributes: ['estado'],
+                                include: {
+                                    model: paisModel,
+                                    required: false,
+                                    attributes: ['pais'],
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        return pessoas.map(p => {
+            const e = p.endereco;
+            const r = e?.rua;
+            const b = r?.bairro;
+            const c = b?.cidade;
+            const est = c?.estado;
+            const pais = est?.pai;
+
+            return {
+                idPessoa: p.idPessoa,
+                nome: p.nome,
+                cpf: p.cpf,
+                telefone: p.telefone,
+                email: p.email,
+                dtNascimento: p.dtNascimento,
+                sexo: p.sexo,
+                endereco: e ? {
+                    cep: r?.CEP,
+                    rua: r?.rua,
+                    numero: e?.numero,
+                    complemento: e?.complemento,
+                    bairro: b?.bairro,
+                    cidade: c?.cidade,
+                    estado: est?.estado,
+                    pais: pais?.pais
+                } : null
+            };
+        });
     }
+
 
 
     async buscarPorNomeCpf(nome, cpf) {

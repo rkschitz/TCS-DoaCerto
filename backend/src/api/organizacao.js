@@ -3,10 +3,10 @@ const OrganizacaoController = require('../controller/organizacao');
 class OrganizacaoApi {
 
     async criar(req, res) {
-        const { organizacao, cnpj, telefone, email, idPessoa } = req.body
+        const { organizacao, cnpj, telefone, email, idPessoa, endereco } = req.body
 
         try {
-            const response = await OrganizacaoController.criar(organizacao,cnpj,telefone,email,idPessoa)
+            const response = await OrganizacaoController.criar(organizacao,cnpj,telefone,email,idPessoa, endereco)
             if (response.dataValues) {
                 const responseLogin = await OrganizacaoController.login(cnpj, cnpj);
                 return res.status(200).send(responseLogin)
@@ -17,11 +17,11 @@ class OrganizacaoApi {
     }
 
     async editar(req, res) {
-        const { organizacao, cnpj, telefone, email, senha, ieSituacao, idPessoa } = req.body
+        const { organizacao, cnpj, telefone, email, senha, ieSituacao, idPessoa, endereco } = req.body
         const { idOrganizacao } = req.params
         
         try {
-            const response = await OrganizacaoController.editar(idOrganizacao, organizacao, cnpj, telefone, email, senha, ieSituacao, idPessoa)
+            const response = await OrganizacaoController.editar(idOrganizacao, organizacao, cnpj, telefone, email, senha, ieSituacao, idPessoa, endereco)
             return res.status(200).send(response)
         } catch (e) {
             return res.status(400).send({ error: e.message })

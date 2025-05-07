@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import CustomModal from "../Modal/Modal";
 import { criar, editarPessoa } from "../../api/pessoa";
-import { Form, FloatingLabel} from "react-bootstrap";
+import { Form, FloatingLabel } from "react-bootstrap";
 
 export default function PessoaModal({
   show,
@@ -18,7 +18,17 @@ export default function PessoaModal({
     telefone: "",
     email: "",
     dtNascimento: "",
-    sexo: ""
+    sexo: "",
+    endereco: {
+      cep: "",
+      rua: "",
+      complemento: "",
+      numero: "",
+      bairro: "",
+      cidade: "",
+      estado: "",
+      pais: ""
+    }
   });
 
   useEffect(() => {
@@ -30,7 +40,17 @@ export default function PessoaModal({
         email: pessoaSelecionada.email || "",
         dtNascimento: pessoaSelecionada.dtNascimento || "",
         sexo: pessoaSelecionada.sexo || "",
-        idPessoa: pessoaSelecionada.idPessoa
+        idPessoa: pessoaSelecionada.idPessoa,
+        endereco: {
+          cep: pessoaSelecionada.endereco?.cep || "",
+          rua: pessoaSelecionada.endereco?.rua || "",
+          complemento: pessoaSelecionada.endereco?.complemento || "",
+          numero: pessoaSelecionada.endereco?.numero || "",
+          bairro: pessoaSelecionada.endereco?.bairro || "",
+          cidade: pessoaSelecionada.endereco?.cidade || "",
+          estado: pessoaSelecionada.endereco?.estado || "",
+          pais: pessoaSelecionada.endereco?.pais || ""
+        }
       });
     } else {
       setPessoa({
@@ -39,10 +59,44 @@ export default function PessoaModal({
         telefone: "",
         email: "",
         dtNascimento: "",
-        sexo: ""
+        sexo: "",
+        endereco: {
+          cep: "",
+          rua: "",
+          complemento: "",
+          numero: "",
+          bairro: "",
+          cidade: "",
+          estado: "",
+          pais: ""
+        }
       });
     }
   }, [pessoaSelecionada, show]);
+
+  const buscarEndereco = async (CEP) => {
+    try {
+      const response = await fetch(`https://viacep.com.br/ws/${CEP}/json/`).then((res) => res.json());
+
+      if (response.erro) {
+        alert("CEP não encontrado.");
+        return;
+      } else {
+        setPessoa({
+          ...pessoa, endereco: {
+            cep: response.cep,
+            rua:  response.logradouro.replace("Rua", ""),
+            bairro: response.bairro,
+            cidade: response.localidade,
+            estado: response.estado,
+            pais: "Brasil",
+          }
+        })
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   const salvar = async () => {
     try {
@@ -65,7 +119,17 @@ export default function PessoaModal({
         telefone: "",
         email: "",
         dtNascimento: "",
-        sexo: ""
+        sexo: "",
+        endereco: {
+          cep: "",
+          rua: "",
+          complemento: "",
+          numero: "",
+          bairro: "",
+          cidade: "",
+          estado: "",
+          pais: ""
+        }
       });
     } catch (err) {
       console.error(err);
@@ -161,6 +225,103 @@ export default function PessoaModal({
             <option value="F">Feminino</option>
           </Form.Select>
         </FloatingLabel>
+      </Row>
+      <Row className="mb-3">
+        <FloatingLabel controlId="floatingInputCep" label="CEP">
+          <Form.Control
+            type="text"
+            placeholder="CEP"
+            value={pessoa.endereco?.cep}
+            onChange={(e) => {
+              const novoCep = e.target.value;
+              setPessoa((prev) => ({
+                ...prev,
+                endereco: { ...prev.endereco, cep: novoCep }
+              }));
+
+              if (novoCep.length === 8) {
+                buscarEndereco(novoCep);
+              }
+            }}
+            onBlur={(e) => {
+              const cep = e.target.value;
+              if (cep.length === 8) {
+                buscarEndereco(cep);
+              }
+            }}
+          />
+        </FloatingLabel>
+      </Row>
+      <Row className="mb-3">
+        <Col md={6}>
+          <FloatingLabel controlId="floatingInputRua" label="Rua">
+            <Form.Control
+              type="text"
+              placeholder="Rua"
+              value={pessoa.endereco?.rua}
+              onChange={(e) => setPessoa({ ...pessoa, endereco: { ...pessoa.endereco, rua: e.target.value } })}
+              disabled
+            />
+          </FloatingLabel>
+        </Col>
+        <Col md={6}>
+          <FloatingLabel controlId="floatingInputNumero" label="Número">
+            <Form.Control
+              type="text"
+              placeholder="Número"
+              value={pessoa.endereco?.numero}
+              onChange={(e) => setPessoa({ ...pessoa, endereco: { ...pessoa.endereco, numero: e.target.value } })}
+            />
+          </FloatingLabel>
+        </Col>
+      </Row>
+      <Row className="mb-3">
+        <Col md={6}>
+          <FloatingLabel controlId="floatingInputBairro" label="Bairro">
+            <Form.Control
+              type="text"
+              placeholder="Bairro"
+              value={pessoa.endereco?.bairro}
+              onChange={(e) => setPessoa({ ...pessoa, endereco: { ...pessoa.endereco, bairro: e.target.value } })}
+              disabled
+            />
+          </FloatingLabel>
+        </Col>
+        <Col md={6}>
+          <FloatingLabel controlId="floatingInputCidade" label="Cidade">
+            <Form.Control
+              type="text"
+              placeholder="Cidade"
+              value={pessoa.endereco?.cidade}
+              onChange={(e) => setPessoa({ ...pessoa, endereco: { ...pessoa.endereco, cidade: e.target.value } })}
+              disabled
+            />
+          </FloatingLabel>
+        </Col>
+      </Row>
+      <Row className="mb-3">
+        <Col md={6}>
+          <FloatingLabel controlId="floatingInputEstado" label="Estado">
+            <Form.Control
+              type="text"
+              placeholder="Estado"
+              value={pessoa.endereco?.estado}
+              onChange={(e) => setPessoa({ ...pessoa, endereco: { ...pessoa.endereco, estado: e.target.value } })}
+              disabled
+            />
+          </FloatingLabel>
+        </Col>
+        <Col md={6}>
+          <FloatingLabel controlId="floatingInputPais" label="País">
+            <Form.Control
+              type="text"
+              placeholder="País"
+              value={pessoa.endereco?.pais}
+              onChange={(e) => setPessoa({ ...pessoa, endereco: { ...pessoa.endereco, pais: e.target.value } })}
+              disabled
+            />
+          </FloatingLabel>
+        </Col>
       </Row>
     </CustomModal>
   );
